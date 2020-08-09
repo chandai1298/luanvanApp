@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "19203823134",
+    "firebase_url": "https://fir-rn-785e2.firebaseio.com",
+    "project_id": "fir-rn-785e2",
+    "storage_bucket": "fir-rn-785e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19203823134:android:2d4a2647cab8fd2d8c400f",
+        "android_client_info": {
+          "package_name": "com.luanvanapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19203823134-jgrj29lgdsengjga9kp0hkhnkt73ku57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbNPf64mVuomK5FUcNhpswKXxIcC8S8EI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19203823134-jgrj29lgdsengjga9kp0hkhnkt73ku57.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19203823134:android:a5bce0b0d6ce0e378c400f",
+        "android_client_info": {
+          "package_name": "com.upanh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19203823134-jgrj29lgdsengjga9kp0hkhnkt73ku57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbNPf64mVuomK5FUcNhpswKXxIcC8S8EI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19203823134-jgrj29lgdsengjga9kp0hkhnkt73ku57.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

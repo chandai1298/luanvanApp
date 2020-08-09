@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">luanvanApp</string>
+   <string name="facebook_app_id">970958910044254</string>
+<string name="fb_login_protocol_scheme">fb970958910044254</string>
+</resources>
