@@ -9,5 +9,6 @@ const IN4_APP = {
   getQuestionPart: `${URL_NGROK.url}/getQuestionPart`,
   getWord: `${URL_NGROK.url}/getWord`,
   RankOfUser: `${URL_NGROK.url}/RankOfUser`,
+  UpdateAvatar: `${URL_NGROK.url}/UpdateAvatar`,
 };
 export {IN4_APP};

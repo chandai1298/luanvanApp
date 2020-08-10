@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
-import {View, Text, Image, FlatList} from 'react-native';
+import {View, Text, Image, TouchableOpacity, ToastAndroid} from 'react-native';
 import {Style, ProfileStyle, DIMENSION} from '../../CommonStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {LinearTextGradient} from 'react-native-text-gradient';
-
+import ImagePicker from 'react-native-image-picker';
+import storage from '@react-native-firebase/storage';
+import * as Progress from 'react-native-progress';
+import {IN4_APP} from '../../ConnectServer/In4App';
+import axios from 'axios';
+const api = axios.create({baseURL: `http://localhost:1300/`});
 const AvatarItem = ({num, icon, colorIcon, label}) => {
   return (
     <View style={ProfileStyle.flexRowIcon}>
@@ -23,7 +28,81 @@ const AvatarItem = ({num, icon, colorIcon, label}) => {
     </View>
   );
 };
-const Avatar = ({image, name, username, rankData}) => {
+const Avatar = ({image, name, username, rankData, id}) => {
+  const [img, setImage] = React.useState({uri: image});
+
+  const selectImage = () => {
+    const options = {
+      title: 'Chọn ảnh từ',
+      takePhotoButtonTitle: ' Camera...',
+      chooseFromLibraryButtonTitle: ' Thư viện...',
+      cancelButtonTitle: 'Hủy',
+      cameraType: 'front',
+      mediaType: 'photo',
+      quality: 0.5,
+      maxWidth: 2000,
+      maxHeight: 2000,
+      storageOptions: {
+        skipBackup: false,
+        path: 'LuanvanApp/images',
+      },
+    };
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = {uri: response.uri};
+        uploadImage(source, id);
+        setImage(source);
+      }
+    });
+  };
+  const uploadImage = async (img, id) => {
+    const {uri} = img;
+    const filename = uri.substring(uri.lastIndexOf('/') + 1);
+    const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+    const task = storage().ref(`img/${filename}`).putFile(uploadUri);
+    // task.on('state_changed', (snapshot) => {
+    //   setTransferred(
+    //     Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000,
+    //   );
+    // });
+    try {
+      await task;
+      var ref = storage().ref(`img/${filename}`);
+      const a = await ref.getDownloadURL();
+
+      // let data = await api.patch(`/UpdateAvatar/${id}`, {
+      //   Avatar: `${filename}`,
+      // });
+      // console.log(data);
+      const updateAvatar = IN4_APP.UpdateAvatar;
+      console.log(id);
+      axios
+        .put(updateAvatar, {
+          Avatar: `${a}`,
+          Id: id,
+        })
+        .then(function (response) {
+          console.log(a);
+          ToastAndroid.showWithGravity(
+            response.data,
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <View style={[ProfileStyle.sectionAvatar]}>
       <View style={[ProfileStyle.sectionAvtLeft, {paddingLeft: 5}]}>
@@ -85,16 +164,9 @@ const Avatar = ({image, name, username, rankData}) => {
         />
       </View>
       <View style={[ProfileStyle.SectionAvtRight, Style.coverCenter]}>
-        <Image
-          resizeMode="cover"
-          source={{
-            uri:
-              image !== null
-                ? image
-                : 'https://firebasestorage.googleapis.com/v0/b/fir-rn-785e2.appspot.com/o/B71D1D97-9FF3-444A-B7F3-E1CAC41A8BAE.jpg?alt=media&token=2087bb6f-4b1a-451e-8deb-d8948fefb651',
-          }}
-          style={Style.images}
-        />
+        <TouchableOpacity onPress={() => selectImage()}>
+          <Image resizeMode="cover" source={img} style={Style.images} />
+        </TouchableOpacity>
       </View>
     </View>
   );

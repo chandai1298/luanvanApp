@@ -66,6 +66,7 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
         username={users.Username}
         image={users.Avatar}
         rankData={ranks[0]}
+        id={users.Id}
       />
       <View style={ProfileStyle.containerPadding15}>
         <Tab.Navigator
