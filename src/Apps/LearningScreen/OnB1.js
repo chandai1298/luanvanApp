@@ -4,7 +4,7 @@ import {IN4_APP} from '../../ConnectServer/In4App';
 import {LearningStyle, Style, DIMENSION} from '../../CommonStyles';
 
 const OnB1 = ({route, navigation}) => {
-  const {id_category} = route.params;
+  const {id_category, idUser, rank} = route.params;
   const idCategory = parseInt(JSON.stringify(id_category));
   const [data, setData] = React.useState([
     {
@@ -53,6 +53,8 @@ const OnB1 = ({route, navigation}) => {
                 id_category: item.id_category,
                 id_lession: item.id,
                 nameLession: `${item.name}`,
+                idUser: idUser,
+                rank: rank,
               })
             }>
             <Image

@@ -10,6 +10,8 @@ const HomeItem = ({
   desComponent,
   id_category,
   color1,
+  id_User,
+  rank,
   color2,
   image,
 }) => {
@@ -24,7 +26,11 @@ const HomeItem = ({
           marginRight: -90,
         }}
         onPress={() =>
-          navigation.navigate(desComponent, {id_category: id_category})
+          navigation.navigate(desComponent, {
+            id_category: id_category,
+            idUser: id_User,
+            rank: rank,
+          })
         }>
         <LinearGradient
           start={{x: 0, y: 0}}

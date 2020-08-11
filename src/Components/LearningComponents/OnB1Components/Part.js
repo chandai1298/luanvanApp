@@ -5,7 +5,7 @@ import {LearningStyle, Style, DIMENSION} from '../../../CommonStyles';
 import LinearGradient from 'react-native-linear-gradient';
 
 const Part = ({route, navigation}) => {
-  const {nameLession, id_category, id_lession} = route.params;
+  const {nameLession, id_category, id_lession, idUser, rank} = route.params;
   const idCategory = parseInt(JSON.stringify(id_category));
   const idLession = parseInt(JSON.stringify(id_lession));
   const name_Lession = JSON.stringify(nameLession);
@@ -54,6 +54,7 @@ const Part = ({route, navigation}) => {
       <View style={[Style.coverCenter, {flex: 1}]}>
         <Text style={Style.text18}>{name_Lession}</Text>
       </View>
+      {console.log(rank)}
       <View style={[LearningStyle.container, {alignContent: 'flex-end'}]}>
         {listening.map((item, key) => (
           <TouchableOpacity
@@ -64,6 +65,8 @@ const Part = ({route, navigation}) => {
                 id_category: idCategory,
                 id_lession: idLession,
                 id_part: item.id,
+                rank: rank,
+                idUser: idUser,
               })
             }>
             <LinearGradient

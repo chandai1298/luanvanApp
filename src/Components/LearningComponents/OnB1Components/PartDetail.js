@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  Alert,
   ActivityIndicator,
 } from 'react-native';
 import {IN4_APP} from '../../../ConnectServer/In4App';
@@ -14,6 +15,7 @@ import Player from '../../SoundComponents/Player';
 import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {LinearTextGradient} from 'react-native-text-gradient';
+import axios from 'axios';
 
 const PartDetail = ({route, navigation}) => {
   const [loading, setLoading] = React.useState(true);
@@ -30,6 +32,8 @@ const PartDetail = ({route, navigation}) => {
     id_category,
     id_lession,
     id_part,
+    idUser,
+    rank,
   } = route.params;
   const c = parseInt(JSON.stringify(count));
   const totalLength2 = parseInt(JSON.stringify(totalLength));
@@ -54,35 +58,48 @@ const PartDetail = ({route, navigation}) => {
     },
   ]);
 
-  const getData = async () => {
-    const apiURL = await IN4_APP.getQuestionPart;
-    fetch(apiURL, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
+  const getData = () => {
+    const apiURL = IN4_APP.getQuestionPart;
+    axios
+      .post(apiURL, {
         id: idCategory,
         id_part: idPart,
         id_lession: idLession,
-      }),
-    })
-      .then((res) => res.json())
-      .then((results) => {
-        setData(results);
+      })
+      .then(function (response) {
+        setData(response.data);
         setLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(function (error) {
+        console.log(error.message);
       });
   };
   useEffect(() => {
     getData();
   }, []);
-
+  const empty = {
+    id: '',
+    id_lession: '',
+    id_part: '',
+    question: '',
+    dapanA: '',
+    dapanB: '',
+    dapanC: '',
+    dapanD: '',
+    answer: '',
+    image: '',
+    isActive: '',
+    sound: '',
+  };
   const question = data[totalLength2];
-  const question2 = data[totalLength2 + 1];
-  const question3 = data[totalLength2 + 2];
-  const question4 = data[totalLength2 + 3];
-  const question5 = data[totalLength2 + 4];
+  const question2 =
+    data[totalLength2 + 1] !== undefined ? data[totalLength2 + 1] : empty;
+  const question3 =
+    data[totalLength2 + 2] !== undefined ? data[totalLength2 + 2] : empty;
+  const question4 =
+    data[totalLength2 + 3] !== undefined ? data[totalLength2 + 3] : empty;
+  const question5 =
+    data[totalLength2 + 4] !== undefined ? data[totalLength2 + 4] : empty;
 
   const AnswerABCD = ({item}) => {
     return (
@@ -659,14 +676,6 @@ const PartDetail = ({route, navigation}) => {
     } else {
       switch (question.id_part) {
         case 3:
-          console.log(
-            'dapan1: ' +
-              answer +
-              ', dapan2: ' +
-              answer2 +
-              ', dapan3: ' +
-              answer3,
-          );
           if (
             answer === question.answer &&
             answer2 === question2.answer &&
@@ -676,7 +685,6 @@ const PartDetail = ({route, navigation}) => {
               if (item.sound === question.sound) {
                 if (data.length > 3) {
                   data.splice(data.indexOf(item), 3);
-                  console.log(data);
                   navigation.navigate('partDetail', {
                     totalLength:
                       Math.round(
@@ -686,7 +694,25 @@ const PartDetail = ({route, navigation}) => {
                     score: score + 10,
                     crown: crown,
                   });
-                } else navigation.navigate('part');
+                } else {
+                  navigation.navigate('part');
+                  if (data.length == 3) {
+                    const getDefinition = IN4_APP.UpdateScore;
+                    axios
+                      .put(getDefinition, {
+                        crown: crown,
+                        current_score: score,
+                        total_score: score,
+                        id_user: idUser,
+                      })
+                      .then(function (response) {
+                        console.log(response.data);
+                      })
+                      .catch(function (error) {
+                        console.log(error.message);
+                      });
+                  }
+                }
               }
             });
             setAnswer('');
@@ -697,8 +723,8 @@ const PartDetail = ({route, navigation}) => {
               totalLength:
                 Math.round(Math.floor(Math.random() * (data.length - 1)) / 3) *
                 3,
-              score: score,
-              crown: crown - 1,
+              score: score > 0 ? score - 3 : score,
+              crown: crown > 0 ? crown - 1 : crown,
             });
             setAnswer('');
             setAnswer2('');
@@ -706,14 +732,6 @@ const PartDetail = ({route, navigation}) => {
           }
           break;
         case 4:
-          console.log(
-            'dapan1: ' +
-              answer +
-              ', dapan2: ' +
-              answer2 +
-              ', dapan3: ' +
-              answer3,
-          );
           if (
             answer === question.answer &&
             answer2 === question2.answer &&
@@ -732,7 +750,25 @@ const PartDetail = ({route, navigation}) => {
                     score: score + 10,
                     crown: crown,
                   });
-                } else navigation.navigate('part');
+                } else {
+                  navigation.navigate('part');
+                  if (data.length == 3) {
+                    const getDefinition = IN4_APP.UpdateScore;
+                    axios
+                      .put(getDefinition, {
+                        crown: crown,
+                        current_score: score,
+                        total_score: score,
+                        id_user: idUser,
+                      })
+                      .then(function (response) {
+                        console.log(response.data);
+                      })
+                      .catch(function (error) {
+                        console.log(error.message);
+                      });
+                  }
+                }
               }
             });
             setAnswer('');
@@ -743,8 +779,8 @@ const PartDetail = ({route, navigation}) => {
               totalLength:
                 Math.round(Math.floor(Math.random() * (data.length - 1)) / 3) *
                 3,
-              score: score,
-              crown: crown - 1,
+              score: score > 0 ? score - 3 : score,
+              crown: crown > 0 ? crown - 1 : crown,
             });
             setAnswer('');
             setAnswer2('');
@@ -752,20 +788,9 @@ const PartDetail = ({route, navigation}) => {
           }
           break;
         case 7:
+          console.log(data.length);
           switch (countQuestionPart7()) {
             case 5:
-              console.log(
-                'dapan1: ' +
-                  answer +
-                  ', dapan2: ' +
-                  answer2 +
-                  ', dapan3: ' +
-                  answer3 +
-                  ', dapan4: ' +
-                  answer4 +
-                  ', dapan5: ' +
-                  answer5,
-              );
               if (
                 answer === question.answer &&
                 answer2 === question2.answer &&
@@ -777,13 +802,33 @@ const PartDetail = ({route, navigation}) => {
                   if (item.sound === question.sound) {
                     if (data.length > 5) {
                       data.splice(data.indexOf(item), 5);
+                      console.log(score);
                       navigation.navigate('partDetail', {
                         totalLength: 0,
                         count: count + 1,
-                        score: score + 10,
+                        score: score + 50,
                         crown: crown,
                       });
-                    } else navigation.navigate('part');
+                    } else {
+                      navigation.navigate('part');
+
+                      if (data.length == 5) {
+                        const getDefinition = IN4_APP.UpdateScore;
+                        axios
+                          .put(getDefinition, {
+                            crown: crown,
+                            current_score: score + 50,
+                            total_score: score + 50,
+                            id_user: idUser,
+                          })
+                          .then(function (response) {
+                            console.log(response.data);
+                          })
+                          .catch(function (error) {
+                            console.log(error.message);
+                          });
+                      }
+                    }
                   }
                 });
                 setAnswer('');
@@ -798,10 +843,11 @@ const PartDetail = ({route, navigation}) => {
                 data.push(question4);
                 data.push(question5);
                 data.splice(0, 5);
+                console.log('sai ' + data.length);
                 navigation.navigate('partDetail', {
                   totalLength: 0,
-                  score: score,
-                  crown: crown - 1,
+                  score: score > 0 ? score - 15 : score,
+                  crown: crown > 0 ? crown - 1 : crown,
                 });
                 setAnswer('');
                 setAnswer2('');
@@ -811,16 +857,6 @@ const PartDetail = ({route, navigation}) => {
               }
               break;
             case 4:
-              console.log(
-                'dapan1: ' +
-                  answer +
-                  ', dapan2: ' +
-                  answer2 +
-                  ', dapan3: ' +
-                  answer3 +
-                  ', dapan4: ' +
-                  answer4,
-              );
               if (
                 answer === question.answer &&
                 answer2 === question2.answer &&
@@ -829,15 +865,35 @@ const PartDetail = ({route, navigation}) => {
               ) {
                 data.some((item) => {
                   if (item.sound === question.sound) {
-                    if (data.length > 5) {
+                    if (data.length > 4) {
                       data.splice(data.indexOf(item), 4);
+                      console.log('dung ' + data.length);
                       navigation.navigate('partDetail', {
                         totalLength: 0,
                         count: count + 1,
-                        score: score + 10,
+                        score: score + 40,
                         crown: crown,
                       });
-                    } else navigation.navigate('part');
+                    } else {
+                      navigation.navigate('part');
+
+                      if (data.length == 4) {
+                        const getDefinition = IN4_APP.UpdateScore;
+                        axios
+                          .put(getDefinition, {
+                            crown: crown,
+                            current_score: score + 40,
+                            total_score: score + 40,
+                            id_user: idUser,
+                          })
+                          .then(function (response) {
+                            console.log(response.data);
+                          })
+                          .catch(function (error) {
+                            console.log(error.message);
+                          });
+                      }
+                    }
                   }
                 });
                 setAnswer('');
@@ -850,10 +906,11 @@ const PartDetail = ({route, navigation}) => {
                 data.push(question3);
                 data.push(question4);
                 data.splice(0, 4);
+                console.log('sai ' + data.length);
                 navigation.navigate('partDetail', {
                   totalLength: 0,
-                  score: score,
-                  crown: crown - 1,
+                  score: score > 0 ? score - 12 : score,
+                  crown: crown > 0 ? crown - 1 : crown,
                 });
                 setAnswer('');
                 setAnswer2('');
@@ -862,14 +919,6 @@ const PartDetail = ({route, navigation}) => {
               }
               break;
             case 3:
-              console.log(
-                'dapan1: ' +
-                  answer +
-                  ', dapan2: ' +
-                  answer2 +
-                  ', dapan3: ' +
-                  answer3,
-              );
               if (
                 answer === question.answer &&
                 answer2 === question2.answer &&
@@ -877,15 +926,36 @@ const PartDetail = ({route, navigation}) => {
               ) {
                 data.some((item) => {
                   if (item.sound === question.sound) {
-                    if (data.length > 5) {
+                    if (data.length > 3) {
                       data.splice(data.indexOf(item), 3);
+                      console.log(data.length);
+                      console.log('dung ' + data.length);
                       navigation.navigate('partDetail', {
                         totalLength: 0,
                         count: count + 1,
-                        score: score + 10,
+                        score: score + 30,
                         crown: crown,
                       });
-                    } else navigation.navigate('part');
+                    } else {
+                      navigation.navigate('part');
+
+                      if (data.length == 3) {
+                        const getDefinition = IN4_APP.UpdateScore;
+                        axios
+                          .put(getDefinition, {
+                            crown: crown,
+                            current_score: score + 30,
+                            total_score: score + 30,
+                            id_user: idUser,
+                          })
+                          .then(function (response) {
+                            console.log(response.data);
+                          })
+                          .catch(function (error) {
+                            console.log(error.message);
+                          });
+                      }
+                    }
                   }
                 });
                 setAnswer('');
@@ -896,10 +966,11 @@ const PartDetail = ({route, navigation}) => {
                 data.push(question2);
                 data.push(question3);
                 data.splice(0, 3);
+                console.log('sai ' + data.length);
                 navigation.navigate('partDetail', {
                   totalLength: 0,
-                  score: score,
-                  crown: crown - 1,
+                  score: score > 0 ? score - 9 : score,
+                  crown: crown > 0 ? crown - 1 : crown,
                 });
                 setAnswer('');
                 setAnswer2('');
@@ -907,19 +978,37 @@ const PartDetail = ({route, navigation}) => {
               }
               break;
             case 2:
-              console.log('dapan1: ' + answer + ', dapan2: ' + answer2);
               if (answer === question.answer && answer2 === question2.answer) {
                 data.some((item) => {
                   if (item.sound === question.sound) {
-                    if (data.length > 5) {
+                    if (data.length > 2) {
                       data.splice(data.indexOf(item), 2);
+                      console.log('dung ' + data.length);
                       navigation.navigate('partDetail', {
                         totalLength: 0,
                         count: count + 1,
-                        score: score + 10,
+                        score: score + 20,
                         crown: crown,
                       });
-                    } else navigation.navigate('part');
+                    } else {
+                      navigation.navigate('part');
+                      if (data.length == 2) {
+                        const getDefinition = IN4_APP.UpdateScore;
+                        axios
+                          .put(getDefinition, {
+                            crown: crown,
+                            current_score: score + 20,
+                            total_score: score + 20,
+                            id_user: idUser,
+                          })
+                          .then(function (response) {
+                            console.log(response.data);
+                          })
+                          .catch(function (error) {
+                            console.log(error.message);
+                          });
+                      }
+                    }
                   }
                 });
                 setAnswer('');
@@ -927,12 +1016,12 @@ const PartDetail = ({route, navigation}) => {
               } else {
                 data.push(question);
                 data.push(question2);
-                data.push(question3);
                 data.splice(0, 2);
+                console.log('sai ' + data.length);
                 navigation.navigate('partDetail', {
                   totalLength: 0,
-                  score: score,
-                  crown: crown - 1,
+                  score: score > 0 ? score - 6 : score,
+                  crown: crown > 0 ? crown - 1 : crown,
                 });
                 setAnswer('');
                 setAnswer2('');
@@ -943,7 +1032,6 @@ const PartDetail = ({route, navigation}) => {
           }
           break;
         default:
-          console.log(answer);
           if (answer === question.answer) {
             data.some((item) => {
               if (item.id === question.id) {
@@ -956,15 +1044,33 @@ const PartDetail = ({route, navigation}) => {
                     score: score + 10,
                     crown: crown,
                   });
-                } else navigation.navigate('part');
+                } else {
+                  navigation.navigate('part');
+                  if (data.length == 1) {
+                    const getDefinition = IN4_APP.UpdateScore;
+                    axios
+                      .put(getDefinition, {
+                        crown: crown + rank.crown,
+                        current_score: score + 10 + rank.current_score,
+                        total_score: score + 10 + rank.total_score,
+                        id_user: idUser,
+                      })
+                      .then(function (response) {
+                        console.log(response.data);
+                      })
+                      .catch(function (error) {
+                        console.log(error.message);
+                      });
+                  }
+                }
               }
             });
             setAnswer('');
           } else {
             navigation.navigate('partDetail', {
               totalLength: Math.floor(Math.random() * data.length),
-              score: score,
-              crown: crown - 1,
+              score: score > 0 ? score - 3 : score,
+              crown: crown > 0 ? crown - 1 : crown,
             });
             setAnswer('');
           }
@@ -972,6 +1078,7 @@ const PartDetail = ({route, navigation}) => {
       }
     }
   };
+
   return data.length > 0 ? (
     loading ? (
       <ActivityIndicator
@@ -983,7 +1090,6 @@ const PartDetail = ({route, navigation}) => {
       <View style={{height: '100%', width: '100%', padding: 15}}>
         <HeaderQuestion navigation={navigation} count={c * 0.2} />
         {sectionAnswer()}
-
         <TouchableOpacity
           style={[Style.boxShadow, {height: 50, borderRadius: 30}]}
           onPress={() => check()}

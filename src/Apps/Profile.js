@@ -48,7 +48,10 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
   };
 
   useEffect(() => {
-    showData();
+    let id = setInterval(() => {
+      showData();
+    }, 1000);
+    return () => clearInterval(id);
   }, []);
   return (
     <View style={Style.container}>

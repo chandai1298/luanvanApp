@@ -373,7 +373,7 @@ const App = () => {
                 name="testEvaluation"
                 component={EvaluationScreen}
                 options={{headerShown: false}}
-                initialParams={{count: 0, score: 0, crown: 5, totalLength: 0}}
+                initialParams={{count: 0, score: 10, crown: 5, totalLength: 0}}
               />
             </Stack.Navigator>
           )}
