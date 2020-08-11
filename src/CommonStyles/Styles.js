@@ -80,6 +80,8 @@ const Style = StyleSheet.create({
     height: 130,
     width: 130,
     borderRadius: 250,
+    borderColor: '#754ea6',
+    borderWidth: 4,
   },
   images2: {
     // height: '100%',

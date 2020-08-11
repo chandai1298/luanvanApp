@@ -14,7 +14,6 @@ import {
 } from 'react-native-paper';
 
 import Setting from './src/Apps/Setting';
-import {Style} from './src/CommonStyles';
 import BottomTabMain from './src/Apps/BottomTabMain';
 import {AuthContext} from './src/LoginScreen/context';
 import SplashScreen from './src/LoginScreen/SplashScreen';
@@ -33,105 +32,6 @@ import Reading from './src/Components/LearningComponents/ToeicComponents/Reading
 import ChangePassword from './src/Components/SettingComponents/ChangePassword';
 
 const Stack = createStackNavigator();
-function HomeScreen({route, navigation}) {
-  return (
-    <View style={Style.container}>
-      <BottomTabMain navigation={navigation} route={route} />
-    </View>
-  );
-}
-function SettingScreen({route, navigation}) {
-  return (
-    <View style={Style.container}>
-      <Setting navigation={navigation} route={route} />
-    </View>
-  );
-}
-function DictionaryScreen({route, navigation}) {
-  return (
-    <View style={Style.container}>
-      <Dictionary navigation={navigation} route={route} />
-    </View>
-  );
-}
-function TranslatorScreen({navigation}) {
-  return (
-    <View style={Style.container}>
-      <Translator />
-    </View>
-  );
-}
-function ToeicScreen({route, navigation}) {
-  return (
-    <View style={Style.container}>
-      <Toeic navigation={navigation} route={route} />
-    </View>
-  );
-}
-function SpeakingScreen({route, navigation}) {
-  return (
-    <View style={Style.container}>
-      <Speaking navigation={navigation} route={route} />
-    </View>
-  );
-}
-function ReadingScreen({route, navigation}) {
-  return (
-    <View style={Style.container}>
-      <Reading navigation={navigation} route={route} />
-    </View>
-  );
-}
-function WritingScreen({route, navigation}) {
-  return (
-    <View style={Style.container}>
-      <Writing navigation={navigation} route={route} />
-    </View>
-  );
-}
-function ListeningScreen({route, navigation}) {
-  return (
-    <View style={Style.container}>
-      <Listening navigation={navigation} route={route} />
-    </View>
-  );
-}
-function OnB1Screen({route, navigation}) {
-  return (
-    <View style={Style.container}>
-      <OnB1 navigation={navigation} route={route} />
-    </View>
-  );
-}
-function PartScreen({route, navigation}) {
-  return (
-    <View style={Style.container}>
-      <Part navigation={navigation} route={route} />
-    </View>
-  );
-}
-function PartDetailScreen({route, navigation}) {
-  return (
-    <View style={Style.container}>
-      <PartDetail navigation={navigation} route={route} />
-    </View>
-  );
-}
-function EvaluationScreen({route, navigation}) {
-  return (
-    <View style={Style.container}>
-      <Evaluation navigation={navigation} route={route} />
-    </View>
-  );
-}
-function ChangePasswordScreen({navigation}) {
-  return (
-    <View style={Style.container}>
-      <ChangePassword navigation={navigation} />
-    </View>
-  );
-}
-
 const App = () => {
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
   const initialLoginState = {
@@ -242,7 +142,6 @@ const App = () => {
     {
       Id: '',
       Username: '',
-      Password: '',
       Name: '',
       Email: '',
       Avatar: '1',
@@ -279,7 +178,7 @@ const App = () => {
   if (loginState.isLoading) {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#754ea6" />
       </View>
     );
   }
@@ -304,74 +203,74 @@ const App = () => {
             <Stack.Navigator>
               <Stack.Screen
                 name="Home"
-                component={HomeScreen}
+                component={BottomTabMain}
                 options={{headerShown: false}}
                 initialParams={{user: data[0]}}
               />
               <Stack.Screen
                 name="Setting"
-                component={SettingScreen}
+                component={Setting}
                 options={{headerShown: false}}
               />
               <Stack.Screen
                 name="changePassword"
-                component={ChangePasswordScreen}
+                component={ChangePassword}
                 options={{headerShown: false}}
               />
               <Stack.Screen
                 name="dictionary"
-                component={DictionaryScreen}
+                component={Dictionary}
                 options={{title: 'Từ điển Anh-Việt'}}
               />
               <Stack.Screen
                 name="translator"
-                component={TranslatorScreen}
+                component={Translator}
                 options={{title: 'Dịch văn bản'}}
               />
               <Stack.Screen
                 name="onTOEIC"
-                component={ToeicScreen}
+                component={Toeic}
                 options={{title: 'TOEIC-4 kỹ năng'}}
               />
               <Stack.Screen
                 name="toeic_listening"
-                component={ListeningScreen}
+                component={Listening}
                 options={{headerShown: false}}
               />
               <Stack.Screen
                 name="toeic_speaking"
-                component={SpeakingScreen}
+                component={Speaking}
                 options={{headerShown: false}}
               />
               <Stack.Screen
                 name="toeic_reading"
-                component={ReadingScreen}
+                component={Reading}
                 options={{headerShown: false}}
               />
               <Stack.Screen
                 name="toeic_writing"
-                component={WritingScreen}
+                component={Writing}
                 options={{headerShown: false}}
               />
               <Stack.Screen
                 name="onB1"
-                component={OnB1Screen}
+                component={OnB1}
                 options={{title: 'Ôn B1 ĐHNL TPHCM'}}
               />
               <Stack.Screen
                 name="part"
-                component={PartScreen}
+                component={Part}
                 options={{headerShown: false}}
               />
               <Stack.Screen
                 name="partDetail"
-                component={PartDetailScreen}
+                component={PartDetail}
                 options={{headerShown: false}}
                 initialParams={{count: 0, score: 0, crown: 5, totalLength: 0}}
               />
               <Stack.Screen
                 name="testEvaluation"
-                component={EvaluationScreen}
+                component={Evaluation}
                 options={{headerShown: false}}
                 initialParams={{count: 0, score: 10, crown: 5, totalLength: 0}}
               />

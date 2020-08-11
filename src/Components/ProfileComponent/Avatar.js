@@ -29,8 +29,6 @@ const AvatarItem = ({num, icon, colorIcon, label}) => {
   );
 };
 const Avatar = ({image, name, username, rankData, id}) => {
-  const [img, setImage] = React.useState({uri: image});
-
   const selectImage = () => {
     const options = {
       title: 'Chọn ảnh từ',
@@ -57,7 +55,6 @@ const Avatar = ({image, name, username, rankData, id}) => {
       } else {
         const source = {uri: response.uri};
         uploadImage(source, id);
-        setImage(source);
       }
     });
   };
@@ -76,10 +73,6 @@ const Avatar = ({image, name, username, rankData, id}) => {
       var ref = storage().ref(`img/${filename}`);
       const a = await ref.getDownloadURL();
 
-      // let data = await api.patch(`/UpdateAvatar/${id}`, {
-      //   Avatar: `${filename}`,
-      // });
-      // console.log(data);
       const updateAvatar = IN4_APP.UpdateAvatar;
       console.log(id);
       axios
@@ -165,7 +158,11 @@ const Avatar = ({image, name, username, rankData, id}) => {
       </View>
       <View style={[ProfileStyle.SectionAvtRight, Style.coverCenter]}>
         <TouchableOpacity onPress={() => selectImage()}>
-          <Image resizeMode="cover" source={img} style={Style.images} />
+          <Image
+            resizeMode="cover"
+            source={{uri: image}}
+            style={Style.images}
+          />
         </TouchableOpacity>
       </View>
     </View>

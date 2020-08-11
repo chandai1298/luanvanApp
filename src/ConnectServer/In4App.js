@@ -10,6 +10,10 @@ const IN4_APP = {
   getWord: `${URL_NGROK.url}/getWord`,
   RankOfUser: `${URL_NGROK.url}/RankOfUser`,
   UpdateAvatar: `${URL_NGROK.url}/UpdateAvatar`,
+  UpdateName: `${URL_NGROK.url}/UpdateName`,
+  UpdateEmail: `${URL_NGROK.url}/UpdateEmail`,
   UpdateScore: `${URL_NGROK.url}/UpdateScore`,
+  getUser: `${URL_NGROK.url}/getUser`,
+  UpdateOverviewSetting: `${URL_NGROK.url}/UpdateOverviewSetting`,
 };
 export {IN4_APP};

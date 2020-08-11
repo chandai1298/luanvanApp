@@ -816,9 +816,9 @@ const PartDetail = ({route, navigation}) => {
                         const getDefinition = IN4_APP.UpdateScore;
                         axios
                           .put(getDefinition, {
-                            crown: crown,
-                            current_score: score + 50,
-                            total_score: score + 50,
+                            crown: crown + rank.crown,
+                            current_score: score + 50 + rank.current_score,
+                            total_score: score + 50 + rank.total_score,
                             id_user: idUser,
                           })
                           .then(function (response) {
@@ -881,9 +881,9 @@ const PartDetail = ({route, navigation}) => {
                         const getDefinition = IN4_APP.UpdateScore;
                         axios
                           .put(getDefinition, {
-                            crown: crown,
-                            current_score: score + 40,
-                            total_score: score + 40,
+                            crown: crown + rank.crown,
+                            current_score: score + 40 + rank.current_score,
+                            total_score: score + 40 + rank.total_score,
                             id_user: idUser,
                           })
                           .then(function (response) {
@@ -943,9 +943,9 @@ const PartDetail = ({route, navigation}) => {
                         const getDefinition = IN4_APP.UpdateScore;
                         axios
                           .put(getDefinition, {
-                            crown: crown,
-                            current_score: score + 30,
-                            total_score: score + 30,
+                            crown: crown + rank.crown,
+                            current_score: score + 30 + rank.current_score,
+                            total_score: score + 30 + rank.total_score,
                             id_user: idUser,
                           })
                           .then(function (response) {
@@ -996,9 +996,9 @@ const PartDetail = ({route, navigation}) => {
                         const getDefinition = IN4_APP.UpdateScore;
                         axios
                           .put(getDefinition, {
-                            crown: crown,
-                            current_score: score + 20,
-                            total_score: score + 20,
+                            crown: crown + rank.crown,
+                            current_score: score + 20 + rank.current_score,
+                            total_score: score + 20 + rank.total_score,
                             id_user: idUser,
                           })
                           .then(function (response) {

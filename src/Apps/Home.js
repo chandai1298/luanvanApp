@@ -105,7 +105,7 @@ const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
         icon4={icon4}
         rank={ranks[0]}
       />
-      {console.log(1)}
+
       <View style={[Style.coverCenter, {marginTop: 20}]}>
         {datas.map((item, key) => (
           <HomeItem

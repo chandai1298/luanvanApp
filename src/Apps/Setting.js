@@ -8,7 +8,7 @@ import {SettingStyle, Style} from '../CommonStyles';
 import LinearGradient from 'react-native-linear-gradient';
 
 const Setting = ({navigation, route}) => {
-  const {in4User} = route.params;
+  const {in4User, dataConfig1, dataConfig2} = route.params;
   const dataUser = in4User;
 
   const {signOut} = React.useContext(AuthContext);
@@ -48,14 +48,14 @@ const Setting = ({navigation, route}) => {
         </View>
         <SettingComponent
           style={[SettingStyle.sectionIn4]}
-          getId={dataUser.Id}
-          type="1"
+          dataConfig={dataConfig1}
+          id={dataUser.Id}
           title="Tổng quan"
         />
         <SettingComponent
           style={[SettingStyle.sectionIn4, {paddingBottom: 100}]}
-          getId={dataUser.Id}
-          type="2"
+          dataConfig={dataConfig2}
+          id={dataUser.Id}
           title="Thông báo"
         />
       </ScrollView>
