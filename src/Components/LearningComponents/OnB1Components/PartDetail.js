@@ -102,153 +102,157 @@ const PartDetail = ({route, navigation}) => {
     data[totalLength2 + 4] !== undefined ? data[totalLength2 + 4] : empty;
 
   const AnswerABCD = ({item}) => {
+    const arr = [
+      {dapan: item.dapanA, id: 1},
+      {dapan: item.dapanB, id: 2},
+      {dapan: item.dapanC, id: 3},
+      {dapan: item.dapanD, id: 4},
+    ];
     return (
       <View>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer(item.dapanA)}>
-          <Text style={Style.text16}>{item.dapanA}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer(item.dapanB)}>
-          <Text style={Style.text16}>{item.dapanB}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer(item.dapanC)}>
-          <Text style={Style.text16}>{item.dapanC}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer(item.dapanD)}>
-          <Text style={Style.text16}>{item.dapanD}</Text>
-        </TouchableOpacity>
+        {arr.map((e) => (
+          <TouchableOpacity
+            key={e.id}
+            style={[
+              QuestionStyle.tchAnswer2,
+              answer === e.dapan && Style.btnActive,
+              Style.boxShadow,
+            ]}
+            onPress={() => setAnswer(e.dapan)}>
+            <Text style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+              {e.dapan}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
     );
   };
   const AnswerABCD2 = ({item2}) => {
+    const arr = [
+      {dapan: item2.dapanA, id: 1},
+      {dapan: item2.dapanB, id: 2},
+      {dapan: item2.dapanC, id: 3},
+      {dapan: item2.dapanD, id: 4},
+    ];
     return (
       <View>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer2(item2.dapanA)}>
-          <Text style={Style.text16}>{item2.dapanA}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer2(item2.dapanB)}>
-          <Text style={Style.text16}>{item2.dapanB}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer2(item2.dapanC)}>
-          <Text style={Style.text16}>{item2.dapanC}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer2(item2.dapanD)}>
-          <Text style={Style.text16}>{item2.dapanD}</Text>
-        </TouchableOpacity>
+        {arr.map((e) => (
+          <TouchableOpacity
+            key={e.id}
+            style={[
+              QuestionStyle.tchAnswer2,
+              answer2 === e.dapan && Style.btnActive,
+              Style.boxShadow,
+            ]}
+            onPress={() => setAnswer2(e.dapan)}>
+            <Text style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+              {e.dapan}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
     );
   };
   const AnswerABCD3 = ({item3}) => {
+    const arr = [
+      {dapan: item3.dapanA, id: 1},
+      {dapan: item3.dapanB, id: 2},
+      {dapan: item3.dapanC, id: 3},
+      {dapan: item3.dapanD, id: 4},
+    ];
     return (
       <View>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer3(item3.dapanA)}>
-          <Text style={Style.text16}>{item3.dapanA}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer3(item3.dapanB)}>
-          <Text style={Style.text16}>{item3.dapanB}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer3(item3.dapanC)}>
-          <Text style={Style.text16}>{item3.dapanC}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer3(item3.dapanD)}>
-          <Text style={Style.text16}>{item3.dapanD}</Text>
-        </TouchableOpacity>
+        {arr.map((e) => (
+          <TouchableOpacity
+            key={e.id}
+            style={[
+              QuestionStyle.tchAnswer2,
+              answer3 === e.dapan && Style.btnActive,
+              Style.boxShadow,
+            ]}
+            onPress={() => setAnswer3(e.dapan)}>
+            <Text style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+              {e.dapan}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
     );
   };
   const AnswerABCD4 = ({item4}) => {
+    const arr = [
+      {dapan: item4.dapanA, id: 1},
+      {dapan: item4.dapanB, id: 2},
+      {dapan: item4.dapanC, id: 3},
+      {dapan: item4.dapanD, id: 4},
+    ];
     return (
       <View>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer4(item4.dapanA)}>
-          <Text style={Style.text16}>{item4.dapanA}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer4(item4.dapanB)}>
-          <Text style={Style.text16}>{item4.dapanB}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer4(item4.dapanC)}>
-          <Text style={Style.text16}>{item4.dapanC}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer4(item4.dapanD)}>
-          <Text style={Style.text16}>{item4.dapanD}</Text>
-        </TouchableOpacity>
+        {arr.map((e) => (
+          <TouchableOpacity
+            key={e.id}
+            style={[
+              QuestionStyle.tchAnswer2,
+              answer4 === e.dapan && Style.btnActive,
+              Style.boxShadow,
+            ]}
+            onPress={() => setAnswer4(e.dapan)}>
+            <Text style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+              {e.dapan}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
     );
   };
   const AnswerABCD5 = ({item5}) => {
+    const arr = [
+      {dapan: item5.dapanA, id: 1},
+      {dapan: item5.dapanB, id: 2},
+      {dapan: item5.dapanC, id: 3},
+      {dapan: item5.dapanD, id: 4},
+    ];
     return (
       <View>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer5(item5.dapanA)}>
-          <Text style={Style.text16}>{item5.dapanA}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer5(item5.dapanB)}>
-          <Text style={Style.text16}>{item5.dapanB}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer5(item5.dapanC)}>
-          <Text style={Style.text16}>{item5.dapanC}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer5(item5.dapanD)}>
-          <Text style={Style.text16}>{item5.dapanD}</Text>
-        </TouchableOpacity>
+        {arr.map((e) => (
+          <TouchableOpacity
+            key={e.id}
+            style={[
+              QuestionStyle.tchAnswer2,
+              answer5 === e.dapan && Style.btnActive,
+              Style.boxShadow,
+            ]}
+            onPress={() => setAnswer5(e.dapan)}>
+            <Text style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+              {e.dapan}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
     );
   };
-  const AnswerABC = ({dapanA, dapanB, dapanC}) => {
+  const AnswerABC = ({question}) => {
+    const arr = [
+      {dapan: question.dapanA, id: 1},
+      {dapan: question.dapanB, id: 2},
+      {dapan: question.dapanC, id: 3},
+    ];
     return (
       <View>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer(dapanA)}>
-          <Text style={Style.text16}>{1 == 1 ? 'Option A' : dapanA}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer(dapanB)}>
-          <Text style={Style.text16}>{1 == 1 ? 'Option B' : dapanB}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={QuestionStyle.tchAnswer2}
-          onPress={() => setAnswer(dapanC)}>
-          <Text style={Style.text16}>{1 == 1 ? 'Option C' : dapanC}</Text>
-        </TouchableOpacity>
+        {arr.map((e) => (
+          <TouchableOpacity
+            key={e.id}
+            style={[
+              QuestionStyle.tchAnswer2,
+              answer === e.dapan && Style.btnActive,
+              Style.boxShadow,
+            ]}
+            onPress={() => setAnswer(e.dapan)}>
+            <Text style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+              {e.dapan}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
     );
   };
@@ -283,10 +287,10 @@ const PartDetail = ({route, navigation}) => {
         switch (countQuestionPart7()) {
           case 5:
             promise = (
-              <View>
+              <View style={{paddingLeft: 5, paddingRight: 5}}>
                 <View>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item.question}</Text>
+                    <Text style={Style.text18}>{item.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD item={question} />
@@ -294,7 +298,7 @@ const PartDetail = ({route, navigation}) => {
                 </View>
                 <View style={{marginBottom: 15, marginTop: 15}}>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item2.question}</Text>
+                    <Text style={Style.text18}>{item2.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD2 item2={question2} />
@@ -302,7 +306,7 @@ const PartDetail = ({route, navigation}) => {
                 </View>
                 <View>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item3.question}</Text>
+                    <Text style={Style.text18}>{item3.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD3 item3={question3} />
@@ -310,7 +314,7 @@ const PartDetail = ({route, navigation}) => {
                 </View>
                 <View>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item4.question}</Text>
+                    <Text style={Style.text18}>{item4.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD4 item4={question4} />
@@ -318,7 +322,7 @@ const PartDetail = ({route, navigation}) => {
                 </View>
                 <View>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item5.question}</Text>
+                    <Text style={Style.text18}>{item5.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD5 item5={question5} />
@@ -329,10 +333,10 @@ const PartDetail = ({route, navigation}) => {
             break;
           case 4:
             promise = (
-              <View>
+              <View style={{paddingLeft: 5, paddingRight: 5}}>
                 <View>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item.question}</Text>
+                    <Text style={Style.text18}>{item.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD item={question} />
@@ -340,7 +344,7 @@ const PartDetail = ({route, navigation}) => {
                 </View>
                 <View style={{marginBottom: 15, marginTop: 15}}>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item2.question}</Text>
+                    <Text style={Style.text18}>{item2.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD2 item2={question2} />
@@ -348,7 +352,7 @@ const PartDetail = ({route, navigation}) => {
                 </View>
                 <View>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item3.question}</Text>
+                    <Text style={Style.text18}>{item3.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD3 item3={question3} />
@@ -356,7 +360,7 @@ const PartDetail = ({route, navigation}) => {
                 </View>
                 <View>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item4.question}</Text>
+                    <Text style={Style.text18}>{item4.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD4 item4={question4} />
@@ -367,10 +371,10 @@ const PartDetail = ({route, navigation}) => {
             break;
           case 3:
             promise = (
-              <View>
+              <View style={{paddingLeft: 5, paddingRight: 5}}>
                 <View>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item.question}</Text>
+                    <Text style={Style.text18}>{item.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD item={question} />
@@ -378,7 +382,7 @@ const PartDetail = ({route, navigation}) => {
                 </View>
                 <View style={{marginBottom: 15, marginTop: 15}}>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item2.question}</Text>
+                    <Text style={Style.text18}>{item2.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD2 item2={question2} />
@@ -386,7 +390,7 @@ const PartDetail = ({route, navigation}) => {
                 </View>
                 <View>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item3.question}</Text>
+                    <Text style={Style.text18}>{item3.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD3 item3={question3} />
@@ -397,10 +401,10 @@ const PartDetail = ({route, navigation}) => {
             break;
           case 2:
             promise = (
-              <View>
+              <View style={{paddingLeft: 5, paddingRight: 5}}>
                 <View>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item.question}</Text>
+                    <Text style={Style.text18}>{item.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD item={question} />
@@ -408,7 +412,7 @@ const PartDetail = ({route, navigation}) => {
                 </View>
                 <View style={{marginBottom: 15, marginTop: 15}}>
                   <View style={{marginBottom: 10}}>
-                    <Text style={Style.text16}>{item2.question}</Text>
+                    <Text style={Style.text18}>{item2.question}</Text>
                   </View>
                   <View>
                     <AnswerABCD2 item2={question2} />
@@ -423,10 +427,10 @@ const PartDetail = ({route, navigation}) => {
         break;
       default:
         promise = (
-          <View>
+          <View style={{paddingLeft: 5, paddingRight: 5}}>
             <View>
               <View style={{marginBottom: 10}}>
-                <Text style={Style.text16}>{item.question}</Text>
+                <Text style={Style.text18}>{item.question}</Text>
               </View>
               <View>
                 <AnswerABCD item={question} />
@@ -434,7 +438,7 @@ const PartDetail = ({route, navigation}) => {
             </View>
             <View style={{marginBottom: 15, marginTop: 15}}>
               <View style={{marginBottom: 10}}>
-                <Text style={Style.text16}>{item2.question}</Text>
+                <Text style={Style.text18}>{item2.question}</Text>
               </View>
               <View>
                 <AnswerABCD2 item2={question2} />
@@ -442,7 +446,7 @@ const PartDetail = ({route, navigation}) => {
             </View>
             <View>
               <View style={{marginBottom: 10}}>
-                <Text style={Style.text16}>{item3.question}</Text>
+                <Text style={Style.text18}>{item3.question}</Text>
               </View>
               <View>
                 <AnswerABCD3 item3={question3} />
@@ -507,11 +511,7 @@ const PartDetail = ({route, navigation}) => {
               <Player tracks={question.sound} />
             </View>
             <View style={{flex: 5, padding: 15}}>
-              <AnswerABC
-                dapanA={question.dapanA}
-                dapanB={question.dapanB}
-                dapanC={question.dapanC}
-              />
+              <AnswerABC question={question} />
             </View>
           </View>
         );
@@ -535,8 +535,14 @@ const PartDetail = ({route, navigation}) => {
                 <Player tracks={question.sound} />
               </View>
             </View>
-            <View style={{flex: 8, padding: 15}}>
-              <ScrollView>
+            <View style={{flex: 8, alignSelf: 'center'}}>
+              <ScrollView
+                style={{
+                  width: DIMENSION.width,
+                  padding: 30,
+                  paddingTop: 5,
+                  marginBottom: 10,
+                }}>
                 <MultiQuestion
                   item={question}
                   item2={question2}
@@ -566,8 +572,14 @@ const PartDetail = ({route, navigation}) => {
                 <Player tracks={question.sound} />
               </View>
             </View>
-            <View style={{flex: 8, padding: 15}}>
-              <ScrollView>
+            <View style={{flex: 8, alignSelf: 'center'}}>
+              <ScrollView
+                style={{
+                  width: DIMENSION.width,
+                  padding: 30,
+                  paddingTop: 5,
+                  marginBottom: 10,
+                }}>
                 <MultiQuestion
                   item={question}
                   item2={question2}
@@ -593,7 +605,7 @@ const PartDetail = ({route, navigation}) => {
               </LinearTextGradient>
             </View>
             <View style={{flex: 2}}>
-              <Text style={Style.text16}>{question.question}</Text>
+              <Text style={Style.text18}>{question.question}</Text>
             </View>
             <View style={{flex: 7, padding: 15}}>
               <AnswerABCD item={question} />
@@ -640,26 +652,32 @@ const PartDetail = ({route, navigation}) => {
                 </Text>
               </LinearTextGradient>
             </View>
-            <View style={{flex: 9}}>
-              <ScrollView>
+            <View style={{flex: 9, alignSelf: 'center'}}>
+              <ScrollView
+                style={{
+                  width: DIMENSION.width,
+                  padding: 30,
+                  paddingTop: 5,
+                  marginBottom: 10,
+                }}>
                 <View
                   style={{
                     borderWidth: 2,
                     borderColor: '#ebebeb',
                     padding: 10,
                     borderRadius: 10,
+                    marginBottom: 10,
                   }}>
                   <Text style={Style.text16}>{question.sound}</Text>
                 </View>
-                <View style={{padding: 15}}>
-                  <MultiQuestion
-                    item={question}
-                    item2={question2}
-                    item3={question3}
-                    item4={question4}
-                    item5={question5}
-                  />
-                </View>
+
+                <MultiQuestion
+                  item={question}
+                  item2={question2}
+                  item3={question3}
+                  item4={question4}
+                  item5={question5}
+                />
               </ScrollView>
             </View>
           </View>

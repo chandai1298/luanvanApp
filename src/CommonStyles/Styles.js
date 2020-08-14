@@ -58,7 +58,14 @@ const Style = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
   },
-
+  btnActive: {
+    borderBottomWidth: 3,
+    borderColor: '#754ea6',
+    color: '#754ea6',
+  },
+  txtActive: {
+    color: '#754ea6',
+  },
   //header 3 component chiều ngang dãn đều
   headerContainer: {
     borderBottomWidth: 2,

@@ -43,7 +43,7 @@ const QuestionStyle = StyleSheet.create({
   tchAnswer2: {
     borderColor: '#ebebeb',
     borderWidth: 2,
-    borderRadius: 20,
+    borderRadius: 50,
     paddingLeft: 15,
     flexWrap: 'wrap',
     flexDirection: 'row',
@@ -51,7 +51,8 @@ const QuestionStyle = StyleSheet.create({
     paddingTop: 4,
     width: '100%',
     height: 50,
-    marginBottom: 10,
+    backgroundColor: '#fff',
+    marginBottom: 15,
   },
   tchAnswer3: {
     backgroundColor: '#25aff7',
