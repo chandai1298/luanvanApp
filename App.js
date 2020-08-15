@@ -32,6 +32,8 @@ import Listening from './src/Components/LearningComponents/ToeicComponents/Liste
 import Writing from './src/Components/LearningComponents/ToeicComponents/Writing';
 import Reading from './src/Components/LearningComponents/ToeicComponents/Reading';
 import ChangePassword from './src/Components/SettingComponents/ChangePassword';
+import FinishPart from './src/Components/Encouragement/FinishPart';
+import Corrects from './src/Components/Encouragement/Corrects';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -286,6 +288,16 @@ const App = () => {
                 initialParams={{count: 0, score: 0, crown: 5, totalLength: 0}}
               />
               <Stack.Screen
+                name="finishPart"
+                component={FinishPart}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="correct"
+                component={Corrects}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
                 name="testEvaluation"
                 component={Evaluation}
                 options={{headerShown: false}}
@@ -299,17 +311,24 @@ const App = () => {
   );
 };
 
-export default App;
-// export default App2 = () => {
+// const App = () => {
 //   return (
 //     <NavigationContainer>
 //       <Stack.Navigator>
 //         <Stack.Screen
-//           name="Home"
-//           component={PartDetailScreen}
+//           name="finishPart"
+//           component={FinishPart}
+//           options={{headerShown: false}}
+//           initialParams={{score: 10, crown: 3}}
+//         />
+//         <Stack.Screen
+//           name="part"
+//           component={Part}
 //           options={{headerShown: false}}
 //         />
 //       </Stack.Navigator>
 //     </NavigationContainer>
 //   );
 // };
+
+export default App;

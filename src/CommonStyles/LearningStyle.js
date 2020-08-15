@@ -11,7 +11,7 @@ const LearningStyle = StyleSheet.create({
     padding: 15,
   },
   tchLessionCover: {
-    borderColor: '#fff',
+    borderColor: '#bebebe',
     borderWidth: 0.5,
     borderRadius: 250,
     margin: 4,

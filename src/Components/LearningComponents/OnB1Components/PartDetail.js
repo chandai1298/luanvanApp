@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   Image,
-  TextInput,
+  BackHandler,
   Alert,
 } from 'react-native';
 import {IN4_APP} from '../../../ConnectServer/In4App';
@@ -18,9 +18,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import {LinearTextGradient} from 'react-native-text-gradient';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
+import {useFocusEffect} from '@react-navigation/native';
 
 const PartDetail = ({route, navigation}) => {
   const [loading, setLoading] = React.useState(true);
+  const [sequence, setSequence] = React.useState(0);
   const [help, setHelp] = React.useState(false);
   const [answer, setAnswer] = React.useState(null);
   const [answer2, setAnswer2] = React.useState(null);
@@ -128,6 +130,32 @@ const PartDetail = ({route, navigation}) => {
   useEffect(() => {
     getData();
   }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        Alert.alert(
+          'Thông báo',
+          'Bạn chắc chắn muốn quay lại?',
+          [
+            {
+              text: 'Hủy',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => navigation.navigate('part')},
+          ],
+          {cancelable: false},
+        );
+
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, []),
+  );
   const empty = {
     id: '',
     id_lession: '',
@@ -142,7 +170,8 @@ const PartDetail = ({route, navigation}) => {
     isActive: '',
     sound: '',
   };
-  const question = data[totalLength2];
+  const question =
+    data[totalLength2] !== undefined ? data[totalLength2] : empty;
   const question2 =
     data[totalLength2 + 1] !== undefined ? data[totalLength2 + 1] : empty;
   const question3 =
@@ -1196,27 +1225,42 @@ const PartDetail = ({route, navigation}) => {
           break;
         default:
           if (answer === question.answer) {
+            const tmp_sequence = sequence + 1;
+            setSequence(tmp_sequence);
             data.some((item) => {
               if (item.id === question.id) {
                 if (data.length > 1) {
                   data.splice(data.indexOf(item), 1);
                   console.log('da xoa ' + item);
-                  navigation.navigate('partDetail', {
-                    totalLength: Math.floor(Math.random() * data.length),
-                    count: count + 1,
-                    score: score + 10,
-                    crown: crown,
-                  });
+                  if (tmp_sequence % 2 == 0) {
+                    navigation.navigate('correct', {
+                      totalLength: Math.floor(Math.random() * data.length),
+                      count: count + 1,
+                      score: score + 10,
+                      crown: crown,
+                      sequence: tmp_sequence,
+                    });
+                  } else {
+                    navigation.navigate('partDetail', {
+                      totalLength: Math.floor(Math.random() * data.length),
+                      count: count + 1,
+                      score: score + 10,
+                      crown: crown,
+                    });
+                  }
                 } else {
                   if (data.length == 1) {
-                    alert(score + ' ' + crown);
-                    navigation.navigate('part');
+                    const cur_sc = score + 10;
+                    navigation.navigate('finishPart', {
+                      crown: crown,
+                      score: cur_sc,
+                    });
                     const getDefinition = IN4_APP.UpdateScore;
                     axios
                       .put(getDefinition, {
                         crown: crown + rank.crown,
-                        current_score: score + 10 + rank.current_score,
-                        total_score: score + 10 + rank.total_score,
+                        current_score: cur_sc + rank.current_score,
+                        total_score: cur_sc + rank.total_score,
                         id_user: idUser,
                       })
                       .then(function (response) {
@@ -1231,9 +1275,10 @@ const PartDetail = ({route, navigation}) => {
             });
             setAnswer('');
           } else {
+            setSequence(0);
             navigation.navigate('partDetail', {
               totalLength: Math.floor(Math.random() * data.length),
-              score: score > 0 ? score - 3 : score,
+              score: score - 3,
               crown: crown > 0 ? crown - 1 : crown,
             });
             setAnswer('');
@@ -1265,6 +1310,15 @@ const PartDetail = ({route, navigation}) => {
       </View>
     ) : (
       <View style={{height: '100%', width: '100%', padding: 15}}>
+        <Text
+          style={{
+            marginBottom: -20,
+            paddingLeft: 40,
+            color: '#754ea6',
+            fontStyle: 'italic',
+          }}>
+          {sequence > 1 ? `${sequence}LẦN LIÊN TỤC...` : ''}
+        </Text>
         <View style={QuestionStyle.headerQuestion}>
           <View style={[QuestionStyle.iconHeader, Style.coverCenter]}>
             <TouchableOpacity onPress={() => navigation.navigate('part')}>

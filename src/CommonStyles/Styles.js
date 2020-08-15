@@ -29,6 +29,10 @@ const Style = StyleSheet.create({
   text16: {
     fontSize: 16,
   },
+  text30: {
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
   line: {
     width: DIMENSION.width,
     borderWidth: 1,
