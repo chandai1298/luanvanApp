@@ -13,6 +13,7 @@ const IN4_APP = {
   UpdateName: `${URL_NGROK.url}/UpdateName`,
   UpdateEmail: `${URL_NGROK.url}/UpdateEmail`,
   UpdateScore: `${URL_NGROK.url}/UpdateScore`,
+  UpdateHint: `${URL_NGROK.url}/UpdateHint`,
   getUser: `${URL_NGROK.url}/getUser`,
   UpdateOverviewSetting: `${URL_NGROK.url}/UpdateOverviewSetting`,
 };

@@ -3,9 +3,10 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {IN4_APP} from '../../../ConnectServer/In4App';
 import {LearningStyle, Style, DIMENSION} from '../../../CommonStyles';
 import LinearGradient from 'react-native-linear-gradient';
+import axios from 'axios';
 
 const Part = ({route, navigation}) => {
-  const {nameLession, id_category, id_lession, idUser, rank} = route.params;
+  const {nameLession, id_category, id_lession, idUser} = route.params;
   const idCategory = parseInt(JSON.stringify(id_category));
   const idLession = parseInt(JSON.stringify(id_lession));
   const name_Lession = JSON.stringify(nameLession);
@@ -25,23 +26,17 @@ const Part = ({route, navigation}) => {
   ]);
   const getData = () => {
     const apiURL = IN4_APP.getPartRead;
-    fetch(apiURL)
-      .then((res) => res.json())
-      .then((results) => {
-        setReads(results);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
     const apiURL2 = IN4_APP.getPartListening;
-    fetch(apiURL2)
-      .then((res) => res.json())
-      .then((results) => {
-        setListening(results);
-      })
-      .catch((error) => {
-        console.log(error);
+    axios
+      .all([axios.get(apiURL), axios.get(apiURL2)])
+      .then(
+        axios.spread((...allData) => {
+          setReads(allData[0].data);
+          setListening(allData[1].data);
+        }),
+      )
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -54,7 +49,7 @@ const Part = ({route, navigation}) => {
       <View style={[Style.coverCenter, {flex: 1}]}>
         <Text style={Style.text18}>{name_Lession}</Text>
       </View>
-      {console.log(rank)}
+
       <View style={[LearningStyle.container, {alignContent: 'flex-end'}]}>
         {listening.map((item, key) => (
           <TouchableOpacity
@@ -65,7 +60,6 @@ const Part = ({route, navigation}) => {
                 id_category: idCategory,
                 id_lession: idLession,
                 id_part: item.id,
-                rank: rank,
                 idUser: idUser,
               })
             }>
@@ -92,6 +86,7 @@ const Part = ({route, navigation}) => {
                 id_category: idCategory,
                 id_lession: idLession,
                 id_part: item.id,
+                idUser: idUser,
               })
             }>
             <LinearGradient

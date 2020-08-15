@@ -6,19 +6,22 @@ import {
   Image,
   TextInput,
   Alert,
-  ActivityIndicator,
 } from 'react-native';
 import {IN4_APP} from '../../../ConnectServer/In4App';
 import {QuestionStyle, Style, DIMENSION} from '../../../CommonStyles';
-import HeaderQuestion from '../../../Components/LearningComponents/HeaderQuestion';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import * as Progress from 'react-native-progress';
+import {Button, Paragraph, Dialog, Portal} from 'react-native-paper';
 import Player from '../../SoundComponents/Player';
 import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {LinearTextGradient} from 'react-native-text-gradient';
 import axios from 'axios';
+import * as Animatable from 'react-native-animatable';
 
 const PartDetail = ({route, navigation}) => {
   const [loading, setLoading] = React.useState(true);
+  const [help, setHelp] = React.useState(false);
   const [answer, setAnswer] = React.useState(null);
   const [answer2, setAnswer2] = React.useState(null);
   const [answer3, setAnswer3] = React.useState(null);
@@ -33,13 +36,37 @@ const PartDetail = ({route, navigation}) => {
     id_lession,
     id_part,
     idUser,
-    rank,
   } = route.params;
   const c = parseInt(JSON.stringify(count));
   const totalLength2 = parseInt(JSON.stringify(totalLength));
   const idCategory = parseInt(JSON.stringify(id_category));
   const idLession = parseInt(JSON.stringify(id_lession));
   const idPart = parseInt(JSON.stringify(id_part));
+
+  //header
+  const [visible, setVisible] = React.useState(false);
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
+  const [current_hint, setCurrentHint] = React.useState('');
+
+  const updateHint = (hints) => {
+    const count = hints - 1;
+    setCurrentHint(count);
+    setHelp(true);
+    const UpdateHint = IN4_APP.UpdateHint;
+    axios
+      .put(UpdateHint, {
+        hint: count,
+        id_user: idUser,
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+    setVisible(false);
+  };
 
   const [data, setData] = React.useState([
     {
@@ -57,23 +84,47 @@ const PartDetail = ({route, navigation}) => {
       sound: '',
     },
   ]);
-
+  const [ranks, setRank] = React.useState([
+    {
+      id: '',
+      id_user: '',
+      total_score: '',
+      current_score: '',
+      crown: '',
+      streak: '',
+      bestStreak: '',
+      hint: '',
+    },
+  ]);
   const getData = () => {
-    const apiURL = IN4_APP.getQuestionPart;
+    const getQuestionPart = IN4_APP.getQuestionPart;
+    const RankOfUser = IN4_APP.RankOfUser;
     axios
-      .post(apiURL, {
-        id: idCategory,
-        id_part: idPart,
-        id_lession: idLession,
-      })
-      .then(function (response) {
-        setData(response.data);
-        setLoading(false);
-      })
-      .catch(function (error) {
-        console.log(error.message);
+      .all([
+        axios.post(RankOfUser, {
+          id: idUser,
+        }),
+        axios.post(getQuestionPart, {
+          id: idCategory,
+          id_part: idPart,
+          id_lession: idLession,
+        }),
+      ])
+      .then(
+        axios.spread((...allData) => {
+          setRank(allData[0].data);
+          setData(allData[1].data);
+          setLoading(false);
+        }),
+      )
+      .catch((err) => {
+        console.log(err);
       });
   };
+  //record thu nhat duoc tim thay
+  const rank = ranks[0];
+  //so hint hien tai
+  const tmp = '' !== current_hint ? current_hint : rank.hint;
   useEffect(() => {
     getData();
   }, []);
@@ -102,30 +153,86 @@ const PartDetail = ({route, navigation}) => {
     data[totalLength2 + 4] !== undefined ? data[totalLength2 + 4] : empty;
 
   const AnswerABCD = ({item}) => {
+    var promise = null;
     const arr = [
       {dapan: item.dapanA, id: 1},
       {dapan: item.dapanB, id: 2},
       {dapan: item.dapanC, id: 3},
       {dapan: item.dapanD, id: 4},
     ];
-    return (
-      <View>
-        {arr.map((e) => (
-          <TouchableOpacity
-            key={e.id}
-            style={[
-              QuestionStyle.tchAnswer2,
-              answer === e.dapan && Style.btnActive,
-              Style.boxShadow,
-            ]}
-            onPress={() => setAnswer(e.dapan)}>
-            <Text style={[Style.text16, answer === e.dapan && Style.txtActive]}>
-              {e.dapan}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    );
+    const arr2 = [
+      {dapan: 'A', dapan2: item.dapanA, id: 1},
+      {dapan: 'B', dapan2: item.dapanB, id: 2},
+      {dapan: 'C', dapan2: item.dapanC, id: 3},
+      {dapan: 'D', dapan2: item.dapanD, id: 4},
+    ];
+    switch (item.id_part) {
+      case 1:
+        promise = (
+          <View>
+            {help
+              ? arr.map((e) => (
+                  <TouchableOpacity
+                    key={e.id}
+                    style={[
+                      QuestionStyle.tchAnswer2,
+                      answer === e.dapan && Style.btnActive,
+                      Style.boxShadow,
+                    ]}
+                    onPress={() => setAnswer(e.dapan)}>
+                    <Text
+                      style={[
+                        Style.text16,
+                        answer === e.dapan && Style.txtActive,
+                      ]}>
+                      {e.dapan}
+                    </Text>
+                  </TouchableOpacity>
+                ))
+              : arr2.map((e) => (
+                  <TouchableOpacity
+                    key={e.id}
+                    style={[
+                      QuestionStyle.tchAnswer2,
+                      answer === e.dapan2 && Style.btnActive,
+                      Style.boxShadow,
+                    ]}
+                    onPress={() => setAnswer(e.dapan2)}>
+                    <Text
+                      style={[
+                        Style.text16,
+                        answer === e.dapan && Style.txtActive,
+                      ]}>
+                      Options {e.dapan}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+          </View>
+        );
+        break;
+      default:
+        promise = (
+          <View>
+            {arr.map((e) => (
+              <TouchableOpacity
+                key={e.id}
+                style={[
+                  QuestionStyle.tchAnswer2,
+                  answer === e.dapan && Style.btnActive,
+                  Style.boxShadow,
+                ]}
+                onPress={() => setAnswer(e.dapan)}>
+                <Text
+                  style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+                  {e.dapan}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        );
+        break;
+    }
+    return promise;
   };
   const AnswerABCD2 = ({item2}) => {
     const arr = [
@@ -237,22 +344,48 @@ const PartDetail = ({route, navigation}) => {
       {dapan: question.dapanB, id: 2},
       {dapan: question.dapanC, id: 3},
     ];
+    const arr2 = [
+      {dapan: 'A', dapan2: question.dapanA, id: 1},
+      {dapan: 'B', dapan2: question.dapanB, id: 2},
+      {dapan: 'C', dapan2: question.dapanC, id: 3},
+    ];
     return (
       <View>
-        {arr.map((e) => (
-          <TouchableOpacity
-            key={e.id}
-            style={[
-              QuestionStyle.tchAnswer2,
-              answer === e.dapan && Style.btnActive,
-              Style.boxShadow,
-            ]}
-            onPress={() => setAnswer(e.dapan)}>
-            <Text style={[Style.text16, answer === e.dapan && Style.txtActive]}>
-              {e.dapan}
-            </Text>
-          </TouchableOpacity>
-        ))}
+        {help
+          ? arr.map((e) => (
+              <TouchableOpacity
+                onLongPress={() => alert('ok')}
+                key={e.id}
+                style={[
+                  QuestionStyle.tchAnswer2,
+                  answer === e.dapan && Style.btnActive,
+                  Style.boxShadow,
+                ]}
+                onPress={() => setAnswer(e.dapan)}>
+                <Text
+                  style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+                  {e.dapan}
+                </Text>
+              </TouchableOpacity>
+            ))
+          : arr2.map((e) => (
+              <TouchableOpacity
+                key={e.id}
+                style={[
+                  QuestionStyle.tchAnswer2,
+                  answer === e.dapan2 && Style.btnActive,
+                  Style.boxShadow,
+                ]}
+                onPress={() => setAnswer(e.dapan2)}>
+                <Text
+                  style={[
+                    Style.text16,
+                    answer === e.dapan2 && Style.txtActive,
+                  ]}>
+                  Options {e.dapan}
+                </Text>
+              </TouchableOpacity>
+            ))}
       </View>
     );
   };
@@ -458,7 +591,6 @@ const PartDetail = ({route, navigation}) => {
     }
     return promise;
   };
-
   const sectionAnswer = () => {
     var promise = null;
     switch (question.id_part) {
@@ -509,6 +641,19 @@ const PartDetail = ({route, navigation}) => {
             </View>
             <View style={{flex: 3}}>
               <Player tracks={question.sound} />
+              <View style={{padding: 10}}>
+                {help ? (
+                  <LinearTextGradient
+                    locations={[0, 1]}
+                    colors={['#091048', '#754ea6']}
+                    start={{x: 0, y: 0}}
+                    end={{x: 0, y: 1}}>
+                    <Text style={Style.text18}>{question.question}</Text>
+                  </LinearTextGradient>
+                ) : (
+                  <></>
+                )}
+              </View>
             </View>
             <View style={{flex: 5, padding: 15}}>
               <AnswerABC question={question} />
@@ -692,6 +837,7 @@ const PartDetail = ({route, navigation}) => {
     if (data.length == 0) {
       navigation.navigate('part');
     } else {
+      setHelp(false);
       switch (question.id_part) {
         case 3:
           if (
@@ -806,7 +952,6 @@ const PartDetail = ({route, navigation}) => {
           }
           break;
         case 7:
-          console.log(data.length);
           switch (countQuestionPart7()) {
             case 5:
               if (
@@ -1063,8 +1208,9 @@ const PartDetail = ({route, navigation}) => {
                     crown: crown,
                   });
                 } else {
-                  navigation.navigate('part');
                   if (data.length == 1) {
+                    alert(score + ' ' + crown);
+                    navigation.navigate('part');
                     const getDefinition = IN4_APP.UpdateScore;
                     axios
                       .put(getDefinition, {
@@ -1099,14 +1245,91 @@ const PartDetail = ({route, navigation}) => {
 
   return data.length > 0 ? (
     loading ? (
-      <ActivityIndicator
-        style={Style.coverCenter}
-        color="#9a9a9a"
-        size="large"
-      />
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#ffdcd8c4',
+        }}>
+        <Animatable.Image
+          // animation="bounceIn"
+          duraton="1500"
+          source={{
+            uri:
+              'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-28-33-85.gif',
+          }}
+          style={{width: '50%', height: '50%'}}
+          resizeMode="contain"
+        />
+      </View>
     ) : (
       <View style={{height: '100%', width: '100%', padding: 15}}>
-        <HeaderQuestion navigation={navigation} count={c * 0.2} />
+        <View style={QuestionStyle.headerQuestion}>
+          <View style={[QuestionStyle.iconHeader, Style.coverCenter]}>
+            <TouchableOpacity onPress={() => navigation.navigate('part')}>
+              <FontAwesome5
+                name="times"
+                size={DIMENSION.sizeIcon2}
+                color="#ababab"
+              />
+            </TouchableOpacity>
+          </View>
+          {tmp > 0 ? (
+            <Portal>
+              <Dialog visible={visible} onDismiss={hideDialog}>
+                <Dialog.Title>Thông báo!</Dialog.Title>
+                <Dialog.Content>
+                  <Paragraph style={{fontSize: 18}}>
+                    Mất 1 tim để nhân trợ giúp?
+                  </Paragraph>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress={() => updateHint(tmp)}>Ok</Button>
+                  <Button onPress={() => hideDialog()}>Hủy</Button>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
+          ) : (
+            <Portal>
+              <Dialog visible={visible} onDismiss={() => hideDialog()}>
+                <Dialog.Title>Thông báo!</Dialog.Title>
+                <Dialog.Content>
+                  <Paragraph style={{fontSize: 18}}>
+                    Bạn đã hết trợ giúp!
+                  </Paragraph>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress={() => hideDialog()}>Ok</Button>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
+          )}
+          <View style={QuestionStyle.progressHeader}>
+            <Progress.Bar
+              animationType="timing"
+              progress={c * 0.2}
+              width={300}
+              color="#754ea6"
+            />
+          </View>
+          <View
+            style={[
+              QuestionStyle.iconHeader,
+              {flexDirection: 'row', justifyContent: 'center'},
+            ]}>
+            <FontAwesome5
+              name="heartbeat"
+              size={DIMENSION.sizeIcon}
+              color="#f44336"
+              onPress={() => showDialog()}
+            />
+
+            <Text style={[Style.text20, {marginLeft: 3, color: '#f44336'}]}>
+              {tmp}
+            </Text>
+          </View>
+        </View>
         {sectionAnswer()}
         <TouchableOpacity
           style={[Style.boxShadow, {height: 50, borderRadius: 30}]}

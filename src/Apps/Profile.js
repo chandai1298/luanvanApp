@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, StatusBar, Text, ActivityIndicator} from 'react-native';
+import {View, StatusBar} from 'react-native';
 import {Style, ProfileStyle, DIMENSION} from '../CommonStyles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import HeaderComponent from './HeaderComponent';
@@ -8,6 +8,7 @@ import BanBe from '../Components/ProfileComponent/BanBe';
 import Avatar from '../Components/ProfileComponent/Avatar';
 import {IN4_APP} from '../ConnectServer/In4App';
 import axios from 'axios';
+import * as Animatable from 'react-native-animatable';
 
 function ThanhTichComponent() {
   return <ThanhTich />;
@@ -94,8 +95,23 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
   const data = datas[0];
 
   return loading ? (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <ActivityIndicator size="large" color="#754ea6" />
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ffdcd8c4',
+      }}>
+      <Animatable.Image
+        // animation="bounceIn"
+        duraton="1500"
+        source={{
+          uri:
+            'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-28-33-85.gif',
+        }}
+        style={{width: '50%', height: '50%'}}
+        resizeMode="contain"
+      />
     </View>
   ) : (
     <View style={Style.container}>
