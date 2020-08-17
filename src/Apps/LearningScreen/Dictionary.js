@@ -1,11 +1,5 @@
 import React, {useEffect} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Style, DIMENSION} from '../../CommonStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -41,7 +35,14 @@ const Dictionary = ({route, navigation}) => {
     },
   ]);
   const [synonym, setSynonym] = React.useState([{words: ''}]);
-
+  useEffect(() => {
+    TranslatorConfiguration.setConfig(
+      ProviderTypes.Google,
+      'AIzaSyBTXr7MqVz0OXJadyLXaKPkLIf2ik3hukk',
+      'vi',
+      'en',
+    );
+  });
   const dic = (word) => {
     const getDefinition = IN4_APP.getWord;
     const getSynonym =
@@ -73,24 +74,41 @@ const Dictionary = ({route, navigation}) => {
         }),
       )
       .catch((err) => {
-        setDefinition([{Word: `Không tìm thấy ${input}!`}]);
+        // setDefinition([{Word: `Không tìm thấy ${input}!`}]);
+        translate(input);
         setSynonym([{words: 'ko'}]);
         console.log(err);
       });
   };
+  const translate = (text) => {
+    try {
+      const translator = TranslatorFactory.createTranslator();
+      translator.translate(text).then((translated) => {
+        setDefinition([{Word: `${translated}!`}]);
+      });
+    } catch (error) {}
+  };
+  const def =
+    definition[0] !== undefined
+      ? definition[0]
+      : setDefinition([
+          {
+            Word: `Từ điển chưa nhập nhật từ ${input}!\nHãy thử chức năng dịch văn bản...`,
+          },
+        ]);
   const Definition = () => {
-    return definition[0].Word !== '' ? (
+    return def.Word !== '' ? (
       <View>
         <ScrollView style={{padding: 15}}>
           <View style={[{flexDirection: 'row', alignItems: 'center'}]}>
-            {definition[0].Pronounced !== undefined ? (
+            {def.Pronounced !== undefined ? (
               <TouchableOpacity
                 style={{justifyContent: 'center'}}
                 onPress={() => {
                   input === ''
                     ? Tts.getInitStatus().then(() => {
                         Tts.setDefaultLanguage('en-us');
-                        Tts.speak(definition[0].Word);
+                        Tts.speak(def.Word);
                       })
                     : console.log('chua nhap');
                 }}>
@@ -111,31 +129,21 @@ const Dictionary = ({route, navigation}) => {
                     fontWeight: 'bold',
                   },
                 ]}>
-                {definition[0].Word}
+                {def.Word}
               </Text>
             </View>
             <View>
-              <Text style={[{fontSize: 20}]}>{definition[0].Pronounced}</Text>
+              <Text style={[{fontSize: 20}]}>{def.Pronounced}</Text>
             </View>
           </View>
-          <Text style={[Style.text20, {marginLeft: 15}]}>
-            {definition[0].Type1}
-          </Text>
-          <Text style={[{fontSize: 20, margin: 5}]}>
-            {definition[0].Content1}
-          </Text>
-          <Text style={[Style.text20, {marginLeft: 15}]}>
-            {definition[0].Type2}
-          </Text>
-          <Text style={[{fontSize: 20}]}>{definition[0].Content2}</Text>
-          <Text style={[Style.text20, {marginLeft: 15}]}>
-            {definition[0].Type3}
-          </Text>
-          <Text style={[{fontSize: 20}]}>{definition[0].Content3}</Text>
-          <Text style={[Style.text20, {marginLeft: 15}]}>
-            {definition[0].Type4}
-          </Text>
-          <Text style={[{fontSize: 20}]}>{definition[0].Content4}</Text>
+          <Text style={[Style.text20, {marginLeft: 15}]}>{def.Type1}</Text>
+          <Text style={[{fontSize: 20, margin: 5}]}>{def.Content1}</Text>
+          <Text style={[Style.text20, {marginLeft: 15}]}>{def.Type2}</Text>
+          <Text style={[{fontSize: 20}]}>{def.Content2}</Text>
+          <Text style={[Style.text20, {marginLeft: 15}]}>{def.Type3}</Text>
+          <Text style={[{fontSize: 20}]}>{def.Content3}</Text>
+          <Text style={[Style.text20, {marginLeft: 15}]}>{def.Type4}</Text>
+          <Text style={[{fontSize: 20}]}>{def.Content4}</Text>
         </ScrollView>
       </View>
     ) : (

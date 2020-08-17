@@ -7,6 +7,12 @@ import {
   BackHandler,
   Alert,
 } from 'react-native';
+import {
+  PowerTranslator,
+  ProviderTypes,
+  TranslatorConfiguration,
+  TranslatorFactory,
+} from 'react-native-power-translator';
 import {IN4_APP} from '../../../ConnectServer/In4App';
 import {QuestionStyle, Style, DIMENSION} from '../../../CommonStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -19,9 +25,11 @@ import {LinearTextGradient} from 'react-native-text-gradient';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
 import {useFocusEffect} from '@react-navigation/native';
+import Tts from 'react-native-tts';
 
 const PartDetail = ({route, navigation}) => {
   const [loading, setLoading] = React.useState(true);
+  const [hideDescription, setHideDescription] = React.useState(false);
   const [sequence, setSequence] = React.useState(0);
   const [help, setHelp] = React.useState(false);
   const [answer, setAnswer] = React.useState(null);
@@ -29,6 +37,9 @@ const PartDetail = ({route, navigation}) => {
   const [answer3, setAnswer3] = React.useState(null);
   const [answer4, setAnswer4] = React.useState(null);
   const [answer5, setAnswer5] = React.useState(null);
+  const [outputText, onChangeOutputText] = React.useState('');
+  const [outPartRead, setOutPartRead] = React.useState('');
+
   const {
     count,
     crown,
@@ -44,6 +55,14 @@ const PartDetail = ({route, navigation}) => {
   const idCategory = parseInt(JSON.stringify(id_category));
   const idLession = parseInt(JSON.stringify(id_lession));
   const idPart = parseInt(JSON.stringify(id_part));
+
+  //doc van ban
+  const speechText = (text) => {
+    Tts.getInitStatus().then(() => {
+      Tts.setDefaultLanguage('en-us');
+      Tts.speak(text);
+    });
+  };
 
   //header
   const [visible, setVisible] = React.useState(false);
@@ -84,6 +103,7 @@ const PartDetail = ({route, navigation}) => {
       image: '',
       isActive: '',
       sound: '',
+      description: '',
     },
   ]);
   const [ranks, setRank] = React.useState([
@@ -123,13 +143,40 @@ const PartDetail = ({route, navigation}) => {
         console.log(err);
       });
   };
+
   //record thu nhat duoc tim thay
   const rank = ranks[0];
   //so hint hien tai
   const tmp = '' !== current_hint ? current_hint : rank.hint;
+
   useEffect(() => {
+    TranslatorConfiguration.setConfig(
+      ProviderTypes.Google,
+      'AIzaSyBTXr7MqVz0OXJadyLXaKPkLIf2ik3hukk',
+      'vi',
+      'en',
+    );
     getData();
   }, []);
+
+  const translate = (text) => {
+    try {
+      const translator = TranslatorFactory.createTranslator();
+      translator.translate(text).then((translated) => {
+        onChangeOutputText(text + '\n=> ' + translated);
+        setHideDescription(true);
+      });
+    } catch (error) {}
+  };
+  const translateQuestion = (text) => {
+    try {
+      const translator = TranslatorFactory.createTranslator();
+      translator.translate(text).then((translated) => {
+        setOutPartRead(text + '\n=> ' + translated);
+      });
+    } catch (error) {}
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
@@ -156,6 +203,7 @@ const PartDetail = ({route, navigation}) => {
         BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     }, []),
   );
+
   const empty = {
     id: '',
     id_lession: '',
@@ -169,6 +217,7 @@ const PartDetail = ({route, navigation}) => {
     image: '',
     isActive: '',
     sound: '',
+    description: '',
   };
   const question =
     data[totalLength2] !== undefined ? data[totalLength2] : empty;
@@ -202,6 +251,10 @@ const PartDetail = ({route, navigation}) => {
             {help
               ? arr.map((e) => (
                   <TouchableOpacity
+                    onLongPress={() => {
+                      translate(e.dapan);
+                      speechText(e.dapan);
+                    }}
                     key={e.id}
                     style={[
                       QuestionStyle.tchAnswer2,
@@ -211,7 +264,7 @@ const PartDetail = ({route, navigation}) => {
                     onPress={() => setAnswer(e.dapan)}>
                     <Text
                       style={[
-                        Style.text16,
+                        {fontSize: 20},
                         answer === e.dapan && Style.txtActive,
                       ]}>
                       {e.dapan}
@@ -229,8 +282,8 @@ const PartDetail = ({route, navigation}) => {
                     onPress={() => setAnswer(e.dapan2)}>
                     <Text
                       style={[
-                        Style.text16,
-                        answer === e.dapan && Style.txtActive,
+                        {fontSize: 20},
+                        answer === e.dapan2 && Style.txtActive,
                       ]}>
                       Options {e.dapan}
                     </Text>
@@ -244,6 +297,10 @@ const PartDetail = ({route, navigation}) => {
           <View>
             {arr.map((e) => (
               <TouchableOpacity
+                onLongPress={() => {
+                  translate(e.dapan);
+                  speechText(e.dapan);
+                }}
                 key={e.id}
                 style={[
                   QuestionStyle.tchAnswer2,
@@ -252,7 +309,10 @@ const PartDetail = ({route, navigation}) => {
                 ]}
                 onPress={() => setAnswer(e.dapan)}>
                 <Text
-                  style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+                  style={[
+                    {fontSize: 20},
+                    answer === e.dapan && Style.txtActive,
+                  ]}>
                   {e.dapan}
                 </Text>
               </TouchableOpacity>
@@ -274,6 +334,10 @@ const PartDetail = ({route, navigation}) => {
       <View>
         {arr.map((e) => (
           <TouchableOpacity
+            onLongPress={() => {
+              translate(e.dapan);
+              speechText(e.dapan);
+            }}
             key={e.id}
             style={[
               QuestionStyle.tchAnswer2,
@@ -281,7 +345,8 @@ const PartDetail = ({route, navigation}) => {
               Style.boxShadow,
             ]}
             onPress={() => setAnswer2(e.dapan)}>
-            <Text style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+            <Text
+              style={[{fontSize: 20}, answer2 === e.dapan && Style.txtActive]}>
               {e.dapan}
             </Text>
           </TouchableOpacity>
@@ -300,6 +365,10 @@ const PartDetail = ({route, navigation}) => {
       <View>
         {arr.map((e) => (
           <TouchableOpacity
+            onLongPress={() => {
+              translate(e.dapan);
+              speechText(e.dapan);
+            }}
             key={e.id}
             style={[
               QuestionStyle.tchAnswer2,
@@ -307,7 +376,8 @@ const PartDetail = ({route, navigation}) => {
               Style.boxShadow,
             ]}
             onPress={() => setAnswer3(e.dapan)}>
-            <Text style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+            <Text
+              style={[{fontSize: 20}, answer3 === e.dapan && Style.txtActive]}>
               {e.dapan}
             </Text>
           </TouchableOpacity>
@@ -326,6 +396,10 @@ const PartDetail = ({route, navigation}) => {
       <View>
         {arr.map((e) => (
           <TouchableOpacity
+            onLongPress={() => {
+              translate(e.dapan);
+              speechText(e.dapan);
+            }}
             key={e.id}
             style={[
               QuestionStyle.tchAnswer2,
@@ -333,7 +407,8 @@ const PartDetail = ({route, navigation}) => {
               Style.boxShadow,
             ]}
             onPress={() => setAnswer4(e.dapan)}>
-            <Text style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+            <Text
+              style={[{fontSize: 20}, answer4 === e.dapan && Style.txtActive]}>
               {e.dapan}
             </Text>
           </TouchableOpacity>
@@ -352,6 +427,10 @@ const PartDetail = ({route, navigation}) => {
       <View>
         {arr.map((e) => (
           <TouchableOpacity
+            onLongPress={() => {
+              translate(e.dapan);
+              speechText(e.dapan);
+            }}
             key={e.id}
             style={[
               QuestionStyle.tchAnswer2,
@@ -359,7 +438,8 @@ const PartDetail = ({route, navigation}) => {
               Style.boxShadow,
             ]}
             onPress={() => setAnswer5(e.dapan)}>
-            <Text style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+            <Text
+              style={[{fontSize: 20}, answer5 === e.dapan && Style.txtActive]}>
               {e.dapan}
             </Text>
           </TouchableOpacity>
@@ -383,16 +463,24 @@ const PartDetail = ({route, navigation}) => {
         {help
           ? arr.map((e) => (
               <TouchableOpacity
-                onLongPress={() => alert('ok')}
+                onLongPress={() => {
+                  translate(e.dapan);
+                  speechText(e.dapan);
+                }}
                 key={e.id}
                 style={[
                   QuestionStyle.tchAnswer2,
                   answer === e.dapan && Style.btnActive,
                   Style.boxShadow,
                 ]}
-                onPress={() => setAnswer(e.dapan)}>
+                onPress={() => {
+                  setAnswer(e.dapan);
+                }}>
                 <Text
-                  style={[Style.text16, answer === e.dapan && Style.txtActive]}>
+                  style={[
+                    {fontSize: 20},
+                    answer === e.dapan && Style.txtActive,
+                  ]}>
                   {e.dapan}
                 </Text>
               </TouchableOpacity>
@@ -408,7 +496,7 @@ const PartDetail = ({route, navigation}) => {
                 onPress={() => setAnswer(e.dapan2)}>
                 <Text
                   style={[
-                    Style.text16,
+                    {fontSize: 20},
                     answer === e.dapan2 && Style.txtActive,
                   ]}>
                   Options {e.dapan}
@@ -451,45 +539,100 @@ const PartDetail = ({route, navigation}) => {
             promise = (
               <View style={{paddingLeft: 5, paddingRight: 5}}>
                 <View>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item.description}
+                      </Text>
+                      <Text style={Style.text20}>{item.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD item={question} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text>1/5</Text>
                 <View style={{marginBottom: 15, marginTop: 15}}>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item2.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item2.description}
+                      </Text>
+                      <Text style={Style.text20}>{item2.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item2.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD2 item2={question2} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text>2/5</Text>
                 <View>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item3.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item3.description}
+                      </Text>
+                      <Text style={Style.text20}>{item3.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item3.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD3 item3={question3} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text>3/5</Text>
                 <View>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item4.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item4.description}
+                      </Text>
+                      <Text style={Style.text20}>{item4.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item4.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD4 item4={question4} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text>4/5</Text>
                 <View>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item5.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item5.description}
+                      </Text>
+                      <Text style={Style.text20}>{item5.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item5.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD5 item5={question5} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text style={{marginBottom: 10}}>5/5</Text>
               </View>
             );
             break;
@@ -497,37 +640,81 @@ const PartDetail = ({route, navigation}) => {
             promise = (
               <View style={{paddingLeft: 5, paddingRight: 5}}>
                 <View>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item.description}
+                      </Text>
+                      <Text style={Style.text20}>{item.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD item={question} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text>1/4</Text>
                 <View style={{marginBottom: 15, marginTop: 15}}>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item2.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item2.description}
+                      </Text>
+                      <Text style={Style.text20}>{item2.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item2.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD2 item2={question2} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text>2/4</Text>
                 <View>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item3.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item3.description}
+                      </Text>
+                      <Text style={Style.text20}>{item3.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item3.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD3 item3={question3} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text>3/4</Text>
                 <View>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item4.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item4.description}
+                      </Text>
+                      <Text style={Style.text20}>{item4.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item4.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD4 item4={question4} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text style={{marginBottom: 10}}>4/4</Text>
               </View>
             );
             break;
@@ -535,29 +722,62 @@ const PartDetail = ({route, navigation}) => {
             promise = (
               <View style={{paddingLeft: 5, paddingRight: 5}}>
                 <View>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item.description}
+                      </Text>
+                      <Text style={Style.text20}>{item.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD item={question} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text>1/3</Text>
                 <View style={{marginBottom: 15, marginTop: 15}}>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item2.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item2.description}
+                      </Text>
+                      <Text style={Style.text20}>{item2.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item2.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD2 item2={question2} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text>2/3</Text>
                 <View>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item3.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item3.description}
+                      </Text>
+                      <Text style={Style.text20}>{item3.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item3.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD3 item3={question3} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text style={{marginBottom: 10}}>3/3</Text>
               </View>
             );
             break;
@@ -565,21 +785,43 @@ const PartDetail = ({route, navigation}) => {
             promise = (
               <View style={{paddingLeft: 5, paddingRight: 5}}>
                 <View>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item.description}
+                      </Text>
+                      <Text style={Style.text20}>{item.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD item={question} />
                   </View>
                 </View>
+                <View style={Style.line}></View>
+                <Text>1/2</Text>
                 <View style={{marginBottom: 15, marginTop: 15}}>
-                  <View style={{marginBottom: 10}}>
-                    <Text style={Style.text18}>{item2.question}</Text>
-                  </View>
+                  {help ? (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={{fontSize: 20, fontStyle: 'italic'}}>
+                        {item2.description}
+                      </Text>
+                      <Text style={Style.text20}>{item2.question}</Text>
+                    </View>
+                  ) : (
+                    <View style={{marginBottom: 10}}>
+                      <Text style={Style.text20}>{item2.question}</Text>
+                    </View>
+                  )}
                   <View>
                     <AnswerABCD2 item2={question2} />
                   </View>
                 </View>
+                <View style={Style.line} />
+                <Text style={{marginBottom: 10}}>2/2</Text>
               </View>
             );
             break;
@@ -590,30 +832,42 @@ const PartDetail = ({route, navigation}) => {
       default:
         promise = (
           <View style={{paddingLeft: 5, paddingRight: 5}}>
-            <View>
+            <View style={{marginBottom: 15, marginTop: 15}}>
               <View style={{marginBottom: 10}}>
-                <Text style={Style.text18}>{item.question}</Text>
+                <Text style={[Style.text20, {color: '#091048'}]}>
+                  {item.question}
+                </Text>
               </View>
               <View>
                 <AnswerABCD item={question} />
               </View>
             </View>
+            <View style={Style.line}></View>
+            <Text>1/3</Text>
             <View style={{marginBottom: 15, marginTop: 15}}>
               <View style={{marginBottom: 10}}>
-                <Text style={Style.text18}>{item2.question}</Text>
+                <Text style={[Style.text20, {color: '#091048'}]}>
+                  {item2.question}
+                </Text>
               </View>
               <View>
                 <AnswerABCD2 item2={question2} />
               </View>
             </View>
+            <View style={Style.line} />
+            <Text>2/3</Text>
             <View>
-              <View style={{marginBottom: 10}}>
-                <Text style={Style.text18}>{item3.question}</Text>
+              <View style={{marginBottom: 10, marginTop: 15}}>
+                <Text style={[Style.text20, {color: '#091048'}]}>
+                  {item3.question}
+                </Text>
               </View>
               <View>
                 <AnswerABCD3 item3={question3} />
               </View>
             </View>
+            <View style={Style.line} />
+            <Text style={{marginBottom: 10}}>3/3</Text>
           </View>
         );
         break;
@@ -625,11 +879,18 @@ const PartDetail = ({route, navigation}) => {
     switch (question.id_part) {
       case 1:
         promise = (
-          <View style={{flex: 10}}>
-            <View style={{flex: 2}}>
+          <View
+            style={{
+              flex: 10,
+              position: 'absolute',
+              top: 60,
+              width: '100%',
+              height: DIMENSION.height - 130,
+            }}>
+            <View style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
               <LinearTextGradient
                 locations={[0, 1]}
-                colors={['#091048', '#754ea6']}
+                colors={['#091048', '#091048']}
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}>
                 <Text style={Style.text20}>
@@ -643,7 +904,8 @@ const PartDetail = ({route, navigation}) => {
               </View>
             </View>
             <View style={{flex: 3}}>
-              <Image
+              <Animatable.Image
+                animation="bounceInLeft"
                 style={{width: '100%', height: '100%', resizeMode: 'stretch'}}
                 source={{uri: question.image}}
               />
@@ -656,28 +918,35 @@ const PartDetail = ({route, navigation}) => {
         break;
       case 2:
         promise = (
-          <View style={{flex: 10}}>
-            <View style={{flex: 2}}>
+          <View
+            style={{
+              flex: 10,
+              position: 'absolute',
+              top: 60,
+              width: '100%',
+              height: DIMENSION.height - 130,
+            }}>
+            <View style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
               <LinearTextGradient
                 locations={[0, 1]}
-                colors={['#091048', '#754ea6']}
+                colors={['#091048', '#091048']}
                 start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}>
-                <Text style={Style.text20}>
+                end={{x: 0, y: 0}}>
+                <Text style={Style.text25}>
                   Part 2: Chọn một câu hồi đáp phù hợp nhất cho câu hỏi.
                 </Text>
               </LinearTextGradient>
             </View>
-            <View style={{flex: 3}}>
+            <View style={{flex: 3, paddingLeft: 15, paddingRight: 15}}>
               <Player tracks={question.sound} />
               <View style={{padding: 10}}>
                 {help ? (
                   <LinearTextGradient
                     locations={[0, 1]}
-                    colors={['#091048', '#754ea6']}
+                    colors={['#091048', '#091048']}
                     start={{x: 0, y: 0}}
                     end={{x: 0, y: 1}}>
-                    <Text style={Style.text18}>{question.question}</Text>
+                    <Text style={Style.text20}>{question.question}</Text>
                   </LinearTextGradient>
                 ) : (
                   <></>
@@ -692,11 +961,18 @@ const PartDetail = ({route, navigation}) => {
         break;
       case 3:
         promise = (
-          <View style={{flex: 10}}>
-            <View style={{flex: 2}}>
+          <View
+            style={{
+              flex: 10,
+              position: 'absolute',
+              top: 60,
+              width: '100%',
+              height: DIMENSION.height - 130,
+            }}>
+            <View style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
               <LinearTextGradient
                 locations={[0, 1]}
-                colors={['#091048', '#754ea6']}
+                colors={['#091048', '#091048']}
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}>
                 <Text style={Style.text20}>
@@ -706,14 +982,49 @@ const PartDetail = ({route, navigation}) => {
               </LinearTextGradient>
 
               <View style={Style.coverCenter}>
-                <Player tracks={question.sound} />
+                {help ? (
+                  <Animatable.View
+                    animation="bounceIn"
+                    duraton="1500"
+                    style={[
+                      {
+                        flexDirection: 'row-reverse',
+                        justifyContent: 'space-between',
+                      },
+                    ]}>
+                    <View>
+                      <TouchableOpacity onPress={() => setHelp(false)}>
+                        <FontAwesome5
+                          name="times"
+                          size={DIMENSION.sizeIcon2}
+                          color="#091048"
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <ScrollView
+                      style={{
+                        width: DIMENSION.width,
+                        padding: 15,
+                        paddingTop: 5,
+                      }}>
+                      <Text
+                        style={[
+                          {fontStyle: 'italic', fontSize: 20, color: '#091048'},
+                        ]}>
+                        {question.question}
+                      </Text>
+                    </ScrollView>
+                  </Animatable.View>
+                ) : (
+                  <Player tracks={question.sound} />
+                )}
               </View>
             </View>
             <View style={{flex: 8, alignSelf: 'center'}}>
               <ScrollView
                 style={{
                   width: DIMENSION.width,
-                  padding: 30,
+                  padding: 15,
                   paddingTop: 5,
                   marginBottom: 10,
                 }}>
@@ -729,11 +1040,18 @@ const PartDetail = ({route, navigation}) => {
         break;
       case 4:
         promise = (
-          <View style={{flex: 10}}>
-            <View style={{flex: 2}}>
+          <View
+            style={{
+              flex: 10,
+              position: 'absolute',
+              top: 60,
+              width: '100%',
+              height: DIMENSION.height - 130,
+            }}>
+            <View style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
               <LinearTextGradient
                 locations={[0, 1]}
-                colors={['#091048', '#754ea6']}
+                colors={['#091048', '#091048']}
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}>
                 <Text style={Style.text20}>
@@ -743,14 +1061,51 @@ const PartDetail = ({route, navigation}) => {
               </LinearTextGradient>
 
               <View style={Style.coverCenter}>
-                <Player tracks={question.sound} />
+                {help ? (
+                  <Animatable.View
+                    animation="bounceIn"
+                    duraton="1500"
+                    style={[
+                      {
+                        flexDirection: 'row-reverse',
+                        justifyContent: 'space-between',
+                        width: '100%',
+                      },
+                    ]}>
+                    <View>
+                      <TouchableOpacity onPress={() => setHelp(false)}>
+                        <FontAwesome5
+                          name="times"
+                          size={DIMENSION.sizeIcon2}
+                          color="#091048"
+                        />
+                      </TouchableOpacity>
+                    </View>
+
+                    <ScrollView
+                      style={{
+                        width: DIMENSION.width,
+                        padding: 15,
+                        paddingTop: 5,
+                      }}>
+                      <Text
+                        style={[
+                          {fontStyle: 'italic', fontSize: 20, color: '#091048'},
+                        ]}>
+                        {question.question}
+                      </Text>
+                    </ScrollView>
+                  </Animatable.View>
+                ) : (
+                  <Player tracks={question.sound} />
+                )}
               </View>
             </View>
             <View style={{flex: 8, alignSelf: 'center'}}>
               <ScrollView
                 style={{
                   width: DIMENSION.width,
-                  padding: 30,
+                  padding: 15,
                   paddingTop: 5,
                   marginBottom: 10,
                 }}>
@@ -766,11 +1121,18 @@ const PartDetail = ({route, navigation}) => {
         break;
       case 5:
         promise = (
-          <View style={{flex: 10}}>
-            <View style={{flex: 2}}>
+          <View
+            style={{
+              flex: 10,
+              position: 'absolute',
+              top: 60,
+              width: '100%',
+              height: DIMENSION.height - 130,
+            }}>
+            <View style={{flex: 1, paddingLeft: 15, paddingRight: 15}}>
               <LinearTextGradient
                 locations={[0, 1]}
-                colors={['#091048', '#754ea6']}
+                colors={['#091048', '#091048']}
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}>
                 <Text style={Style.text20}>
@@ -778,8 +1140,55 @@ const PartDetail = ({route, navigation}) => {
                 </Text>
               </LinearTextGradient>
             </View>
-            <View style={{flex: 2}}>
-              <Text style={Style.text18}>{question.question}</Text>
+
+            <View
+              style={{
+                flex: 3,
+                paddingLeft: 15,
+                paddingRight: 15,
+              }}>
+              {help ? (
+                <Animatable.View
+                  animation="bounceIn"
+                  duraton="1500"
+                  style={[
+                    {
+                      flexDirection: 'row-reverse',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                    },
+                  ]}>
+                  <View>
+                    <TouchableOpacity onPress={() => setHelp(false)}>
+                      <FontAwesome5
+                        name="times"
+                        size={DIMENSION.sizeIcon2}
+                        color="#091048"
+                      />
+                    </TouchableOpacity>
+                  </View>
+
+                  <ScrollView
+                    style={{
+                      width: DIMENSION.width,
+                      padding: 15,
+                      paddingTop: 5,
+                    }}>
+                    <Text
+                      style={[
+                        {fontStyle: 'italic', fontSize: 20, color: '#091048'},
+                      ]}>
+                      {/* {translateQuestion(question.question)}
+                      {outPartRead} */}
+                      {question.description}
+                    </Text>
+                  </ScrollView>
+                </Animatable.View>
+              ) : (
+                <Text style={[Style.text20, {color: '#091048'}]}>
+                  {question.question}
+                </Text>
+              )}
             </View>
             <View style={{flex: 7, padding: 15}}>
               <AnswerABCD item={question} />
@@ -789,7 +1198,14 @@ const PartDetail = ({route, navigation}) => {
         break;
       case 6:
         promise = (
-          <View style={{flex: 10}}>
+          <View
+            style={{
+              flex: 10,
+              position: 'absolute',
+              top: 60,
+              width: '100%',
+              height: DIMENSION.height - 130,
+            }}>
             <View style={{flex: 2}}>
               <LinearTextGradient
                 locations={[0, 1]}
@@ -813,11 +1229,18 @@ const PartDetail = ({route, navigation}) => {
         break;
       case 7:
         promise = (
-          <View style={{flex: 10}}>
-            <View style={{flex: 1}}>
+          <View
+            style={{
+              flex: 10,
+              position: 'absolute',
+              top: 60,
+              width: '100%',
+              height: DIMENSION.height - 130,
+            }}>
+            <View style={{flex: 1, paddingLeft: 15, paddingRight: 15}}>
               <LinearTextGradient
                 locations={[0, 1]}
-                colors={['#091048', '#754ea6']}
+                colors={['#091048', '#091048']}
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}>
                 <Text style={Style.text20}>
@@ -830,8 +1253,7 @@ const PartDetail = ({route, navigation}) => {
               <ScrollView
                 style={{
                   width: DIMENSION.width,
-                  padding: 30,
-                  paddingTop: 5,
+                  padding: 5,
                   marginBottom: 10,
                 }}>
                 <View
@@ -842,9 +1264,16 @@ const PartDetail = ({route, navigation}) => {
                     borderRadius: 10,
                     marginBottom: 10,
                   }}>
-                  <Text style={Style.text16}>{question.sound}</Text>
+                  <Text style={{fontSize: 20}}>{question.sound}</Text>
                 </View>
-
+              </ScrollView>
+              <ScrollView
+                style={{
+                  width: DIMENSION.width,
+                  padding: 15,
+                  paddingTop: 5,
+                  marginBottom: 10,
+                }}>
                 <MultiQuestion
                   item={question}
                   item2={question2}
@@ -863,6 +1292,7 @@ const PartDetail = ({route, navigation}) => {
     return promise;
   };
   const check = () => {
+    setHideDescription(false);
     if (data.length == 0) {
       navigation.navigate('part');
     } else {
@@ -1309,17 +1739,33 @@ const PartDetail = ({route, navigation}) => {
         />
       </View>
     ) : (
-      <View style={{height: '100%', width: '100%', padding: 15}}>
-        <Text
+      <View style={{flex: 1}}>
+        <View
           style={{
-            marginBottom: -20,
-            paddingLeft: 40,
-            color: '#754ea6',
-            fontStyle: 'italic',
+            position: 'absolute',
+            top: 10,
+            width: '100%',
+            height: 15,
           }}>
-          {sequence > 1 ? `${sequence}LẦN LIÊN TỤC...` : ''}
-        </Text>
-        <View style={QuestionStyle.headerQuestion}>
+          <Text
+            style={{
+              paddingLeft: 40,
+              color: '#754ea6',
+              fontStyle: 'italic',
+            }}>
+            {sequence > 1 ? `${sequence}LẦN LIÊN TỤC...` : ''}
+          </Text>
+        </View>
+        <View
+          style={[
+            QuestionStyle.headerQuestion,
+            {
+              position: 'absolute',
+              top: 10,
+              width: '100%',
+              height: 50,
+            },
+          ]}>
           <View style={[QuestionStyle.iconHeader, Style.coverCenter]}>
             <TouchableOpacity onPress={() => navigation.navigate('part')}>
               <FontAwesome5
@@ -1384,24 +1830,123 @@ const PartDetail = ({route, navigation}) => {
             </Text>
           </View>
         </View>
+
         {sectionAnswer()}
-        <TouchableOpacity
-          style={[Style.boxShadow, {height: 50, borderRadius: 30}]}
-          onPress={() => check()}
-          activeOpacity={0.5}>
-          <LinearGradient
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            colors={['#687ae4', '#754ea6']}
-            style={[Style.coverCenter, QuestionStyle.btnSubmit]}>
-            <Text style={[Style.text20, Style.textColore6e6f6]}>Kiểm tra</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+
+        {hideDescription ? (
+          <Animatable.View
+            animation="bounceInUp"
+            duraton="1500"
+            style={[
+              Style.description,
+              {flexDirection: 'row-reverse', justifyContent: 'space-between'},
+            ]}>
+            <View>
+              <TouchableOpacity onPress={() => setHideDescription(false)}>
+                <FontAwesome5
+                  name="times"
+                  size={DIMENSION.sizeIcon2}
+                  color="#091048"
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={{paddingLeft: 15}}>
+              <Text
+                style={[{fontStyle: 'italic', fontSize: 20, color: '#091048'}]}>
+                {outputText}
+              </Text>
+            </View>
+          </Animatable.View>
+        ) : (
+          <></>
+        )}
+        <View
+          style={{
+            height: 50,
+            paddingLeft: 15,
+            paddingRight: 15,
+            marginBottom: 15,
+            position: 'absolute',
+            bottom: 0,
+            width: '100%',
+          }}>
+          <TouchableOpacity
+            style={[Style.boxShadow, {height: 50, borderRadius: 30}]}
+            onPress={() => check()}
+            activeOpacity={0.5}>
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 0, y: 0}}
+              colors={['#673ab7', '#673ab7']}
+              style={[Style.coverCenter, QuestionStyle.btnSubmit]}>
+              <Text style={[Style.text20, {letterSpacing: 3, color: '#fff'}]}>
+                KIỂM TRA
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   ) : (
-    <View style={Style.coverCenter}>
-      <Text>Cau hoi dang cap nhat</Text>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ffdcd8c4',
+      }}>
+      <Animatable.Text
+        style={{
+          fontSize: 30,
+          fontStyle: 'italic',
+          marginBottom: -100,
+          letterSpacing: 3,
+        }}
+        animation="pulse"
+        iterationCount="infinite"
+        direction="alternate">
+        Updating...
+      </Animatable.Text>
+
+      <Animatable.Image
+        // animation="bounceIn"
+        duraton="1500"
+        source={{
+          uri:
+            'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-28-19-22.gif',
+        }}
+        style={{width: '50%', height: '50%'}}
+        resizeMode="contain"
+      />
+      <Animatable.View
+        style={{fontSize: 30, fontStyle: 'italic', marginBottom: -100}}
+        animation="jello"
+        iterationCount="infinite"
+        direction="alternate">
+        <TouchableOpacity
+          style={[Style.boxShadow, {height: 50, borderRadius: 30}]}
+          onPress={() => navigation.navigate('part')}
+          activeOpacity={0.5}>
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 0, y: 0}}
+            colors={['#ffc600', '#ffc600']}
+            style={[Style.coverCenter, QuestionStyle.btnSubmit]}>
+            <Text
+              style={[
+                Style.text20,
+                {
+                  letterSpacing: 3,
+                  color: '#fff',
+                  marginLeft: 15,
+                  marginRight: 15,
+                },
+              ]}>
+              Quay lại bài học nào...
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      </Animatable.View>
     </View>
   );
 };

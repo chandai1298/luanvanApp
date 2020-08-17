@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, Image} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Style, HomeStyle, DIMENSION} from '../../CommonStyles';
 import LinearGradient from 'react-native-linear-gradient';
+import * as Animatable from 'react-native-animatable';
 
 const HomeItem = ({
   navigation,
@@ -16,7 +17,10 @@ const HomeItem = ({
   image,
 }) => {
   return (
-    <View
+    <Animatable.View
+      animation="pulse"
+      iterationCount="infinite"
+      direction="alternate"
       style={[Style.coverCenter, HomeStyle.headerFlexIcon, {marginBottom: 20}]}>
       <TouchableOpacity
         activeOpacity={0.5}
@@ -40,21 +44,23 @@ const HomeItem = ({
           <Text style={[Style.text20, Style.textColore6e6f6]}>{title}</Text>
         </LinearGradient>
       </TouchableOpacity>
-      <View
+      <Animatable.View
+        animation="zoomInDown"
         style={{
           width: '40%',
           height: 100,
           marginRight: -50,
         }}>
-        <Image
+        <Animatable.Image
+          animation="slideInRight"
           style={{width: '100%', height: '100%'}}
           resizeMode={'contain'}
           source={{
             uri: image,
           }}
         />
-      </View>
-    </View>
+      </Animatable.View>
+    </Animatable.View>
   );
 };
 export default HomeItem;

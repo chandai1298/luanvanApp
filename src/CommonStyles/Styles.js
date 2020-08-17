@@ -17,6 +17,10 @@ const Style = StyleSheet.create({
     fontSize: 30,
     marginBottom: 10,
   },
+  text25: {
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
   text20: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -33,10 +37,20 @@ const Style = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
   },
+  description: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: 160,
+    paddingLeft: 15,
+    paddingTop: 10,
+    backgroundColor: '#ccbee4',
+    transform: [{translate: [0, 0, 1]}],
+  },
   line: {
     width: DIMENSION.width,
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: '#673ab7',
   },
   input: {
     paddingLeft: 15,
@@ -53,7 +67,7 @@ const Style = StyleSheet.create({
     color: '#754ea6',
   },
   textColore6e6f6: {
-    color: '#e6e6f6',
+    color: '#fff',
   },
   textColor687ae4: {
     color: '#687ae4',
@@ -64,8 +78,8 @@ const Style = StyleSheet.create({
   },
   btnActive: {
     borderBottomWidth: 3,
-    borderColor: '#754ea6',
-    color: '#754ea6',
+    borderColor: '#673ab7',
+    color: '#673ab7',
   },
   txtActive: {
     color: '#754ea6',
