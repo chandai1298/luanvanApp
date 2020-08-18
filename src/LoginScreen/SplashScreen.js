@@ -18,9 +18,9 @@ const SplashScreen = ({navigation}) => {
   return (
     <LinearGradient
       start={{x: 0, y: 0}}
-      end={{x: 0, y: 1}}
+      end={{x: 1, y: 0}}
       style={styles.container}
-      colors={['#687ae4', '#754ea6']}>
+      colors={['#7ee2dc', '#55bbb8']}>
       <StatusBar
         backgroundColor="#54ce04"
         barStyle="light-content"
@@ -28,11 +28,11 @@ const SplashScreen = ({navigation}) => {
       />
       <View style={styles.header}>
         <Animatable.Image
-          animation="bounceIn"
+          animation="fadeInUpBig"
           duraton="1500"
           source={{
             uri:
-              'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-28-32-46.gif',
+              'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-28-37-71.gif',
           }}
           style={styles.logo}
           resizeMode="stretch"
@@ -44,41 +44,40 @@ const SplashScreen = ({navigation}) => {
           {
             backgroundColor: colors.background,
           },
-        ]}
-        animation="fadeInUpBig">
+        ]}>
         <LinearTextGradient
           locations={[0, 1]}
-          colors={['#091048', '#754ea6']}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
+          colors={['#7ee2dc', '#55bbb8']}
+          start={{x: 1, y: 1}}
+          end={{x: 0, y: 0}}>
           <Text
             style={[
               styles.title,
               {
-                color: '#754ea6',
+                color: '#fe8a87',
+                letterSpacing: 3,
               },
             ]}>
-            Learning everyday with everyone!
+            Learning everyday with everyone!...
           </Text>
         </LinearTextGradient>
 
-        {/* <TouchableOpacity>
-          <Text style={{color: '#0581b9f0', marginTop: 15}}>
-            Bắt đầu học ngay...
-          </Text>
-        </TouchableOpacity> */}
-        <View style={styles.button}>
+        <Animatable.View
+          animation="bounce"
+          iterationCount="infinite"
+          direction="alternate"
+          style={styles.button}>
           <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
-              colors={['#687ae4', '#754ea6']}
+              colors={['#7ee2dc', '#55bbb8']}
               style={styles.signIn}>
-              <Text style={styles.textSign}>Get Started</Text>
+              <Text style={styles.textSign}>GET STARTED</Text>
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
             </LinearGradient>
           </TouchableOpacity>
-        </View>
+        </Animatable.View>
       </Animatable.View>
     </LinearGradient>
   );
@@ -92,20 +91,23 @@ const height_logo = height * 0.28;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#54ce04',
+    backgroundColor: '#009387',
   },
   header: {
-    flex: 2,
-    justifyContent: 'center',
+    flex: 4,
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   footer: {
-    flex: 1,
+    flex: 3,
     backgroundColor: '#fff',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
     paddingVertical: 50,
     paddingHorizontal: 30,
+    // borderColor: '#755140',
+    // borderWidth: 1,
+    borderBottomWidth: 0,
   },
   logo: {
     width: height_logo,
@@ -114,7 +116,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontStyle: 'italic',
     fontWeight: 'bold',
   },
   text: {
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 1, height: 13},
   },
   textSign: {
-    color: 'white',
+    color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
   },

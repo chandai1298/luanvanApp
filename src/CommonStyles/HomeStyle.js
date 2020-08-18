@@ -11,6 +11,7 @@ const HomeStyle = StyleSheet.create({
   category: {
     width: '100%',
     height: 70,
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,

@@ -16,5 +16,7 @@ const IN4_APP = {
   UpdateHint: `${URL_NGROK.url}/UpdateHint`,
   getUser: `${URL_NGROK.url}/getUser`,
   UpdateOverviewSetting: `${URL_NGROK.url}/UpdateOverviewSetting`,
+  UpdateTokenNotification: `${URL_NGROK.url}/UpdateTokenNotification`,
+  initConfig: `${URL_NGROK.url}/initConfig`,
 };
 export {IN4_APP};

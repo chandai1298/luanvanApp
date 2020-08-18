@@ -120,11 +120,15 @@ const SignInScreen = ({navigation}) => {
       start={{x: 0, y: 0}}
       end={{x: 0, y: 1}}
       style={styles.container}
-      colors={['#687ae4', '#754ea6']}>
+      colors={['#7ee2dc', '#55bbb8']}>
       <StatusBar backgroundColor="#54ce04" barStyle="light-content" />
-      <View style={styles.header}>
+      <Animatable.View
+        animation="slideInRight"
+        iterationCount="infinite"
+        direction="alternate"
+        style={styles.header}>
         <Text style={styles.text_header}>Đăng nhập!</Text>
-      </View>
+      </Animatable.View>
       <Animatable.View
         animation="fadeInUpBig"
         style={[
@@ -137,20 +141,20 @@ const SignInScreen = ({navigation}) => {
           style={[
             styles.text_footer,
             {
-              color: '#754ea6',
+              color: '#55bbb8',
+              letterSpacing: 2,
             },
           ]}>
           Tên đăng nhập
         </Text>
         <View style={styles.action}>
-          <FontAwesome name="user" color="#754ea6" size={20} />
+          <FontAwesome name="user" color="#55bbb8" size={20} />
           <TextInput
             placeholder="Your username"
-            placeholderTextColor="#666666"
             style={[
               styles.textInput,
               {
-                color: colors.text,
+                color: '#755140',
                 fontSize: 16,
               },
             ]}
@@ -160,7 +164,7 @@ const SignInScreen = ({navigation}) => {
           />
           {data.check_textInputChange ? (
             <Animatable.View animation="bounceIn">
-              <Feather name="check-circle" color="#754ea6" size={20} />
+              <Feather name="check-circle" color="#55bbb8" size={20} />
             </Animatable.View>
           ) : null}
         </View>
@@ -175,20 +179,21 @@ const SignInScreen = ({navigation}) => {
             styles.text_footer,
             {
               marginTop: 35,
+              color: '#55bbb8',
+              letterSpacing: 2,
             },
           ]}>
           Mật khẩu
         </Text>
         <View style={styles.action}>
-          <Feather name="lock" color="#754ea6" size={20} />
+          <Feather name="lock" color="#55bbb8" size={20} />
           <TextInput
             placeholder="Your password"
-            placeholderTextColor="#666666"
             secureTextEntry={data.secureTextEntry ? true : false}
             style={[
               styles.textInput,
               {
-                color: colors.text,
+                color: '#755140',
                 fontSize: 16,
               },
             ]}
@@ -197,9 +202,9 @@ const SignInScreen = ({navigation}) => {
           />
           <TouchableOpacity onPress={updateSecureTextEntry}>
             {data.secureTextEntry ? (
-              <Feather name="eye-off" color="#754ea6" size={20} />
+              <Feather name="eye-off" color="#55bbb8" size={20} />
             ) : (
-              <Feather name="eye" color="#754ea6" size={20} />
+              <Feather name="eye" color="#55bbb8" size={20} />
             )}
           </TouchableOpacity>
         </View>
@@ -212,10 +217,12 @@ const SignInScreen = ({navigation}) => {
         <TouchableOpacity>
           <Text
             style={{
-              color: '#754ea6',
+              color: '#55bbb8',
               marginTop: 15,
               fontSize: 16,
               fontStyle: 'italic',
+              letterSpacing: 1,
+              fontWeight: 'bold',
             }}>
             Quên mật khẩu?
           </Text>
@@ -229,13 +236,14 @@ const SignInScreen = ({navigation}) => {
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
-              colors={['#687ae4', '#754ea6']}
+              colors={['#7ee2dc', '#55bbb8']}
               style={styles.signIn}>
               <Text
                 style={[
                   styles.textSign,
                   {
                     color: '#fff',
+                    letterSpacing: 3,
                   },
                 ]}>
                 Đăng nhập
@@ -248,8 +256,8 @@ const SignInScreen = ({navigation}) => {
             style={[
               styles.signIn,
               {
-                borderColor: '#687ae4',
-                borderWidth: 1,
+                borderColor: '#7ee2dc',
+                borderWidth: 1.5,
                 marginTop: 15,
               },
             ]}>
@@ -257,7 +265,9 @@ const SignInScreen = ({navigation}) => {
               style={[
                 styles.textSign,
                 {
-                  color: '#754ea6',
+                  color: '#55bbb8',
+                  letterSpacing: 3,
+                  // colors={['#7ee2dc', '#55bbb8']}
                 },
               ]}>
               Đăng ký
@@ -293,9 +303,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 30,
+    letterSpacing: 3,
   },
   text_footer: {
-    color: '#05375a',
+    color: '#755140',
     fontSize: 18,
     color: '#754ea6',
     fontWeight: 'bold',
@@ -321,8 +332,8 @@ const styles = StyleSheet.create({
     color: '#05375a',
   },
   errorMsg: {
-    color: '#FF0000',
-    fontSize: 14,
+    color: '#f44336',
+    fontSize: 16,
   },
   button: {
     alignItems: 'center',

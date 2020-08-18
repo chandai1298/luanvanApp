@@ -60,8 +60,8 @@ class LocalNotificationService {
       title: title || '',
       message: message || '',
       playSound: options.playSound || false,
-      soundName: options.soundName || 'default',
-      userInteraction: false, // BOOLEAN: If the notification was opened by the user from the notification area or not
+      soundName: options.soundName || 'plucky.mp3',
+      userInteraction: false,
     });
   };
 
