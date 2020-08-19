@@ -1,5 +1,5 @@
 const URL_NGROK = {
-  url: 'http://192.168.0.103:1300',
+  url: 'http://192.168.1.80:1300',
   // url: 'http://192.168.0.103:1300',
 };
 const IN4_USER = {
@@ -7,3 +7,4 @@ const IN4_USER = {
   getData: `${URL_NGROK.url}/getData`,
 };
 export {IN4_USER, URL_NGROK};
+0

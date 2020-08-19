@@ -117,10 +117,10 @@ const SignInScreen = ({navigation}) => {
 
   return (
     <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 0, y: 1}}
       style={styles.container}
-      colors={['#7ee2dc', '#55bbb8']}>
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
+      colors={['#c1c8fe', '#5579f1', '#fab3c6']}>
       <StatusBar backgroundColor="#54ce04" barStyle="light-content" />
       <Animatable.View
         animation="slideInRight"
@@ -141,20 +141,18 @@ const SignInScreen = ({navigation}) => {
           style={[
             styles.text_footer,
             {
-              color: '#55bbb8',
               letterSpacing: 2,
             },
           ]}>
           Tên đăng nhập
         </Text>
         <View style={styles.action}>
-          <FontAwesome name="user" color="#55bbb8" size={20} />
+          <FontAwesome name="user" color="#5579f1" size={20} />
           <TextInput
             placeholder="Your username"
             style={[
               styles.textInput,
               {
-                color: '#755140',
                 fontSize: 16,
               },
             ]}
@@ -164,7 +162,7 @@ const SignInScreen = ({navigation}) => {
           />
           {data.check_textInputChange ? (
             <Animatable.View animation="bounceIn">
-              <Feather name="check-circle" color="#55bbb8" size={20} />
+              <Feather name="check-circle" color="#5579f1" size={20} />
             </Animatable.View>
           ) : null}
         </View>
@@ -179,21 +177,19 @@ const SignInScreen = ({navigation}) => {
             styles.text_footer,
             {
               marginTop: 35,
-              color: '#55bbb8',
               letterSpacing: 2,
             },
           ]}>
           Mật khẩu
         </Text>
         <View style={styles.action}>
-          <Feather name="lock" color="#55bbb8" size={20} />
+          <Feather name="lock" color="#5579f1" size={20} />
           <TextInput
             placeholder="Your password"
             secureTextEntry={data.secureTextEntry ? true : false}
             style={[
               styles.textInput,
               {
-                color: '#755140',
                 fontSize: 16,
               },
             ]}
@@ -202,9 +198,9 @@ const SignInScreen = ({navigation}) => {
           />
           <TouchableOpacity onPress={updateSecureTextEntry}>
             {data.secureTextEntry ? (
-              <Feather name="eye-off" color="#55bbb8" size={20} />
+              <Feather name="eye-off" color="#5579f1" size={20} />
             ) : (
-              <Feather name="eye" color="#55bbb8" size={20} />
+              <Feather name="eye" color="#5579f1" size={20} />
             )}
           </TouchableOpacity>
         </View>
@@ -217,7 +213,7 @@ const SignInScreen = ({navigation}) => {
         <TouchableOpacity>
           <Text
             style={{
-              color: '#55bbb8',
+              color: '#5579f1',
               marginTop: 15,
               fontSize: 16,
               fontStyle: 'italic',
@@ -234,9 +230,9 @@ const SignInScreen = ({navigation}) => {
               loginHandle(data.username, data.password);
             }}>
             <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              colors={['#7ee2dc', '#55bbb8']}
+             start={{x: 0, y: 0}}
+             end={{x: 1, y: 0}}
+             colors={['#c1c8fe', '#5579f1']}
               style={styles.signIn}>
               <Text
                 style={[
@@ -256,7 +252,7 @@ const SignInScreen = ({navigation}) => {
             style={[
               styles.signIn,
               {
-                borderColor: '#7ee2dc',
+                borderColor: '#c1c8fe',
                 borderWidth: 1.5,
                 marginTop: 15,
               },
@@ -265,7 +261,7 @@ const SignInScreen = ({navigation}) => {
               style={[
                 styles.textSign,
                 {
-                  color: '#55bbb8',
+                  color: '#5579f1',
                   letterSpacing: 3,
                   // colors={['#7ee2dc', '#55bbb8']}
                 },
@@ -306,9 +302,8 @@ const styles = StyleSheet.create({
     letterSpacing: 3,
   },
   text_footer: {
-    color: '#755140',
     fontSize: 18,
-    color: '#754ea6',
+    color: '#5579f1',
     fontWeight: 'bold',
   },
   action: {

@@ -20,8 +20,8 @@ import SpeechAndroid from 'react-native-android-voice';
 import {Picker} from '@react-native-community/picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Style, DIMENSION} from '../../CommonStyles';
-import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {ButtonGroup} from 'react-native-elements';
 
 const Translator = () => {
   const [languageTo, setLanguageTo] = React.useState('en');
@@ -29,7 +29,8 @@ const Translator = () => {
   const [micOn, setMicOn] = React.useState(false);
   const [inputText, onChangeInputText] = React.useState('');
   const [outputText, onChangeOutputText] = React.useState('');
-
+  const [index, UpdateIndex] = React.useState(1);
+  const buttons = ['Anh-Việt', 'Việt-Anh'];
   useEffect(() => {
     TranslatorConfiguration.setConfig(
       ProviderTypes.Google,
@@ -71,6 +72,24 @@ const Translator = () => {
     }
     setMicOn(false);
   };
+  const update = (index) => {
+    console.log(index);
+    switch (index) {
+      case 0:
+        UpdateIndex(index);
+        setLanguageTo('vi');
+        setLanguageCode('vi');
+        break;
+      case 1:
+        UpdateIndex(index);
+        setLanguageTo('en');
+        setLanguageCode('en');
+        break;
+
+      default:
+        break;
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.input}>
@@ -78,13 +97,13 @@ const Translator = () => {
           <FontAwesome5
             name="times"
             size={DIMENSION.sizeIcon}
-            color="#ababab"
+            color="#9a9a9a"
             onPress={() => onChangeInputText('')}
           />
         </View>
         <TextInput
           style={{flex: 1, height: 80, fontSize: 18}}
-          placeholder="Enter something..."
+          placeholder="Hãy nhập gì đó..."
           underlineColorAndroid="transparent"
           onChangeText={(inputText) => onChangeInputText(inputText)}
           value={inputText}
@@ -124,74 +143,20 @@ const Translator = () => {
           </TouchableOpacity>
         </View>
       </View>
-
-      <View
-        style={[
-          {flexDirection: 'row', height: 50, flex: 2, marginTop: 5},
-          Style.coverCenter,
-        ]}>
-        <TouchableOpacity
-          style={[
-            Style.boxShadow,
-            {
-              borderRadius: 20,
-              width: '40%',
-              height: '80%',
-              marginRight: 10,
-            },
-          ]}
-          onPress={() => {
-            setLanguageTo('vi'), setLanguageCode('vi');
-          }}>
-          <LinearGradient
-            style={[
-              {
-                width: '100%',
-                height: '100%',
-                borderRadius: 20,
-              },
-              Style.coverCenter,
-            ]}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            colors={['#687ae4', '#754ea6']}>
-            <Text style={[Style.text18, Style.textColore6e6f6]}>
-              Anh - Việt
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            Style.boxShadow,
-            {
-              borderRadius: 20,
-              width: '40%',
-              height: '80%',
-            },
-          ]}
-          onPress={() => {
-            setLanguageTo('en'), setLanguageCode('en');
-          }}>
-          <LinearGradient
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            colors={['#687ae4', '#754ea6']}
-            style={[
-              {
-                width: '100%',
-                height: '100%',
-                borderRadius: 20,
-              },
-              Style.coverCenter,
-            ]}>
-            <Text style={[Style.text18, Style.textColore6e6f6]}>
-              Việt - Anh
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
-
+      <ButtonGroup
+        onPress={(index) => update(index)}
+        selectedIndex={index}
+        buttons={buttons}
+        containerStyle={{height: 50, borderRadius: 30, margin: 5}}
+        buttonContainerStyle={{
+          borderColor: '#5579f1',
+          borderWidth: 1.5,
+        }}
+        textStyle={{fontWeight: 'bold', color: '#5579f1'}}
+        selectedButtonStyle={{
+          backgroundColor: '#5579f1',
+        }}
+      />
       <Picker
         style={{flex: 1}}
         selectedValue={languageTo}
@@ -208,9 +173,7 @@ const Translator = () => {
           />
         ))}
       </Picker>
-
       {translate()}
-
       <View style={[styles.input, {marginBottom: 150}]}>
         <View
           style={{
@@ -251,23 +214,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 13,
     padding: 15,
+    backgroundColor: '#fcfefc',
   },
   input: {
     flex: 5,
     padding: 5,
     backgroundColor: '#fff',
     borderWidth: 1,
-    borderColor: '#754ea6',
-    borderRadius: 5,
+    borderColor: '#9a9a9a',
+    borderRadius: 10,
     height: 200,
     shadowRadius: 20,
     shadowOpacity: 0.5,
-    elevation: 6,
+    elevation: 15,
+    marginBottom: 10,
   },
 
   ImageStyle: {
     marginLeft: 5,
     marginBottom: 5,
     marginRight: 10,
+    color: '#000',
   },
 });

@@ -14,12 +14,17 @@ import axios from 'axios';
 import {IN4_APP} from '../../ConnectServer/In4App';
 import {ScrollView} from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {SearchBar, ListItem} from 'react-native-elements';
 
 const Tab = createMaterialTopTabNavigator();
 
 const Dictionary = ({route, navigation}) => {
+  const {word} = route.params;
+  const [wordFromHome, setWordFromHome] = React.useState(word);
   const [loading, setLoading] = React.useState(true);
   const [input, setInput] = React.useState('');
+  const [data, setData] = React.useState([]);
+  const [allData, setAllData] = React.useState([]);
   const [definition, setDefinition] = React.useState([
     {
       Word: '',
@@ -35,14 +40,21 @@ const Dictionary = ({route, navigation}) => {
     },
   ]);
   const [synonym, setSynonym] = React.useState([{words: ''}]);
-  useEffect(() => {
-    TranslatorConfiguration.setConfig(
-      ProviderTypes.Google,
-      'AIzaSyBTXr7MqVz0OXJadyLXaKPkLIf2ik3hukk',
-      'vi',
-      'en',
-    );
-  });
+
+  const getAllWords = () => {
+    const getAllWords = IN4_APP.getAllWords;
+    axios
+      .get(getAllWords)
+      .then(function (response) {
+        setData(response.data);
+        setAllData(response.data);
+        setLoading(false);
+        console.log(11);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  };
   const dic = (word) => {
     const getDefinition = IN4_APP.getWord;
     const getSynonym =
@@ -63,8 +75,9 @@ const Dictionary = ({route, navigation}) => {
             case 200:
               setDefinition(allData[0].data);
               setSynonym(allData[1].data);
-              setLoading(false);
               setInput('');
+              setWordFromHome('');
+              setLoading(false);
               break;
 
             default:
@@ -84,10 +97,19 @@ const Dictionary = ({route, navigation}) => {
     try {
       const translator = TranslatorFactory.createTranslator();
       translator.translate(text).then((translated) => {
-        setDefinition([{Word: `${translated}!`}]);
+        setDefinition([{Word: `${translated}`}]);
       });
     } catch (error) {}
   };
+  useEffect(() => {
+    wordFromHome !== '' && wordFromHome !== undefined ? dic(word) : null;
+    TranslatorConfiguration.setConfig(
+      ProviderTypes.Google,
+      'AIzaSyBTXr7MqVz0OXJadyLXaKPkLIf2ik3hukk',
+      'vi',
+      'en',
+    );
+  });
   const def =
     definition[0] !== undefined
       ? definition[0]
@@ -189,56 +211,26 @@ const Dictionary = ({route, navigation}) => {
   };
   return (
     <View style={Style.container}>
-      <View
-        style={[
-          {
-            marginTop: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingLeft: 10,
-            paddingRight: 10,
-          },
-        ]}>
-        <View style={{flexDirection: 'row'}}>
-          <View>
-            <TextInput
-              placeholder="Hãy nhập gì đó..."
-              placeholderTextColor="#666666"
-              style={[
-                Style.input,
-                {
-                  color: '#9a9a9a',
-                  fontSize: 20,
-                },
-              ]}
-              onChangeText={(val) => setInput(val)}
-              defaultValue={input}
-            />
-          </View>
-          <View>
-            <TouchableOpacity
-              onPress={() =>
-                input !== ''
-                  ? dic(input.toLowerCase())
-                  : setDefinition([{Word: `Không tìm thấy ${input}!`}])
-              }
-              style={[
-                {
-                  marginLeft: -50,
-                  height: 50,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                },
-              ]}>
-              <FontAwesome5
-                name="search"
-                size={DIMENSION.sizeIcon2}
-                color="#754ea6"
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+      <SearchBar
+        containerStyle={{
+          borderRadius: 50,
+          backgroundColor: '#f1f1f1',
+          borderTopWidth: 0,
+          borderBottomWidth: 0,
+          margin: 15,
+        }}
+        searchIcon={{size: 22}}
+        inputContainerStyle={{borderRadius: 50, backgroundColor: 'none'}}
+        inputStyle={{borderRadius: 50}}
+        round={true}
+        underlineColorAndroid="transparent"
+        placeholder="Nhập gì đó..."
+        value={input}
+        onChangeText={(text) => setInput(text)}
+        onEndEditing={() => {
+          dic(input.toLowerCase());
+        }}
+      />
 
       <View style={{flex: 1}}>
         <Tab.Navigator

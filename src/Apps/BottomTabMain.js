@@ -39,12 +39,12 @@ const BottomTabMain = ({navigation, route}) => {
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: '#55bbb8',
+        activeTintColor: '#5579f1',
         tabStyle: {
           height: 50,
         },
         style: {
-          borderTopColor: '#55bbb8',
+          borderTopColor: '#9a9a9a',
           borderTopWidth: 2,
         },
       }}>

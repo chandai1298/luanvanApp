@@ -9,6 +9,8 @@ import * as Progress from 'react-native-progress';
 import {IN4_APP} from '../../ConnectServer/In4App';
 import axios from 'axios';
 const api = axios.create({baseURL: `http://localhost:1300/`});
+import {Avatar} from 'react-native-elements';
+
 const AvatarItem = ({num, icon, colorIcon, label}) => {
   return (
     <View style={ProfileStyle.flexRowIcon}>
@@ -28,7 +30,7 @@ const AvatarItem = ({num, icon, colorIcon, label}) => {
     </View>
   );
 };
-const Avatar = ({image, name, username, rankData, id}) => {
+const AvatarProfile = ({image, name, username, rankData, id}) => {
   const selectImage = () => {
     const options = {
       title: 'Chọn ảnh từ',
@@ -157,15 +159,15 @@ const Avatar = ({image, name, username, rankData, id}) => {
         />
       </View>
       <View style={[ProfileStyle.SectionAvtRight, Style.coverCenter]}>
-        <TouchableOpacity onPress={() => selectImage()}>
+        {/* <TouchableOpacity onPress={() => selectImage()}>
           <Image
             resizeMode="cover"
             source={{uri: image}}
             style={Style.images}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
 };
-export default Avatar;
+export default AvatarProfile;

@@ -5,7 +5,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import HeaderComponent from './HeaderComponent';
 import ThanhTich from '../Components/ProfileComponent/ThanhTich';
 import BanBe from '../Components/ProfileComponent/BanBe';
-import Avatar from '../Components/ProfileComponent/Avatar';
+import AvatarProfile from '../Components/ProfileComponent/Avatar';
 import {IN4_APP} from '../ConnectServer/In4App';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
@@ -100,14 +100,13 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ffdcd8c4',
+        backgroundColor: '#fcfefc',
       }}>
       <Animatable.Image
-        // animation="bounceIn"
-        duraton="1500"
+        duration={1000}
         source={{
           uri:
-            'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-28-33-85.gif',
+            'https://i.pinimg.com/originals/45/bd/54/45bd545f9c6cb36a0875a6ea39fb4f61.gif',
         }}
         style={{width: '50%', height: '50%'}}
         resizeMode="contain"
@@ -126,7 +125,7 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
         cf1={dataConfig}
         cf2={dataConfig2}
       />
-      <Avatar
+      <AvatarProfile
         name={users.Name !== data.Name ? data.Name : users.Name}
         username={
           users.Username !== data.Username ? data.Username : users.Username

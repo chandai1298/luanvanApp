@@ -9,13 +9,13 @@ import LinearGradient from 'react-native-linear-gradient';
 const FinishPart = ({route, navigation}) => {
   const {crown, score} = route.params;
   return (
-    <View style={[Style.coverCenter, {flex: 5}]}>
+    <View style={[Style.coverCenter, {flex: 5, backgroundColor: '#fcfefc'}]}>
       <Animatable.Image
         animation="bounceIn"
         duraton="1500"
         source={{
           uri:
-            'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-28-21-80.gif',
+            'https://i.pinimg.com/originals/78/38/ae/7838ae68657a8554abd98eb317520452.gif',
         }}
         style={{
           width: '50%',

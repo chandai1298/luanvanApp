@@ -18,9 +18,9 @@ const SplashScreen = ({navigation}) => {
   return (
     <LinearGradient
       start={{x: 0, y: 0}}
-      end={{x: 1, y: 0}}
+      end={{x: 1, y: 1}}
       style={styles.container}
-      colors={['#7ee2dc', '#55bbb8']}>
+      colors={['#c1c8fe', '#5579f1', '#fab3c6']}>
       <StatusBar
         backgroundColor="#54ce04"
         barStyle="light-content"
@@ -32,7 +32,7 @@ const SplashScreen = ({navigation}) => {
           duraton="1500"
           source={{
             uri:
-              'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-28-37-71.gif',
+              'https://i.pinimg.com/originals/f5/17/29/f51729d9d65234c018d950923566a45e.gif',
           }}
           style={styles.logo}
           resizeMode="stretch"
@@ -47,7 +47,7 @@ const SplashScreen = ({navigation}) => {
         ]}>
         <LinearTextGradient
           locations={[0, 1]}
-          colors={['#7ee2dc', '#55bbb8']}
+          colors={['#5579f1', '#5579f1']}
           start={{x: 1, y: 1}}
           end={{x: 0, y: 0}}>
           <Text
@@ -71,7 +71,7 @@ const SplashScreen = ({navigation}) => {
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
-              colors={['#7ee2dc', '#55bbb8']}
+              colors={['#c1c8fe', '#5579f1']}
               style={styles.signIn}>
               <Text style={styles.textSign}>GET STARTED</Text>
               <MaterialIcons name="navigate-next" color="#fff" size={20} />

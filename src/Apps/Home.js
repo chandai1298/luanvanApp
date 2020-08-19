@@ -1,61 +1,58 @@
 import React, {useEffect} from 'react';
-import {Text, View, StatusBar, TouchableOpacity} from 'react-native';
+import {Text, View, StatusBar, TouchableOpacity, TextInput} from 'react-native';
 import {Style, DIMENSION} from '../CommonStyles';
 import HeaderHome from '../Components/HomeComponents/HeaderHome';
 import HomeItem from '../Components/HomeComponents/HomeItem';
 import {IN4_APP} from '../ConnectServer/In4App';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
+import LinearGradient from 'react-native-linear-gradient';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {SearchBar} from 'react-native-elements';
 
-// colors={['#7ee2dc', '#55bbb8']}
 const datas = [
   {
     id: 1,
     name: 'Từ điển',
-    color2: '#7ee2dc',
-    color1: '#55bbb8',
     image:
-      'https://firebasestorage.googleapis.com/v0/b/fir-rn-785e2.appspot.com/o/category%2Fdic.png?alt=media&token=1f2776d1-a3ce-4209-a287-dace24c3313e',
+      'https://th.bing.com/th/id/OIP.HCyblSAzehzRaumVeRqTIAHaHa?pid=Api&rs=1',
     link: 'dictionary',
     isActive: 1,
   },
   {
     id: 2,
     name: 'Dịch văn bản',
-    color2: '#7ee2dc',
-    color1: '#55bbb8',
     image:
-      'https://firebasestorage.googleapis.com/v0/b/fir-rn-785e2.appspot.com/o/category%2Ftranslate.png?alt=media&token=a554dd43-7333-4434-89e7-6613b66e56da',
+      'https://firebasestorage.googleapis.com/v0/b/fir-rn-785e2.appspot.com/o/category%2FGoogle_Translate_Icon.png?alt=media&token=bc88f0be-3c85-4fa5-9998-82f3324d7914',
     link: 'translator',
     isActive: 1,
   },
   {
     id: 3,
-    name: 'Ôn luyện TOEIC',
-    color2: '#7ee2dc',
-    color1: '#55bbb8',
-    image:
-      'https://firebasestorage.googleapis.com/v0/b/fir-rn-785e2.appspot.com/o/category%2Ftoeic.png?alt=media&token=4a7dd9a4-3a78-42a5-afb6-2d59dd9e02dd',
+    name: 'Ôn TOEIC',
+    image: 'https://www.smartcom.vn/wp-content/uploads/2016/08/toeic.jpg',
     link: 'onTOEIC',
     isActive: 1,
   },
   {
     id: 4,
-    name: 'Ôn thi B1',
-    color2: '#7ee2dc',
-    color1: '#55bbb8',
+    name: 'Ôn B1',
     image:
-      'https://firebasestorage.googleapis.com/v0/b/fir-rn-785e2.appspot.com/o/category%2Fb1.png?alt=media&token=0c2e4736-ef6a-4b78-8cd6-4f6fe88651dd',
+      'https://firebasestorage.googleapis.com/v0/b/fir-rn-785e2.appspot.com/o/category%2FLogo_HCMUAF.png?alt=media&token=a4e14afc-5c99-4bfb-ab87-fed7dfc39ece',
     link: 'onB1',
     isActive: 1,
   },
   {
     id: 5,
-    name: 'Kiểm tra đánh giá',
-    color2: '#7ee2dc',
-    color1: '#55bbb8',
-    image:
-      'https://firebasestorage.googleapis.com/v0/b/fir-rn-785e2.appspot.com/o/category%2Faaa.png?alt=media&token=3fe4d336-ec71-4263-9451-63d9ba8f6452',
+    name: 'Kiểm tra',
+    image: 'https://image.flaticon.com/icons/png/512/825/825590.png',
+    link: 'testEvaluation',
+    isActive: 1,
+  },
+  {
+    id: 6,
+    name: 'Điểm danh',
+    image: 'https://img.cdn.schooljotter2.com/sampled/11297017/512/512/nocrop/',
     link: 'testEvaluation',
     isActive: 1,
   },
@@ -63,6 +60,7 @@ const datas = [
 const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
   const {users} = route.params;
 
+  const [input, onChangeInput] = React.useState('');
   const [ranks, setRank] = React.useState([
     {
       id: '',
@@ -96,9 +94,20 @@ const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
     }, 10000);
     return () => clearInterval(id);
   }, []);
+  // searchData(text) {
+  //   const newData = this.arrayholder.filter((item) => {
+  //     const itemData = item.title.toUpperCase();
+  //     const textData = text.toUpperCase();
+  //     return itemData.indexOf(textData) > -1;
+  //   });
 
+  //   this.setState({
+  //     data: newData,
+  //     text: text,
+  //   });
+  // }
   return (
-    <View style={[{flex: 1, backgroundColor: '#e7f8f8'}]}>
+    <View style={[{flex: 1, backgroundColor: '#fcfefc'}]}>
       <StatusBar barStyle="light-content" hidden={true} />
       <HeaderHome
         icon1={icon1}
@@ -107,14 +116,34 @@ const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
         icon4={icon4}
         rank={ranks[0]}
       />
-      <View
-        style={{flex: 3, justifyContent: 'flex-end', alignItems: 'flex-start'}}>
+      <SearchBar
+        containerStyle={{
+          borderRadius: 50,
+          backgroundColor: '#f1f1f1',
+          borderTopWidth: 0,
+          borderBottomWidth: 0,
+          margin: 15,
+          marginTop: 20,
+        }}
+        inputContainerStyle={{borderRadius: 50, backgroundColor: 'none'}}
+        inputStyle={{borderRadius: 50}}
+        round={true}
+        underlineColorAndroid="transparent"
+        placeholder="Nhập gì đó..."
+        value={input}
+        onChangeText={(text) => onChangeInput(text)}
+        onEndEditing={() => {
+          navigation.navigate('dictionary', {word: input});
+          onChangeInput('');
+        }}
+      />
+      <View style={{flex: 3, justifyContent: 'center', alignItems: 'center'}}>
         <Animatable.Image
-          animation="slideInLeft"
-          duraton="1500"
+          animation="slideInRight"
+          duration={1000}
           source={{
             uri:
-              'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-26-52-27.gif',
+              'https://i.pinimg.com/originals/5a/f9/e9/5af9e91a0d463e0f82c62e8510167042.gif',
           }}
           style={{width: 200, height: 200}}
           resizeMode="stretch"
@@ -122,59 +151,62 @@ const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
       </View>
       <View
         style={[
-          // Style.coverCenter,
           {
-            flex: 2,
+            flex: 3,
             marginTop: 20,
+            paddingLeft: 10,
+            paddingRight: 10,
             width: '100%',
             flexDirection: 'row',
             flexWrap: 'wrap',
+            justifyContent: 'space-between',
           },
         ]}>
         {datas.map((item, key) => (
-          <Animatable.View
+          <TouchableOpacity
             key={key}
-            animation="pulse"
-            iterationCount="infinite"
-            direction="alternate"
+            activeOpacity={0.5}
             style={[
+              Style.boxShadow,
               {
                 marginBottom: 20,
-                // borderColor: 'red',
-                // borderWidth: 1,
-                width: '33%',
+                backgroundColor: '#f1f1f1',
+                borderRadius: 20,
+                margin: 6,
+                width: '30%',
                 height: 100,
+                justifyContent: 'center',
               },
-            ]}>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={
-                (Style.coverCenter,
-                {
-                  width: '100%',
-                  height: 75,
-                })
-              }
-              onPress={() =>
-                navigation.navigate(item.link, {
-                  id_category: item.id,
-                  idUser: users.Id,
-                  rank: ranks[0],
-                })
-              }>
-              <Animatable.Image
-                animation="slideInRight"
-                style={{width: '100%', height: '100%'}}
-                resizeMode={'contain'}
-                source={{
-                  uri: item.image,
-                }}
-              />
-              <View style={{alignSelf: 'center'}}>
-                <Text style={{fontSize: 20}}>{item.name}</Text>
-              </View>
-            </TouchableOpacity>
-          </Animatable.View>
+            ]}
+            onPress={() =>
+              navigation.navigate(item.link, {
+                id_category: item.id,
+                idUser: users.Id,
+                rank: ranks[0],
+              })
+            }>
+            <Animatable.Image
+              animation="flipInX"
+              style={{
+                width: 64,
+                height: 64,
+                alignSelf: 'center',
+                borderRadius: 30,
+              }}
+              resizeMode={'contain'}
+              source={{
+                uri: item.image,
+              }}
+            />
+            <View style={{alignSelf: 'center'}}>
+              <Text
+                style={{fontSize: 16, color: '#9a9a9a', fontWeight: 'bold'}}>
+                {item.name}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          // </Animatable.View>
         ))}
       </View>
     </View>

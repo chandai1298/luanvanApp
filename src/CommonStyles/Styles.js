@@ -56,7 +56,7 @@ const Style = StyleSheet.create({
     paddingLeft: 15,
     height: 50,
     fontSize: 18,
-    borderColor: '#754ea6',
+    borderColor: '#5579f1',
     borderWidth: 1,
     borderRadius: 20,
     marginBottom: 10,
@@ -87,7 +87,7 @@ const Style = StyleSheet.create({
   //header 3 component chiều ngang dãn đều
   headerContainer: {
     // borderBottomWidth: 2,
-    // borderBottomColor: '#754ea6',
+    // borderBottomColor: '#5579f1',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

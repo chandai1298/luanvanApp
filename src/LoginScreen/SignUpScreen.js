@@ -139,9 +139,9 @@ const SignInScreen = ({navigation}) => {
   return (
     <LinearGradient
       start={{x: 0, y: 0}}
-      end={{x: 0, y: 1}}
+      end={{x: 1, y: 1}}
       style={styles.container}
-      colors={['#7ee2dc', '#55bbb8']}>
+      colors={['#c1c8fe', '#5579f1', '#fab3c6']}>
       <StatusBar backgroundColor="#54ce04" barStyle="light-content" />
       <Animatable.View
         animation="slideInRight"
@@ -154,7 +154,7 @@ const SignInScreen = ({navigation}) => {
         <ScrollView>
           <Text style={styles.text_footer}>Tên đăng nhập</Text>
           <View style={styles.action}>
-            <FontAwesome name="user" color="#55bbb8" size={20} />
+            <FontAwesome name="user" color="#5579f1" size={20} />
             <TextInput
               placeholder="Your Username"
               style={styles.textInput}
@@ -164,7 +164,7 @@ const SignInScreen = ({navigation}) => {
             />
             {data.check_textInputChange ? (
               <Animatable.View animation="bounceIn">
-                <Feather name="check-circle" color="#55bbb8" size={20} />
+                <Feather name="check-circle" color="#5579f1" size={20} />
               </Animatable.View>
             ) : null}
           </View>
@@ -184,7 +184,7 @@ const SignInScreen = ({navigation}) => {
             Mật khẩu
           </Text>
           <View style={styles.action}>
-            <Feather name="lock" color="#55bbb8" size={20} />
+            <Feather name="lock" color="#5579f1" size={20} />
             <TextInput
               placeholder="Your Password"
               secureTextEntry={data.secureTextEntry ? true : false}
@@ -194,9 +194,9 @@ const SignInScreen = ({navigation}) => {
             />
             <TouchableOpacity onPress={updateSecureTextEntry}>
               {data.secureTextEntry ? (
-                <Feather name="eye-off" color="#55bbb8" size={20} />
+                <Feather name="eye-off" color="#5579f1" size={20} />
               ) : (
-                <Feather name="eye" color="#55bbb8" size={20} />
+                <Feather name="eye" color="#5579f1" size={20} />
               )}
             </TouchableOpacity>
           </View>
@@ -218,7 +218,7 @@ const SignInScreen = ({navigation}) => {
             Xác nhận mật khẩu
           </Text>
           <View style={styles.action}>
-            <Feather name="lock" color="#55bbb8" size={20} />
+            <Feather name="lock" color="#5579f1" size={20} />
             <TextInput
               placeholder="Confirm Your Password"
               secureTextEntry={data.confirm_secureTextEntry ? true : false}
@@ -228,9 +228,9 @@ const SignInScreen = ({navigation}) => {
             />
             <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
               {data.confirm_secureTextEntry ? (
-                <Feather name="eye-off" color="#55bbb8" size={20} />
+                <Feather name="eye-off" color="#5579f1" size={20} />
               ) : (
-                <Feather name="eye" color="#55bbb8" size={20} />
+                <Feather name="eye" color="#5579f1" size={20} />
               )}
             </TouchableOpacity>
           </View>
@@ -259,7 +259,7 @@ const SignInScreen = ({navigation}) => {
               <LinearGradient
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}
-                colors={['#7ee2dc', '#55bbb8']}
+                colors={['#c1c8fe', '#5579f1']}
                 style={styles.signIn}>
                 <Text
                   style={[
@@ -279,7 +279,7 @@ const SignInScreen = ({navigation}) => {
               style={[
                 styles.signIn,
                 {
-                  borderColor: '#7ee2dc',
+                  borderColor: '#c1c8fe',
                   borderWidth: 1.5,
                   marginTop: 15,
                 },
@@ -288,7 +288,7 @@ const SignInScreen = ({navigation}) => {
                 style={[
                   styles.textSign,
                   {
-                    color: '#55bbb8',
+                    color: '#5579f1',
                     letterSpacing: 3,
                   },
                 ]}>
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     letterSpacing: 3,
   },
   text_footer: {
-    color: '#55bbb8',
+    color: '#5579f1',
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
-    color: '#755140',
+    color: '#05375a',
     fontSize: 16,
   },
   button: {

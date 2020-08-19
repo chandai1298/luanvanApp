@@ -80,7 +80,11 @@ export default class Player extends Component {
             onSeek={this.seek.bind(this)}
             trackLength={this.state.totalLength}
             onSlidingStart={() => this.setState({paused: true})}
-            currentPosition={this.state.currentPosition}
+            currentPosition={
+              this.state.currentPosition === this.state.totalLength
+                ? this.setState({currentPosition: 0})
+                : this.state.currentPosition
+            }
           />
         </View>
         {video}

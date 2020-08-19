@@ -18,5 +18,6 @@ const IN4_APP = {
   UpdateOverviewSetting: `${URL_NGROK.url}/UpdateOverviewSetting`,
   UpdateTokenNotification: `${URL_NGROK.url}/UpdateTokenNotification`,
   initConfig: `${URL_NGROK.url}/initConfig`,
+  getAllWords: `${URL_NGROK.url}/getAllWords`,
 };
 export {IN4_APP};
