@@ -38,9 +38,14 @@ const Setting = ({navigation, route}) => {
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
-              colors={['#687ae4', '#754ea6']}
+              colors={['#c1c8fe', '#5579f1']}
               style={[SettingStyle.btnSettings, Style.boxShadow]}>
-              <Text style={[Style.text20, Style.textColore6e6f6]}>
+              <Text
+                style={[
+                  Style.text20,
+                  Style.textColore6e6f6,
+                  {letterSpacing: 2},
+                ]}>
                 Đăng xuất
               </Text>
             </LinearGradient>

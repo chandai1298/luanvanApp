@@ -13,6 +13,8 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
+import {Button, Overlay} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {useTheme} from 'react-native-paper';
 import {AuthContext} from './context';
@@ -30,7 +32,8 @@ const SignInScreen = ({navigation}) => {
   });
   const {colors} = useTheme();
   const {signIn} = React.useContext(AuthContext);
-
+  const [visible, setVisible] = React.useState(false);
+  const [visible2, setVisible2] = React.useState(false);
   const textInputChange = (val) => {
     if (val.trim().length >= 4) {
       setData({
@@ -96,16 +99,18 @@ const SignInScreen = ({navigation}) => {
         });
 
         if (data.username.length == 0 || data.password.length == 0) {
-          Alert.alert('Lỗi!', 'Tài khoản và mật khẩu không được trống.', [
-            {text: 'Okay'},
-          ]);
+          // Alert.alert('Lỗi!', 'Tài khoản và mật khẩu không được trống.', [
+          //   {text: 'Okay'},
+          // ]);
+          toggleOverlay();
           return;
         }
 
         if (foundUser.length == 0) {
-          Alert.alert('Invalid User!', 'Username or password is incorrect.', [
-            {text: 'Okay'},
-          ]);
+          // Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+          //   {text: 'Okay'},
+          // ]);
+          toggleOverlay2();
           return;
         }
         signIn(foundUser);
@@ -114,7 +119,12 @@ const SignInScreen = ({navigation}) => {
         console.log(error.message);
       });
   };
-
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+  const toggleOverlay2 = () => {
+    setVisible2(!visible2);
+  };
   return (
     <LinearGradient
       style={styles.container}
@@ -122,6 +132,7 @@ const SignInScreen = ({navigation}) => {
       end={{x: 1, y: 1}}
       colors={['#c1c8fe', '#5579f1', '#fab3c6']}>
       <StatusBar backgroundColor="#54ce04" barStyle="light-content" />
+
       <Animatable.View
         animation="slideInRight"
         iterationCount="infinite"
@@ -230,9 +241,9 @@ const SignInScreen = ({navigation}) => {
               loginHandle(data.username, data.password);
             }}>
             <LinearGradient
-             start={{x: 0, y: 0}}
-             end={{x: 1, y: 0}}
-             colors={['#c1c8fe', '#5579f1']}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              colors={['#c1c8fe', '#5579f1']}
               style={styles.signIn}>
               <Text
                 style={[
@@ -246,6 +257,82 @@ const SignInScreen = ({navigation}) => {
               </Text>
             </LinearGradient>
           </TouchableOpacity>
+          <Overlay
+            isVisible={visible}
+            onBackdropPress={toggleOverlay}
+            overlayStyle={{
+              padding: 0,
+              borderRadius: 10,
+              height: 100,
+              width: 300,
+            }}>
+            <View
+              style={{
+                justifyContent: 'space-between',
+                alignContent: 'center',
+                padding: 12,
+                borderRadius: 10,
+                backgroundColor: '#f1f1f1',
+              }}>
+              <Text
+                style={{color: '#5579f1', fontSize: 18, alignSelf: 'center'}}>
+                Bạn chưa nhập tài khoản và mật khẩu!
+              </Text>
+
+              <Button
+                containerStyle={{
+                  marginTop: 15,
+                  height: 40,
+                  borderRadius: 10,
+                }}
+                buttonStyle={{backgroundColor: '#5579f1'}}
+                titleStyle={{
+                  letterSpacing: 3,
+                }}
+                // icon={<Icon name="arrow-right" size={15} color="white" />}
+                title="OK"
+                onPress={toggleOverlay}
+                iconRight
+              />
+            </View>
+          </Overlay>
+          <Overlay
+            isVisible={visible2}
+            onBackdropPress={toggleOverlay2}
+            overlayStyle={{
+              padding: 0,
+              borderRadius: 10,
+              height: 100,
+              width: 300,
+            }}>
+            <View
+              style={{
+                justifyContent: 'space-between',
+                alignContent: 'center',
+                padding: 12,
+                borderRadius: 10,
+                backgroundColor: '#f1f1f1',
+              }}>
+              <Text
+                style={{color: '#5579f1', fontSize: 18, alignSelf: 'center'}}>
+                Sai thông tin!
+              </Text>
+
+              <Button
+                containerStyle={{
+                  marginTop: 15,
+                  height: 40,
+                  borderRadius: 10,
+                }}
+                buttonStyle={{backgroundColor: '#5579f1'}}
+                titleStyle={{
+                  letterSpacing: 3,
+                }}
+                title="OK"
+                onPress={toggleOverlay2}
+              />
+            </View>
+          </Overlay>
 
           <TouchableOpacity
             onPress={() => navigation.navigate('SignUpScreen')}

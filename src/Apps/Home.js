@@ -117,23 +117,28 @@ const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
         rank={ranks[0]}
       />
       <SearchBar
-        containerStyle={{
-          borderRadius: 50,
-          backgroundColor: '#f1f1f1',
-          borderTopWidth: 0,
-          borderBottomWidth: 0,
-          margin: 15,
-          marginTop: 20,
-        }}
-        inputContainerStyle={{borderRadius: 50, backgroundColor: 'none'}}
-        inputStyle={{borderRadius: 50}}
+        containerStyle={[
+          Style.boxShadow,
+          {
+            borderRadius: 50,
+            backgroundColor: '#f1f1f1',
+            borderTopWidth: 0,
+            borderBottomWidth: 0,
+            margin: 15,
+            marginTop: 20,
+            elevation: 20,
+            backgroundColor: '#fff',
+          },
+        ]}
+        searchIcon={{size: 25}}
+        inputContainerStyle={{borderRadius: 50, backgroundColor: '#fff'}}
         round={true}
         underlineColorAndroid="transparent"
-        placeholder="Nhập gì đó..."
+        placeholder="Dịch nghĩa Anh-Việt..."
         value={input}
         onChangeText={(text) => onChangeInput(text)}
         onEndEditing={() => {
-          navigation.navigate('dictionary', {word: input});
+          navigation.navigate('dictionary', {word: input.trim().toLowerCase()});
           onChangeInput('');
         }}
       />
@@ -170,12 +175,13 @@ const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
               Style.boxShadow,
               {
                 marginBottom: 20,
-                backgroundColor: '#f1f1f1',
+                backgroundColor: '#fff',
                 borderRadius: 20,
                 margin: 6,
                 width: '30%',
                 height: 100,
                 justifyContent: 'center',
+                elevation: 12,
               },
             ]}
             onPress={() =>
@@ -205,8 +211,6 @@ const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
               </Text>
             </View>
           </TouchableOpacity>
-
-          // </Animatable.View>
         ))}
       </View>
     </View>

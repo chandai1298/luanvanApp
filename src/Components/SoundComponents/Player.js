@@ -17,11 +17,20 @@ export default class Player extends Component {
   }
 
   setDuration(data) {
-    this.setState({totalLength: Math.floor(data.duration)});
+    this.setState({totalLength: Math.round(data.duration)});
   }
 
   setTime(data) {
-    this.setState({currentPosition: Math.floor(data.currentTime)});
+    if (this.state.currentPosition === Math.round(data.playableDuration))
+      this.setState({
+        currentPosition: 0,
+        paused: true,
+        totalLength: Math.round(data.playableDuration),
+      });
+    else
+      this.setState({
+        currentPosition: Math.round(data.currentTime),
+      });
   }
 
   seek(time) {
@@ -41,7 +50,7 @@ export default class Player extends Component {
         ref="audioElement"
         paused={this.state.paused}
         resizeMode="cover"
-        // repeat={true} // Repeat forever.
+        repeat={true} // Repeat forever.
         onLoadStart={this.loadStart} // Callback when video starts to load
         onLoad={this.setDuration.bind(this)} // Callback when video loads
         onProgress={this.setTime.bind(this)} // Callback every ~250ms with currentTime
@@ -80,11 +89,7 @@ export default class Player extends Component {
             onSeek={this.seek.bind(this)}
             trackLength={this.state.totalLength}
             onSlidingStart={() => this.setState({paused: true})}
-            currentPosition={
-              this.state.currentPosition === this.state.totalLength
-                ? this.setState({currentPosition: 0})
-                : this.state.currentPosition
-            }
+            currentPosition={this.state.currentPosition}
           />
         </View>
         {video}

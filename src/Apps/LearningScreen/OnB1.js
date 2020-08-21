@@ -47,7 +47,7 @@ const OnB1 = ({route, navigation}) => {
         data={data}
         renderItem={({item}) => (
           <TouchableOpacity
-            style={{marginBottom: 5}}
+            style={[{marginBottom: 5}]}
             onPress={() =>
               navigation.navigate(item.link, {
                 id_category: item.id_category,

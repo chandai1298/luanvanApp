@@ -24,6 +24,7 @@ const Style = StyleSheet.create({
   text20: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#464646',
   },
 
   text18: {
@@ -32,6 +33,7 @@ const Style = StyleSheet.create({
   },
   text16: {
     fontSize: 16,
+    color: '#464646',
   },
   text30: {
     fontSize: 30,
@@ -44,27 +46,36 @@ const Style = StyleSheet.create({
     height: 160,
     paddingLeft: 15,
     paddingTop: 10,
-    backgroundColor: '#ccbee4',
+    backgroundColor: '#dee2ff',
     transform: [{translate: [0, 0, 1]}],
   },
   line: {
     width: DIMENSION.width,
     borderWidth: 1,
-    borderColor: '#673ab7',
+    borderColor: '#c1c8fe',
   },
   input: {
     paddingLeft: 15,
     height: 50,
     fontSize: 18,
-    borderColor: '#5579f1',
+    borderColor: '#c1c8fe',
     borderWidth: 1,
     borderRadius: 20,
     marginBottom: 10,
     width: DIMENSION.width - 30,
+    color: '#848484',
+    marginTop: 5,
+    backgroundColor: '#f1f1f1',
+    shadowColor: 'rgba(0, 0, 0, 0.1)',
+    shadowOpacity: 0.8,
+    elevation: 5,
+    shadowRadius: 15,
+    shadowOffset: {width: 1, height: 13},
   },
 
   textColor754ea6: {
-    color: '#754ea6',
+    // color: '#754ea6',
+    letterSpacing: 1,
   },
   textColore6e6f6: {
     color: '#fff',
@@ -78,11 +89,15 @@ const Style = StyleSheet.create({
   },
   btnActive: {
     borderBottomWidth: 3,
-    borderColor: '#673ab7',
-    color: '#673ab7',
+    borderColor: '#5579f1',
+    color: '#5579f1',
   },
   txtActive: {
-    color: '#754ea6',
+    color: '#5579f1',
+  },
+  textAnswer: {
+    color: '#848484',
+    fontSize: 20,
   },
   //header 3 component chiều ngang dãn đều
   headerContainer: {
@@ -102,11 +117,11 @@ const Style = StyleSheet.create({
   },
 
   images: {
-    height: 130,
-    width: 130,
+    height: 150,
+    width: 150,
     borderRadius: 250,
-    borderColor: '#754ea6',
-    borderWidth: 4,
+    borderColor: '#c1c8fe',
+    borderWidth: 3,
   },
   images2: {
     // height: '100%',

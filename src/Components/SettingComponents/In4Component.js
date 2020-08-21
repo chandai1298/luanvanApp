@@ -106,18 +106,16 @@ const In4Component = ({userData, navigation, desNav}) => {
   };
 
   return (
-    <View style={SettingStyle.sectionIn4}>
-      <LinearTextGradient
-        locations={[0, 1]}
-        colors={['#091048', '#754ea6']}
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}>
-        <Text style={[Style.text20]}> Hồ sơ của bạn</Text>
-      </LinearTextGradient>
+    <View style={[SettingStyle.sectionIn4, Style.boxShadow]}>
+      <Text style={[Style.text20, {letterSpacing: 2, color: '#464646'}]}>
+        Hồ sơ của bạn
+      </Text>
 
       <View>
         <View style={Style.coverCenter}>
-          <TouchableOpacity onPress={() => selectImage()}>
+          <TouchableOpacity
+            onPress={() => selectImage()}
+            style={[{borderRadius: 250, alignSelf: 'center'}]}>
             <Image
               source={{
                 uri: img,
@@ -128,10 +126,11 @@ const In4Component = ({userData, navigation, desNav}) => {
           <TouchableOpacity onPress={() => selectImage()}>
             <LinearTextGradient
               locations={[0, 1]}
-              colors={['#687ae4', '#754ea6']}
+              colors={['#c1c8fe', '#5579f1']}
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}>
-              <Text style={[{fontSize: 16, fontWeight: 'bold'}]}>
+              <Text
+                style={[{letterSpacing: 2, fontSize: 16, fontWeight: 'bold'}]}>
                 THAY ẢNH ĐẠI DIỆN
               </Text>
             </LinearTextGradient>
@@ -139,13 +138,11 @@ const In4Component = ({userData, navigation, desNav}) => {
         </View>
 
         <View>
-          <LinearTextGradient
-            locations={[0, 1]}
-            colors={['#754ea6', '#687ae4']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}>
-            <Text style={[Style.text18, Style.textColor754ea6]}>Tên</Text>
-          </LinearTextGradient>
+          <Text
+            style={[Style.text18, Style.textColor754ea6, {color: '#9a9a9a'}]}>
+            Tên
+          </Text>
+
           <TextInput
             style={Style.input}
             value={name}
@@ -155,45 +152,35 @@ const In4Component = ({userData, navigation, desNav}) => {
         </View>
 
         <View>
-          <LinearTextGradient
-            locations={[0, 1]}
-            colors={['#754ea6', '#687ae4']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}>
-            <Text style={[Style.text18, Style.textColor754ea6]}>
-              Tên đăng nhập
-            </Text>
-          </LinearTextGradient>
+          <Text
+            style={[Style.text18, Style.textColor754ea6, {color: '#9a9a9a'}]}>
+            Tên đăng nhập
+          </Text>
           <TextInput
-            style={[Style.input, {color: '#000'}]}
+            style={[Style.input]}
             value={userData.Username}
             editable={false}
           />
         </View>
 
         <View>
-          <LinearTextGradient
-            locations={[0, 1]}
-            colors={['#754ea6', '#687ae4']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}>
-            <Text style={[Style.text18, Style.textColor754ea6]}>Mật khẩu</Text>
-          </LinearTextGradient>
+          <Text
+            style={[Style.text18, Style.textColor754ea6, {color: '#9a9a9a'}]}>
+            Mật khẩu
+          </Text>
+
           <TouchableOpacity
             style={[Style.input, {justifyContent: 'center'}]}
-            onPress={() => navigation.navigate(desNav)}>
+            onPress={() => navigation.navigate(desNav, {idUser: id})}>
             <Text>********</Text>
           </TouchableOpacity>
         </View>
 
         <View>
-          <LinearTextGradient
-            locations={[0, 1]}
-            colors={['#754ea6', '#687ae4']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}>
-            <Text style={[Style.text18, Style.textColor754ea6]}>Email</Text>
-          </LinearTextGradient>
+          <Text
+            style={[Style.text18, Style.textColor754ea6, {color: '#9a9a9a'}]}>
+            Email
+          </Text>
           <TextInput
             style={Style.input}
             value={email}

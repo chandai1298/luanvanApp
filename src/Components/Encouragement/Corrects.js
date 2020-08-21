@@ -8,73 +8,34 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const Corrects = ({route, navigation}) => {
   const {totalLength, count, crown, score, sequence} = route.params;
-  const loikhen = () => {
-    var promise = null;
-    switch (sequence) {
-      case 2:
-        promise = (
-          <View
-            style={{
-              flex: 3,
-              justifyContent: 'flex-end',
-              marginBottom: -100,
-            }}>
-            <Image
-              resizeMode="stretch"
-              source={{
-                uri: 'http://clipartmag.com/images/cartoon-word-bubbles-24.png',
-              }}
-              style={{width: 180, height: 100, marginBottom: -80}}
-            />
-            <View
-              style={{
-                alignSelf: 'center',
-                marginTop: 0,
-                paddingBottom: 50,
-              }}>
-              <Text style={{fontSize: 20, color: '#000'}}>Ấn tượng đấy...</Text>
-            </View>
-          </View>
-        );
-        break;
-
-      case 4:
-        promise = (
-          <View
-            style={{
-              flex: 3,
-              justifyContent: 'flex-end',
-              marginBottom: -100,
-            }}>
-            <Image
-              resizeMode="stretch"
-              source={{
-                uri: 'http://clipartmag.com/images/cartoon-word-bubbles-24.png',
-              }}
-              style={{width: 180, height: 100, marginBottom: -80}}
-            />
-            <View
-              style={{
-                alignSelf: 'center',
-                marginTop: 0,
-                paddingBottom: 50,
-              }}>
-              <Text style={{fontSize: 20, color: '#000'}}>
-                Xuất sắc luôn...
-              </Text>
-            </View>
-          </View>
-        );
-        break;
-
-      default:
-        break;
-    }
-    return promise;
-  };
   return (
     <View style={[Style.coverCenter, {flex: 5}]}>
-      {loikhen()}
+      <View
+        style={{
+          flex: 3,
+          justifyContent: 'flex-end',
+          marginBottom: -100,
+        }}>
+        <View
+          style={{
+            paddingLeft: 18,
+            borderColor: '#8f3311',
+            borderWidth: 1,
+            borderRadius: 20,
+            alignContent: 'center',
+            justifyContent: 'center',
+            width: 160,
+            height: 40,
+          }}>
+          <Text style={{fontSize: 20, color: '#8f3311'}}>
+            {sequence === 2
+              ? 'Ấn tượng đấy...'
+              : sequence == 4
+              ? 'Xuất sắc luôn...'
+              : ''}
+          </Text>
+        </View>
+      </View>
 
       <Animatable.Image
         animation="bounceIn"
@@ -82,8 +43,8 @@ const Corrects = ({route, navigation}) => {
         source={{
           uri:
             sequence === 2
-              ? 'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-26-56-75.gif'
-              : 'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-28-18-95.gif',
+              ? 'https://66.media.tumblr.com/acaff1396603cebbe5da197ed83c4401/tumblr_inline_om6enz4EGx1ugyfqu_500.gif'
+              : 'https://i.pinimg.com/originals/fd/2c/84/fd2c8479ddb92b11dec9b245874e4c64.gif',
         }}
         style={{
           width: '50%',
@@ -106,9 +67,16 @@ const Corrects = ({route, navigation}) => {
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
-            colors={['#687ae4', '#754ea6']}
-            style={[SettingStyle.btnSettings, Style.boxShadow]}>
-            <Text style={[Style.text20, Style.textColore6e6f6]}>Tiếp tục</Text>
+            colors={['#c1c8fe', '#5579f1']}
+            style={[
+              SettingStyle.btnSettings,
+              Style.boxShadow,
+              {elevation: 15},
+            ]}>
+            <Text
+              style={[Style.text20, Style.textColore6e6f6, {letterSpacing: 2}]}>
+              Tiếp tục
+            </Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>

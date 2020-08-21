@@ -10,13 +10,6 @@ import {IN4_APP} from '../ConnectServer/In4App';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
 
-function ThanhTichComponent() {
-  return <ThanhTich />;
-}
-function BanBeComponent() {
-  return <BanBe />;
-}
-
 const Tab = createMaterialTopTabNavigator();
 const Profile = ({title, navigation, icon, desComponent, route}) => {
   const {users} = route.params;
@@ -138,18 +131,19 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
       <View style={ProfileStyle.containerPadding15}>
         <Tab.Navigator
           tabBarOptions={{
-            labelStyle: [Style.text18, {color: '#9a9a9a'}],
+            activeTintColor: '#464646',
+            labelStyle: [Style.text18],
           }}>
           <Tab.Screen
             name="ThanhTich"
-            component={ThanhTichComponent}
+            component={ThanhTich}
             options={{
               tabBarLabel: 'Thành tích',
             }}
           />
           <Tab.Screen
             name="Banbe"
-            component={BanBeComponent}
+            component={BanBe}
             options={{
               tabBarLabel: 'Bạn bè',
             }}

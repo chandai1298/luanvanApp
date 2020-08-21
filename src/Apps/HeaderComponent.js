@@ -1,8 +1,10 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, ToastAndroid} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Style} from '../CommonStyles';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import axios from 'axios';
+import {IN4_APP} from '../ConnectServer/In4App';
 
 const HeaderComponent = ({
   title,
@@ -12,6 +14,9 @@ const HeaderComponent = ({
   data,
   cf1,
   cf2,
+  pass1,
+  pass2,
+  idUser,
 }) => {
   const onPressHandle = () => {
     switch (title) {
@@ -23,6 +28,31 @@ const HeaderComponent = ({
         });
         break;
       case 'Cài đặt':
+        navigation.navigate(desComponent);
+        break;
+      case 'Đổi mật khẩu':
+        const updatePassWord = IN4_APP.UpdatePassWord;
+        axios
+          .put(updatePassWord, {
+            PasswordN: pass2,
+            Id: idUser,
+            Password: pass1,
+          })
+          .then(function (response) {
+            ToastAndroid.showWithGravity(
+              response.data,
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            ToastAndroid.showWithGravity(
+              'Thất bại!',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+          });
         navigation.navigate(desComponent);
         break;
 
@@ -38,7 +68,7 @@ const HeaderComponent = ({
         <FontAwesome5
           name={icon}
           size={25}
-          color="#687ae4"
+          color="#5579f1"
           style={Style.headerIcon}
           onPress={() => onPressHandle()}
         />

@@ -11,7 +11,7 @@ const SettingComponent = ({title, style, dataConfig, id}) => {
   const listConfig = () => {
     return dataConfig.map((data) => (
       <View style={SettingStyle.flexDirectionRow} key={data.id}>
-        <Text style={{fontSize: 18}}>{data.title}</Text>
+        <Text style={{fontSize: 18, color: '#848484'}}>{data.title}</Text>
         <SwitchComponent switchValue={data.status} title={data.title} id={id} />
       </View>
     ));
@@ -19,20 +19,21 @@ const SettingComponent = ({title, style, dataConfig, id}) => {
 
   return (
     <View style={style}>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <LinearTextGradient
-          locations={[0, 1]}
-          colors={['#091048', '#754ea6']}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
-          <Text style={[Style.text20]}>{title}</Text>
-        </LinearTextGradient>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginBottom: 5,
+        }}>
+        <Text style={[Style.text20, {letterSpacing: 2, color: '#464646'}]}>
+          {title}
+        </Text>
         {!collapse ? (
           <View>
             <FontAwesome5
               name="chevron-circle-up"
               size={20}
-              color="#754ea6"
+              color="#5579f1"
               style={Style.headerIcon}
               onPress={() => {
                 setCollapse(true);
@@ -44,7 +45,7 @@ const SettingComponent = ({title, style, dataConfig, id}) => {
             <FontAwesome5
               name="chevron-circle-down"
               size={20}
-              color="#754ea6"
+              color="#5579f1"
               style={Style.headerIcon}
               onPress={() => {
                 setCollapse(false);

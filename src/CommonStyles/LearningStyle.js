@@ -11,17 +11,13 @@ const LearningStyle = StyleSheet.create({
     padding: 15,
   },
   tchLessionCover: {
-    borderColor: '#bebebe',
-    borderWidth: 0.5,
-    borderRadius: 250,
-    margin: 4,
-  },
-  tchLession: {
+    margin: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    width: 180,
+    width: '45%',
     height: 60,
     borderRadius: 250,
+    backgroundColor: '#fff',
   },
 });
 export {LearningStyle};

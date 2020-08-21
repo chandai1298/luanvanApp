@@ -5,8 +5,9 @@ const ProfileStyle = StyleSheet.create({
     flex: 2,
     flexDirection: 'row',
     padding: 10,
-    borderWidth: 1,
-    borderColor: '#754ea6',
+    borderWidth: 1.5,
+    backgroundColor: '#fff',
+    borderColor: '#9a9a9a',
     borderRadius: 15,
     margin: 10,
   },
@@ -24,6 +25,7 @@ const ProfileStyle = StyleSheet.create({
   widthIcon: {
     width: 25,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   containerPadding15: {
     padding: 15,
@@ -47,9 +49,10 @@ const ProfileStyle = StyleSheet.create({
     justifyContent: 'center',
   },
   sectionLeftImg: {
-    height: 70,
-    width: 70,
-    borderRadius: 5,
+    height: 90,
+    width: 90,
+    borderRadius: 10,
+    backgroundColor: '#f1f1f1',
   },
   // tab ban be
   sectionBanBeImg: {

@@ -92,7 +92,7 @@ const Translator = () => {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.input}>
+      <View style={[styles.input, {marginTop: 30}]}>
         <View style={{flexDirection: 'row-reverse'}}>
           <FontAwesome5
             name="times"
@@ -148,10 +148,10 @@ const Translator = () => {
         selectedIndex={index}
         buttons={buttons}
         containerStyle={{height: 50, borderRadius: 30, margin: 5}}
-        buttonContainerStyle={{
-          borderColor: '#5579f1',
-          borderWidth: 1.5,
-        }}
+        // buttonContainerStyle={{
+        //   borderColor: '#5579f1',
+        //   borderWidth: 1.5,
+        // }}
         textStyle={{fontWeight: 'bold', color: '#5579f1'}}
         selectedButtonStyle={{
           backgroundColor: '#5579f1',
@@ -212,7 +212,7 @@ const Translator = () => {
 export default Translator;
 const styles = StyleSheet.create({
   container: {
-    flex: 13,
+    flex: 1,
     padding: 15,
     backgroundColor: '#fcfefc',
   },
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     flex: 5,
     padding: 5,
     backgroundColor: '#fff',
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: '#9a9a9a',
     borderRadius: 10,
     height: 200,

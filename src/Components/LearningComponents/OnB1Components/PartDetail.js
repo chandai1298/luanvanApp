@@ -264,7 +264,7 @@ const PartDetail = ({route, navigation}) => {
                     onPress={() => setAnswer(e.dapan)}>
                     <Text
                       style={[
-                        {fontSize: 20},
+                        Style.textAnswer,
                         answer === e.dapan && Style.txtActive,
                       ]}>
                       {e.dapan}
@@ -282,7 +282,7 @@ const PartDetail = ({route, navigation}) => {
                     onPress={() => setAnswer(e.dapan2)}>
                     <Text
                       style={[
-                        {fontSize: 20},
+                        Style.textAnswer,
                         answer === e.dapan2 && Style.txtActive,
                       ]}>
                       Options {e.dapan}
@@ -310,7 +310,7 @@ const PartDetail = ({route, navigation}) => {
                 onPress={() => setAnswer(e.dapan)}>
                 <Text
                   style={[
-                    {fontSize: 20},
+                    Style.textAnswer,
                     answer === e.dapan && Style.txtActive,
                   ]}>
                   {e.dapan}
@@ -346,7 +346,10 @@ const PartDetail = ({route, navigation}) => {
             ]}
             onPress={() => setAnswer2(e.dapan)}>
             <Text
-              style={[{fontSize: 20}, answer2 === e.dapan && Style.txtActive]}>
+              style={[
+                Style.textAnswer,
+                answer2 === e.dapan && Style.txtActive,
+              ]}>
               {e.dapan}
             </Text>
           </TouchableOpacity>
@@ -377,7 +380,10 @@ const PartDetail = ({route, navigation}) => {
             ]}
             onPress={() => setAnswer3(e.dapan)}>
             <Text
-              style={[{fontSize: 20}, answer3 === e.dapan && Style.txtActive]}>
+              style={[
+                Style.textAnswer,
+                answer3 === e.dapan && Style.txtActive,
+              ]}>
               {e.dapan}
             </Text>
           </TouchableOpacity>
@@ -408,7 +414,10 @@ const PartDetail = ({route, navigation}) => {
             ]}
             onPress={() => setAnswer4(e.dapan)}>
             <Text
-              style={[{fontSize: 20}, answer4 === e.dapan && Style.txtActive]}>
+              style={[
+                Style.textAnswer,
+                answer4 === e.dapan && Style.txtActive,
+              ]}>
               {e.dapan}
             </Text>
           </TouchableOpacity>
@@ -439,7 +448,10 @@ const PartDetail = ({route, navigation}) => {
             ]}
             onPress={() => setAnswer5(e.dapan)}>
             <Text
-              style={[{fontSize: 20}, answer5 === e.dapan && Style.txtActive]}>
+              style={[
+                Style.textAnswer,
+                answer5 === e.dapan && Style.txtActive,
+              ]}>
               {e.dapan}
             </Text>
           </TouchableOpacity>
@@ -478,7 +490,7 @@ const PartDetail = ({route, navigation}) => {
                 }}>
                 <Text
                   style={[
-                    {fontSize: 20},
+                    Style.textAnswer,
                     answer === e.dapan && Style.txtActive,
                   ]}>
                   {e.dapan}
@@ -496,7 +508,7 @@ const PartDetail = ({route, navigation}) => {
                 onPress={() => setAnswer(e.dapan2)}>
                 <Text
                   style={[
-                    {fontSize: 20},
+                    Style.textAnswer,
                     answer === e.dapan2 && Style.txtActive,
                   ]}>
                   Options {e.dapan}
@@ -834,9 +846,7 @@ const PartDetail = ({route, navigation}) => {
           <View style={{paddingLeft: 5, paddingRight: 5}}>
             <View style={{marginBottom: 15, marginTop: 15}}>
               <View style={{marginBottom: 10}}>
-                <Text style={[Style.text20, {color: '#091048'}]}>
-                  {item.question}
-                </Text>
+                <Text style={[Style.text20]}>{item.question}</Text>
               </View>
               <View>
                 <AnswerABCD item={question} />
@@ -846,9 +856,7 @@ const PartDetail = ({route, navigation}) => {
             <Text>1/3</Text>
             <View style={{marginBottom: 15, marginTop: 15}}>
               <View style={{marginBottom: 10}}>
-                <Text style={[Style.text20, {color: '#091048'}]}>
-                  {item2.question}
-                </Text>
+                <Text style={[Style.text20]}>{item2.question}</Text>
               </View>
               <View>
                 <AnswerABCD2 item2={question2} />
@@ -858,9 +866,7 @@ const PartDetail = ({route, navigation}) => {
             <Text>2/3</Text>
             <View>
               <View style={{marginBottom: 10, marginTop: 15}}>
-                <Text style={[Style.text20, {color: '#091048'}]}>
-                  {item3.question}
-                </Text>
+                <Text style={[Style.text20]}>{item3.question}</Text>
               </View>
               <View>
                 <AnswerABCD3 item3={question3} />
@@ -888,18 +894,12 @@ const PartDetail = ({route, navigation}) => {
               height: DIMENSION.height - 130,
             }}>
             <View style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
-              <LinearTextGradient
-                locations={[0, 1]}
-                colors={['#091048', '#091048']}
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}>
-                <Text style={Style.text20}>
-                  Part 1: Chọn một đáp án mô tả chính xác nhất nội dung có trong
-                  hình.
-                </Text>
-              </LinearTextGradient>
+              <Text style={Style.text20}>
+                Part 1: Chọn một đáp án mô tả chính xác nhất nội dung có trong
+                hình.
+              </Text>
 
-              <View style={Style.coverCenter}>
+              <View style={[Style.coverCenter]}>
                 <Player tracks={question.sound} />
               </View>
             </View>
@@ -927,15 +927,9 @@ const PartDetail = ({route, navigation}) => {
               height: DIMENSION.height - 130,
             }}>
             <View style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
-              <LinearTextGradient
-                locations={[0, 1]}
-                colors={['#091048', '#091048']}
-                start={{x: 0, y: 0}}
-                end={{x: 0, y: 0}}>
-                <Text style={Style.text25}>
-                  Part 2: Chọn một câu hồi đáp phù hợp nhất cho câu hỏi.
-                </Text>
-              </LinearTextGradient>
+              <Text style={Style.text20}>
+                Part 2: Chọn một câu hồi đáp phù hợp nhất cho câu hỏi.
+              </Text>
             </View>
             <View style={{flex: 3, paddingLeft: 15, paddingRight: 15}}>
               <Player tracks={question.sound} />
@@ -970,16 +964,10 @@ const PartDetail = ({route, navigation}) => {
               height: DIMENSION.height - 130,
             }}>
             <View style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
-              <LinearTextGradient
-                locations={[0, 1]}
-                colors={['#091048', '#091048']}
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}>
-                <Text style={Style.text20}>
-                  Part 3: Bạn đọc câu hỏi và chọn câu trả lời phù hợp nhất cho
-                  câu hỏi.
-                </Text>
-              </LinearTextGradient>
+              <Text style={Style.text20}>
+                Part 3: Bạn đọc câu hỏi và chọn câu trả lời phù hợp nhất cho câu
+                hỏi.
+              </Text>
 
               <View style={Style.coverCenter}>
                 {help ? (
@@ -1049,16 +1037,10 @@ const PartDetail = ({route, navigation}) => {
               height: DIMENSION.height - 130,
             }}>
             <View style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
-              <LinearTextGradient
-                locations={[0, 1]}
-                colors={['#091048', '#091048']}
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}>
-                <Text style={Style.text20}>
-                  Part 4: Bạn đọc câu hỏi và chọn câu trả lời phù hợp nhất cho
-                  câu hỏi.
-                </Text>
-              </LinearTextGradient>
+              <Text style={Style.text20}>
+                Part 4: Bạn đọc câu hỏi và chọn câu trả lời phù hợp nhất cho câu
+                hỏi.
+              </Text>
 
               <View style={Style.coverCenter}>
                 {help ? (
@@ -1130,15 +1112,9 @@ const PartDetail = ({route, navigation}) => {
               height: DIMENSION.height - 130,
             }}>
             <View style={{flex: 1, paddingLeft: 15, paddingRight: 15}}>
-              <LinearTextGradient
-                locations={[0, 1]}
-                colors={['#091048', '#091048']}
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}>
-                <Text style={Style.text20}>
-                  Part 5: Chọn một đáp án phù hợp nhất để điền vào chỗ trống.
-                </Text>
-              </LinearTextGradient>
+              <Text style={Style.text20}>
+                Part 5: Chọn một đáp án phù hợp nhất để điền vào chỗ trống.
+              </Text>
             </View>
 
             <View
@@ -1163,7 +1139,7 @@ const PartDetail = ({route, navigation}) => {
                       <FontAwesome5
                         name="times"
                         size={DIMENSION.sizeIcon2}
-                        color="#091048"
+                        color="#ababab"
                       />
                     </TouchableOpacity>
                   </View>
@@ -1185,9 +1161,7 @@ const PartDetail = ({route, navigation}) => {
                   </ScrollView>
                 </Animatable.View>
               ) : (
-                <Text style={[Style.text20, {color: '#091048'}]}>
-                  {question.question}
-                </Text>
+                <Text style={[Style.text20]}>{question.question}</Text>
               )}
             </View>
             <View style={{flex: 7, padding: 15}}>
@@ -1207,15 +1181,9 @@ const PartDetail = ({route, navigation}) => {
               height: DIMENSION.height - 130,
             }}>
             <View style={{flex: 2}}>
-              <LinearTextGradient
-                locations={[0, 1]}
-                colors={['#091048', '#754ea6']}
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}>
-                <Text style={Style.text20}>
-                  Part 6: Chọn một đáp án phù hợp nhất để điền vào chỗ trống.
-                </Text>
-              </LinearTextGradient>
+              <Text style={Style.text20}>
+                Part 6: Chọn một đáp án phù hợp nhất để điền vào chỗ trống.
+              </Text>
 
               <View style={Style.coverCenter}>
                 <Player tracks={question.sound} />
@@ -1238,16 +1206,10 @@ const PartDetail = ({route, navigation}) => {
               height: DIMENSION.height - 130,
             }}>
             <View style={{flex: 1, paddingLeft: 15, paddingRight: 15}}>
-              <LinearTextGradient
-                locations={[0, 1]}
-                colors={['#091048', '#091048']}
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}>
-                <Text style={Style.text20}>
-                  Part 7: Bạn đọc câu hỏi và chọn câu trả lời phù hợp nhất cho
-                  câu hỏi.
-                </Text>
-              </LinearTextGradient>
+              <Text style={Style.text20}>
+                Part 7: Bạn đọc câu hỏi và chọn câu trả lời phù hợp nhất cho câu
+                hỏi.
+              </Text>
             </View>
             <View style={{flex: 9, alignSelf: 'center'}}>
               <ScrollView
@@ -1725,14 +1687,13 @@ const PartDetail = ({route, navigation}) => {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: '#ffdcd8c4',
+          backgroundColor: '#fcfefc',
         }}>
         <Animatable.Image
-          // animation="bounceIn"
-          duraton="1500"
+          duration={1000}
           source={{
             uri:
-              'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-28-33-85.gif',
+              'https://i.pinimg.com/originals/45/bd/54/45bd545f9c6cb36a0875a6ea39fb4f61.gif',
           }}
           style={{width: '50%', height: '50%'}}
           resizeMode="contain"
@@ -1743,15 +1704,17 @@ const PartDetail = ({route, navigation}) => {
         <View
           style={{
             position: 'absolute',
-            top: 10,
+            top: 8,
             width: '100%',
             height: 15,
           }}>
           <Text
             style={{
               paddingLeft: 40,
-              color: '#754ea6',
+              color: '#5579f1',
               fontStyle: 'italic',
+              letterSpacing: 1,
+              fontSize: 14,
             }}>
             {sequence > 1 ? `${sequence}LẦN LIÊN TỤC...` : ''}
           </Text>
@@ -1810,7 +1773,7 @@ const PartDetail = ({route, navigation}) => {
               animationType="timing"
               progress={c * 0.2}
               width={300}
-              color="#754ea6"
+              color="#5579f1"
             />
           </View>
           <View
@@ -1876,10 +1839,10 @@ const PartDetail = ({route, navigation}) => {
             activeOpacity={0.5}>
             <LinearGradient
               start={{x: 0, y: 0}}
-              end={{x: 0, y: 0}}
-              colors={['#673ab7', '#673ab7']}
+              end={{x: 1, y: 0}}
+              colors={['#c1c8fe', '#5579f1']}
               style={[Style.coverCenter, QuestionStyle.btnSubmit]}>
-              <Text style={[Style.text20, {letterSpacing: 3, color: '#fff'}]}>
+              <Text style={[Style.text18, {letterSpacing: 3, color: '#fff'}]}>
                 KIỂM TRA
               </Text>
             </LinearGradient>

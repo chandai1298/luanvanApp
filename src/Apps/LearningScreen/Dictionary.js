@@ -219,7 +219,7 @@ const Dictionary = ({route, navigation}) => {
           borderBottomWidth: 0,
           margin: 15,
         }}
-        searchIcon={{size: 22}}
+        searchIcon={{size: 25}}
         inputContainerStyle={{borderRadius: 50, backgroundColor: 'none'}}
         inputStyle={{borderRadius: 50}}
         round={true}

@@ -9,24 +9,18 @@ import * as Progress from 'react-native-progress';
 import {IN4_APP} from '../../ConnectServer/In4App';
 import axios from 'axios';
 const api = axios.create({baseURL: `http://localhost:1300/`});
-import {Avatar} from 'react-native-elements';
+// import { Avatar, Accessory } from 'react-native-elements';
 
 const AvatarItem = ({num, icon, colorIcon, label}) => {
   return (
     <View style={ProfileStyle.flexRowIcon}>
       <View style={ProfileStyle.widthIcon}>
-        <FontAwesome5 name={icon} size={18} color={colorIcon} />
+        <FontAwesome5 name={icon} size={16} color={colorIcon} />
       </View>
 
-      <LinearTextGradient
-        locations={[0, 1]}
-        colors={['#091048', '#754ea6']}
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}>
-        <Text style={{fontSize: 18}}>
-          {num} {label}
-        </Text>
-      </LinearTextGradient>
+      <Text style={{fontSize: 18, color: '#848484'}}>
+        {num} {label}
+      </Text>
     </View>
   );
 };
@@ -99,7 +93,8 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
   };
 
   return (
-    <View style={[ProfileStyle.sectionAvatar]}>
+    <View
+      style={[ProfileStyle.sectionAvatar, Style.boxShadow, {elevation: 15}]}>
       <View style={[ProfileStyle.sectionAvtLeft, {paddingLeft: 5}]}>
         <View
           style={[
@@ -109,13 +104,7 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
               justifyContent: 'flex-start',
             },
           ]}>
-          <LinearTextGradient
-            locations={[0, 1]}
-            colors={['#091048', '#754ea6']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}>
-            <Text style={[Style.text20]}>{name}</Text>
-          </LinearTextGradient>
+          <Text style={[Style.text20, {color: '#464646'}]}>{name}</Text>
           <View style={{marginLeft: 5}}>
             <FontAwesome5
               name="seedling"
@@ -124,15 +113,7 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
             />
           </View>
         </View>
-        <LinearTextGradient
-          locations={[0, 1]}
-          style={[Style.coverCenter, {margin: 3, marginLeft: 0}]}
-          colors={['#091048', '#754ea6']}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
-          <Text style={{fontSize: 18}}>{username}</Text>
-        </LinearTextGradient>
-
+        <Text style={{fontSize: 18, color: '#b1b1b1'}}>{username}</Text>
         <AvatarItem
           num={16}
           icon="user-friends"
@@ -158,14 +139,28 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
           label="chuỗi ngày"
         />
       </View>
-      <View style={[ProfileStyle.SectionAvtRight, Style.coverCenter]}>
-        {/* <TouchableOpacity onPress={() => selectImage()}>
+      <View
+        style={[
+          ProfileStyle.SectionAvtRight,
+          Style.coverCenter,
+          Style.boxShadow,
+          {elevation: 10, borderRadius: 250},
+        ]}>
+        {/* <Avatar
+          size="xlarge"
+          rounded
+          source={{
+            uri: image,
+          }}>
+          <Accessory />
+        </Avatar> */}
+        <TouchableOpacity onPress={() => selectImage()}>
           <Image
             resizeMode="cover"
             source={{uri: image}}
             style={Style.images}
           />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     </View>
   );

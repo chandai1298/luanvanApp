@@ -15,7 +15,7 @@ const FinishPart = ({route, navigation}) => {
         duraton="1500"
         source={{
           uri:
-            'https://i.pinimg.com/originals/78/38/ae/7838ae68657a8554abd98eb317520452.gif',
+            'https://i.pinimg.com/originals/f2/d1/68/f2d168efa75cb2b07472b005e560e337.gif',
         }}
         style={{
           width: '50%',
@@ -26,14 +26,12 @@ const FinishPart = ({route, navigation}) => {
       />
       {crown > 3 ? (
         <View style={{flex: 3}}>
-          <LinearTextGradient
-            style={{alignSelf: 'center'}}
-            locations={[0, 1]}
-            colors={['#091048', '#754ea6']}
-            start={{x: 1, y: 1}}
-            end={{x: 1, y: 0}}>
-            <Text style={[Style.text30]}>Bạn giỏi quá!</Text>
-          </LinearTextGradient>
+          <View style={{alignSelf: 'center'}}>
+            <Text style={[Style.text30, {color: '#8f3311'}]}>
+              Bạn giỏi quá!
+            </Text>
+          </View>
+
           <LinearTextGradient
             style={{alignSelf: 'center'}}
             locations={[0, 1]}
@@ -115,7 +113,7 @@ const FinishPart = ({route, navigation}) => {
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
-            colors={['#687ae4', '#754ea6']}
+            colors={['#c1c8fe', '#5579f1']}
             style={[SettingStyle.btnSettings, Style.boxShadow]}>
             <Text style={[Style.text20, Style.textColore6e6f6]}>Tiếp tục</Text>
           </LinearGradient>

@@ -19,5 +19,6 @@ const IN4_APP = {
   UpdateTokenNotification: `${URL_NGROK.url}/UpdateTokenNotification`,
   initConfig: `${URL_NGROK.url}/initConfig`,
   getAllWords: `${URL_NGROK.url}/getAllWords`,
+  UpdatePassWord: `${URL_NGROK.url}/UpdatePassWord`,
 };
 export {IN4_APP};

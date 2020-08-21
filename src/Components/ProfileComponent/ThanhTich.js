@@ -29,14 +29,14 @@ const DATA = [
   {
     albumId: 1,
     id: 4,
-    title: 'culpa odio esse rerum omnis laboriosam voluptate repudiandae',
+    title: 'culpa odio esse rerum omnis ',
     url: 'https://via.placeholder.com/600/d32776',
     thumbnailUrl: 'https://via.placeholder.com/150/d32776',
   },
   {
     albumId: 1,
     id: 5,
-    title: 'natus nisi omnis corporis facere molestiae rerum in',
+    title: 'natus nisi omnis corporis n',
     url: 'https://via.placeholder.com/600/f66b97',
     thumbnailUrl: 'https://via.placeholder.com/150/f66b97',
   },
@@ -50,14 +50,14 @@ const DATA = [
   {
     albumId: 1,
     id: 7,
-    title: 'officia delectus consequatur vero aut veniam explicabo molestias',
+    title: 'officia delectus consequatur vero aut s',
     url: 'https://via.placeholder.com/600/b0f7cc',
     thumbnailUrl: 'https://via.placeholder.com/150/b0f7cc',
   },
   {
     albumId: 1,
     id: 8,
-    title: 'aut porro officiis laborum odit ea laudantium corporis',
+    title: 'aut porro officiis laborum odit',
     url: 'https://via.placeholder.com/600/54176f',
     thumbnailUrl: 'https://via.placeholder.com/150/54176f',
   },
@@ -79,19 +79,30 @@ const DATA = [
 const Items = ({title, thumbnailUrl}) => (
   <View style={ProfileStyle.sectionThanhTich}>
     <View style={ProfileStyle.sectionLeft}>
-      <Image source={{uri: thumbnailUrl}} style={ProfileStyle.sectionLeftImg} />
+      <Image source={{uri: '1'}} style={ProfileStyle.sectionLeftImg} />
     </View>
-    <View style={[ProfileStyle.sectionLeft, {marginLeft: 15}]}>
-      <LinearTextGradient
-        locations={[0, 1]}
-        colors={['#091048', '#754ea6']}
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}>
-        <Text style={Style.text20}>Header</Text>
-      </LinearTextGradient>
 
-      <Text style={{fontSize: 18}}>{title}</Text>
-      <Progress.Bar progress={0.3} width={250} />
+    <View style={[ProfileStyle.sectionLeft, {marginLeft: 15, height: 70}]}>
+      <View style={{height: 30, justifyContent: 'center', paddingTop: 5}}>
+        <Text style={[Style.text20, {color: '#464646'}]}>Header</Text>
+      </View>
+      <View
+        style={{
+          height: 30,
+          justifyContent: 'center',
+          paddingTop: 5,
+        }}>
+        <Text style={{fontSize: 18, color: '#848484'}}>{title}</Text>
+      </View>
+      <View style={{height: 30, justifyContent: 'flex-end'}}>
+        <Progress.Bar
+          progress={0.3}
+          width={250}
+          color="#5579f1"
+          height={10}
+          style={{borderRadius: 30}}
+        />
+      </View>
     </View>
   </View>
 );
@@ -100,7 +111,7 @@ const ThanhTich = () => {
   return (
     <View>
       <FlatList
-        style={{width: DIMENSION.width}}
+        style={{width: DIMENSION.width, marginTop: 20}}
         data={DATA}
         renderItem={({item}) => (
           <Items thumbnailUrl={item.thumbnailUrl} title={item.title} />

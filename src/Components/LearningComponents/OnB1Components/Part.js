@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {IN4_APP} from '../../../ConnectServer/In4App';
 import {LearningStyle, Style, DIMENSION} from '../../../CommonStyles';
 import LinearGradient from 'react-native-linear-gradient';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
-import {LinearTextGradient} from 'react-native-text-gradient';
+import {Tooltip, Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const Part = ({route, navigation}) => {
   const {nameLession, id_category, id_lession, idUser} = route.params;
@@ -47,17 +48,12 @@ const Part = ({route, navigation}) => {
 
   return (
     <View style={{flex: 1}}>
-      <View style={[Style.coverCenter, {flex: 1}]}>
-        <LinearTextGradient
-          locations={[0, 1]}
-          colors={['#091048', '#754ea6']}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
-          <Text style={Style.text30}>{nameLession}</Text>
-        </LinearTextGradient>
+      <View style={[Style.coverCenter, {flex: 1, flexDirection: 'row'}]}>
+        <Text style={[Style.text30, {color: '#8f3311'}]}>{nameLession}</Text>
       </View>
 
-      <View style={[LearningStyle.container, {alignContent: 'flex-end'}]}>
+      <View
+        style={[LearningStyle.container, {alignContent: 'flex-end', flex: 4}]}>
         <View
           style={{
             width: '100%',
@@ -68,53 +64,66 @@ const Part = ({route, navigation}) => {
             paddingTop: 100,
           }}>
           <Animatable.Image
-            animation="bounceIn"
-            duraton="1500"
+            animation="pulse"
+            duration={1000}
+            iterationCount="infinite"
             source={{
               uri:
-                'https://pic.funnygifsbox.com/uploads/2019/02/funnygifsbox.com-2019-02-13-04-28-15-43.gif',
+                'https://i.pinimg.com/564x/03/50/e1/0350e1f4c840bd36f24494670877ba3e.jpg',
             }}
             style={{width: '80%', height: '80%'}}
             resizeMode="contain"
           />
         </View>
-        {listening.map((item, key) => (
-          <TouchableOpacity
-            key={key}
-            style={[
-              LearningStyle.tchLessionCover,
-              Style.boxShadow,
-              {marginTop: 7},
-            ]}
-            onPress={() =>
-              navigation.navigate(item.link, {
-                id_category: idCategory,
-                id_lession: idLession,
-                id_part: item.id,
-                idUser: idUser,
-              })
-            }>
-            <LinearGradient
-              style={LearningStyle.tchLession}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              colors={['#687ae4', '#754ea6']}>
-              <Text style={[Style.text20, Style.textColore6e6f6]}>
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignContent: 'space-between',
+            justifyContent: 'center',
+          }}>
+          {listening.map((item, key) => (
+            <TouchableOpacity
+              key={key}
+              style={[
+                LearningStyle.tchLessionCover,
+                Style.boxShadow,
+                {marginTop: 7, elevation: 12},
+              ]}
+              onPress={() =>
+                navigation.navigate(item.link, {
+                  id_category: idCategory,
+                  id_lession: idLession,
+                  id_part: item.id,
+                  idUser: idUser,
+                })
+              }>
+              <Text style={[Style.text20, {color: '#9a9a9a'}]}>
                 {item.name}
               </Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        ))}
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
       <View style={Style.line} />
-      <View style={LearningStyle.container}>
+      <View
+        style={[
+          LearningStyle.container,
+          {
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignContent: 'flex-start',
+            justifyContent: 'center',
+            flex: 3,
+          },
+        ]}>
         {reads.map((item, key) => (
           <TouchableOpacity
             key={key}
             style={[
               LearningStyle.tchLessionCover,
               Style.boxShadow,
-              {marginBottom: 7},
+              {marginTop: 7, elevation: 12},
             ]}
             onPress={() =>
               navigation.navigate(item.link, {
@@ -124,17 +133,44 @@ const Part = ({route, navigation}) => {
                 idUser: idUser,
               })
             }>
-            <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              style={LearningStyle.tchLession}
-              colors={['#687ae4', '#754ea6']}>
-              <Text style={[Style.text20, Style.textColore6e6f6]}>
-                {item.name}
-              </Text>
-            </LinearGradient>
+            <Text style={[Style.text20, {color: '#9a9a9a'}]}>{item.name}</Text>
           </TouchableOpacity>
         ))}
+      </View>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 40,
+          width: 70,
+          height: 30,
+          right: 15,
+          paddingLeft: 17,
+          borderRadius: 25,
+          borderColor: '#c1c8fe',
+          borderWidth: 1.5,
+          justifyContent: 'center',
+        }}>
+        <Tooltip
+          width={DIMENSION.width - 30}
+          height={300}
+          popover={
+            <Image
+              style={{width: '100%', height: '100%'}}
+              resizeMode="stretch"
+              source={{
+                uri:
+                  'https://tienganhmoingay.com/media/images/uploads/2019/08/27/cau_truc_de_thi_toeic-02.png',
+              }}
+            />
+          }>
+          <Text
+            style={{
+              fontSize: 16,
+              color: '#5579f1',
+            }}>
+            Tips!
+          </Text>
+        </Tooltip>
       </View>
     </View>
   );
