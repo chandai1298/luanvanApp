@@ -1,7 +1,9 @@
 import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native';
+import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
 import {IN4_APP} from '../../ConnectServer/In4App';
 import {LearningStyle, Style, DIMENSION} from '../../CommonStyles';
+import LessionComponent from './LessionComponent';
+import axios from 'axios';
 
 const OnB1 = ({route, navigation}) => {
   const {id_category, idUser, rank} = route.params;
@@ -18,19 +20,16 @@ const OnB1 = ({route, navigation}) => {
   ]);
   const getData = () => {
     const apiURL = IN4_APP.getLession;
-    fetch(apiURL, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
+
+    axios
+      .post(apiURL, {
         id: idCategory,
-      }),
-    })
-      .then((res) => res.json())
-      .then((results) => {
-        setData(results);
       })
-      .catch((err) => {
-        console.log(err);
+      .then(function (response) {
+        setData(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.message);
       });
   };
 
@@ -39,34 +38,12 @@ const OnB1 = ({route, navigation}) => {
   }, []);
 
   return (
-    <View>
-      <FlatList
-        style={{marginTop: 40}}
-        columnWrapperStyle={{justifyContent: 'space-around', flex: 1}}
-        numColumns={2}
+    <View style={Style.coverCenter}>
+      <LessionComponent
         data={data}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            style={[{marginBottom: 5}]}
-            onPress={() =>
-              navigation.navigate(item.link, {
-                id_category: item.id_category,
-                id_lession: item.id,
-                nameLession: `${item.name}`,
-                idUser: idUser,
-                rank: rank,
-              })
-            }>
-            <Image
-              source={{
-                uri: item.imageCheck,
-              }}
-              resizeMode="contain"
-              style={Style.images2}
-            />
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item) => `${item.id}`}
+        idUser={idUser}
+        rank={rank}
+        navigation={navigation}
       />
     </View>
   );

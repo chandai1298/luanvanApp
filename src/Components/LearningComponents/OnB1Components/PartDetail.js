@@ -17,7 +17,6 @@ import {IN4_APP} from '../../../ConnectServer/In4App';
 import {QuestionStyle, Style, DIMENSION} from '../../../CommonStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import * as Progress from 'react-native-progress';
-import {Button, Paragraph, Dialog, Portal} from 'react-native-paper';
 import Player from '../../SoundComponents/Player';
 import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -26,8 +25,20 @@ import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
 import {useFocusEffect} from '@react-navigation/native';
 import Tts from 'react-native-tts';
+import Tooltip from 'react-native-walkthrough-tooltip';
+import {Button} from 'react-native-elements';
 
 const PartDetail = ({route, navigation}) => {
+  const {
+    count,
+    crown,
+    score,
+    totalLength,
+    id_category,
+    id_lession,
+    id_part,
+    idUser,
+  } = route.params;
   const [loading, setLoading] = React.useState(true);
   const [hideDescription, setHideDescription] = React.useState(false);
   const [sequence, setSequence] = React.useState(0);
@@ -39,17 +50,6 @@ const PartDetail = ({route, navigation}) => {
   const [answer5, setAnswer5] = React.useState(null);
   const [outputText, onChangeOutputText] = React.useState('');
   const [outPartRead, setOutPartRead] = React.useState('');
-
-  const {
-    count,
-    crown,
-    score,
-    totalLength,
-    id_category,
-    id_lession,
-    id_part,
-    idUser,
-  } = route.params;
   const c = parseInt(JSON.stringify(count));
   const totalLength2 = parseInt(JSON.stringify(totalLength));
   const idCategory = parseInt(JSON.stringify(id_category));
@@ -66,8 +66,7 @@ const PartDetail = ({route, navigation}) => {
 
   //header
   const [visible, setVisible] = React.useState(false);
-  const showDialog = () => setVisible(true);
-  const hideDialog = () => setVisible(false);
+
   const [current_hint, setCurrentHint] = React.useState('');
 
   const updateHint = (hints) => {
@@ -1727,6 +1726,8 @@ const PartDetail = ({route, navigation}) => {
               top: 10,
               width: '100%',
               height: 50,
+              paddingLeft: 10,
+              paddingRight: 10,
             },
           ]}>
           <View style={[QuestionStyle.iconHeader, Style.coverCenter]}>
@@ -1738,41 +1739,12 @@ const PartDetail = ({route, navigation}) => {
               />
             </TouchableOpacity>
           </View>
-          {tmp > 0 ? (
-            <Portal>
-              <Dialog visible={visible} onDismiss={hideDialog}>
-                <Dialog.Title>Thông báo!</Dialog.Title>
-                <Dialog.Content>
-                  <Paragraph style={{fontSize: 18}}>
-                    Mất 1 tim để nhân trợ giúp?
-                  </Paragraph>
-                </Dialog.Content>
-                <Dialog.Actions>
-                  <Button onPress={() => updateHint(tmp)}>Ok</Button>
-                  <Button onPress={() => hideDialog()}>Hủy</Button>
-                </Dialog.Actions>
-              </Dialog>
-            </Portal>
-          ) : (
-            <Portal>
-              <Dialog visible={visible} onDismiss={() => hideDialog()}>
-                <Dialog.Title>Thông báo!</Dialog.Title>
-                <Dialog.Content>
-                  <Paragraph style={{fontSize: 18}}>
-                    Bạn đã hết trợ giúp!
-                  </Paragraph>
-                </Dialog.Content>
-                <Dialog.Actions>
-                  <Button onPress={() => hideDialog()}>Ok</Button>
-                </Dialog.Actions>
-              </Dialog>
-            </Portal>
-          )}
+
           <View style={QuestionStyle.progressHeader}>
             <Progress.Bar
               animationType="timing"
               progress={c * 0.2}
-              width={300}
+              width={280}
               color="#5579f1"
             />
           </View>
@@ -1781,16 +1753,66 @@ const PartDetail = ({route, navigation}) => {
               QuestionStyle.iconHeader,
               {flexDirection: 'row', justifyContent: 'center'},
             ]}>
-            <FontAwesome5
-              name="heartbeat"
-              size={DIMENSION.sizeIcon}
-              color="#f44336"
-              onPress={() => showDialog()}
-            />
+            <Tooltip
+              contentStyle={{width: 200, height: 120}}
+              isVisible={visible}
+              content={
+                tmp > 0 ? (
+                  <View
+                    style={{
+                      justifyContent: 'space-between',
+                      flex: 1,
+                    }}>
+                    <Text
+                      style={[
+                        {
+                          marginLeft: 3,
+                          fontSize: 20,
+                          color: '#464646',
+                        },
+                      ]}>
+                      Mất 1 tim để nhân trợ giúp?
+                    </Text>
+                    <Button
+                      containerStyle={{
+                        width: '75%',
+                        alignSelf: 'center',
+                        borderRadius: 25,
+                      }}
+                      buttonStyle={{backgroundColor: '#5579f1'}}
+                      titleStyle={{
+                        letterSpacing: 3,
+                      }}
+                      title="Ok"
+                      onPress={() => {
+                        updateHint(tmp);
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <Text> Bạn đã hết trợ giúp!</Text>
+                )
+              }
+              placement="left"
+              onClose={() => setVisible(false)}>
+              <FontAwesome5
+                onPress={() => setVisible(true)}
+                name="heartbeat"
+                size={DIMENSION.sizeIcon}
+                color="#f44336"
+              />
+            </Tooltip>
 
-            <Text style={[Style.text20, {marginLeft: 3, color: '#f44336'}]}>
-              {tmp}
-            </Text>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignSelf: 'center',
+                alignContent: 'center',
+              }}>
+              <Text style={[Style.text20, {marginLeft: 3, color: '#f44336'}]}>
+                {tmp}
+              </Text>
+            </View>
           </View>
         </View>
 

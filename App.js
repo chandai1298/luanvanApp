@@ -31,10 +31,8 @@ import OnB1 from './src/Apps/LearningScreen/OnB1';
 import Evaluation from './src/Apps/LearningScreen/Evaluation';
 import Part from './src/Components/LearningComponents/OnB1Components/Part';
 import PartDetail from './src/Components/LearningComponents/OnB1Components/PartDetail';
-import Speaking from './src/Components/LearningComponents/ToeicComponents/Speaking';
-import Listening from './src/Components/LearningComponents/ToeicComponents/Listening';
-import Writing from './src/Components/LearningComponents/ToeicComponents/Writing';
-import Reading from './src/Components/LearningComponents/ToeicComponents/Reading';
+import ToeicTest from './src/Components/LearningComponents/ToeicComponents/ToeicTest';
+import ToeicTestDetail from './src/Components/LearningComponents/ToeicComponents/ToeicTestDetail';
 import ChangePassword from './src/Components/SettingComponents/ChangePassword';
 import FinishPart from './src/Components/Encouragement/FinishPart';
 import Corrects from './src/Components/Encouragement/Corrects';
@@ -307,25 +305,17 @@ const App = () => {
                 options={{title: 'TOEIC-4 kỹ năng'}}
               />
               <Stack.Screen
-                name="toeic_listening"
-                component={Listening}
+                name="toeic"
+                component={ToeicTest}
                 options={{headerShown: false}}
               />
               <Stack.Screen
-                name="toeic_speaking"
-                component={Speaking}
+                name="toeicDetail"
+                component={ToeicTestDetail}
                 options={{headerShown: false}}
+                initialParams={{count: 0, score: 0, crown: 5, totalLength: 0}}
               />
-              <Stack.Screen
-                name="toeic_reading"
-                component={Reading}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="toeic_writing"
-                component={Writing}
-                options={{headerShown: false}}
-              />
+
               <Stack.Screen
                 name="onB1"
                 component={OnB1}

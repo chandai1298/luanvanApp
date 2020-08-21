@@ -27,10 +27,16 @@ const Part = ({route, navigation}) => {
     },
   ]);
   const getData = () => {
-    const apiURL = IN4_APP.getPartRead;
-    const apiURL2 = IN4_APP.getPartListening;
+    const apiURL = IN4_APP.getPart;
     axios
-      .all([axios.get(apiURL), axios.get(apiURL2)])
+      .all([
+        axios.post(apiURL, {
+          type: 'read',
+        }),
+        axios.post(apiURL, {
+          type: 'listening',
+        }),
+      ])
       .then(
         axios.spread((...allData) => {
           setReads(allData[0].data);
