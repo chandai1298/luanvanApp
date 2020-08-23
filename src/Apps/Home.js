@@ -177,7 +177,7 @@ const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
                 marginBottom: 20,
                 backgroundColor: '#fff',
                 borderRadius: 20,
-                margin: 6,
+                margin: 5,
                 width: '30%',
                 height: 100,
                 justifyContent: 'center',

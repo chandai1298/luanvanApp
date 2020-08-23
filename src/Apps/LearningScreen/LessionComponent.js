@@ -5,7 +5,7 @@ import {LearningStyle, Style, DIMENSION} from '../../CommonStyles';
 const LessionComponent = ({data, idUser, rank, navigation}) => {
   return (
     <View style={Style.coverCenter}>
-      <ScrollView style={{marginTop: 30}}>
+      <ScrollView style={{marginTop: 20}}>
         <View
           style={{
             flexDirection: 'row',
@@ -20,7 +20,7 @@ const LessionComponent = ({data, idUser, rank, navigation}) => {
               style={[
                 Style.boxShadow,
                 {
-                  width: '42%',
+                  width: '40%',
                   height: 150,
                   alignContent: 'center',
                   justifyContent: 'center',

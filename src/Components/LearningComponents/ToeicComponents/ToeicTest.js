@@ -58,7 +58,7 @@ const ToeicTest = ({route, navigation}) => {
             style={[
               Style.boxShadow,
               {
-                width: '42%',
+                width: '40%',
                 height: 150,
                 alignContent: 'center',
                 justifyContent: 'center',
