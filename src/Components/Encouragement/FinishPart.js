@@ -7,7 +7,19 @@ import {LinearTextGradient} from 'react-native-text-gradient';
 import LinearGradient from 'react-native-linear-gradient';
 
 const FinishPart = ({route, navigation}) => {
-  const {crown, score} = route.params;
+  const {crown, score, type} = route.params;
+
+  const onPressHandle = () => {
+    switch (type) {
+      case 'Toeic':
+        navigation.navigate('toeic');
+        break;
+
+      default:
+        navigation.navigate('part');
+        break;
+    }
+  };
   return (
     <View style={[Style.coverCenter, {flex: 5, backgroundColor: '#fcfefc'}]}>
       <Animatable.Image
@@ -109,7 +121,7 @@ const FinishPart = ({route, navigation}) => {
       <View style={{padding: 15, width: '100%'}}>
         <TouchableOpacity
           style={[SettingStyle.btnSettings, Style.boxShadow]}
-          onPress={() => navigation.navigate('part')}>
+          onPress={() => onPressHandle()}>
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}

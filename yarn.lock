@@ -5979,6 +5979,11 @@ react-native-video@^4.4.5:
     prop-types "^15.5.10"
     shaka-player "^2.4.4"
 
+react-native-voice@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-voice/-/react-native-voice-0.3.0.tgz#2ca3ff8f8f6fc6d087e10b6d3ecd50af8e01a166"
+  integrity sha512-puSrXCNn1MM03UZkY8q+GW931OqBCEBCiupNK4vD8i49esGqRDDmzv8sRYyEgXj5ScVDKe6lnlKCmJSn5Wo2UA==
+
 react-native-walkthrough-tooltip@^1.1.10:
   version "1.1.10"
   resolved "https://registry.yarnpkg.com/react-native-walkthrough-tooltip/-/react-native-walkthrough-tooltip-1.1.10.tgz#cfc8865adcab0e0215dfc6bcee4f1958a3aa1ff6"
@@ -6024,11 +6029,6 @@ react-refresh@^0.4.0:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.4.3.tgz#966f1750c191672e76e16c2efa569150cc73ab53"
   integrity sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==
-
-react-speech-recognition@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/react-speech-recognition/-/react-speech-recognition-3.2.1.tgz#0edfd2d4ee1e0777fc890a9b1a0d36acbf26612d"
-  integrity sha512-w1CpqJmmfx3Cmuq9IDHgLPTqbz6/dGvCjpIJ8uAgO/QgcXyT9y1heda0AFjE69fr0dRk8SzYv+eXH4DKqYqlhA==
 
 react-test-renderer@16.13.1:
   version "16.13.1"

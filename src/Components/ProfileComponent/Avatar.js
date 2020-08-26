@@ -58,6 +58,7 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
     const {uri} = img;
     const filename = uri.substring(uri.lastIndexOf('/') + 1);
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+    console.log(uploadUri);
     const task = storage().ref(`img/${filename}`).putFile(uploadUri);
     // task.on('state_changed', (snapshot) => {
     //   setTransferred(
@@ -70,14 +71,12 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
       const a = await ref.getDownloadURL();
 
       const updateAvatar = IN4_APP.UpdateAvatar;
-      console.log(id);
       axios
         .put(updateAvatar, {
           Avatar: `${a}`,
           Id: id,
         })
         .then(function (response) {
-          console.log(a);
           ToastAndroid.showWithGravity(
             response.data,
             ToastAndroid.SHORT,

@@ -45,6 +45,7 @@
     "react-native-tts": "^3.2.0",
     "react-native-vector-icons": "^7.0.0",
     "react-native-video": "^4.4.5",
+    "react-native-voice": "^0.3.0",
     "react-native-walkthrough-tooltip": "^1.1.10"
   },
   "devDependencies": {
