@@ -38,10 +38,10 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
     },
   ]);
   const [dataConfig, setDataConfig] = React.useState([
-    {id: '', id_user: '', title: '', status: '', status2: '', isActive: ''},
+    {id: '', id_user: '', title: '', status: '', isActive: ''},
   ]);
   const [dataConfig2, setDataConfig2] = React.useState([
-    {id: '', id_user: '', title: '', status: '', status2: '', isActive: ''},
+    {id: '', id_user: '', title: '', status: '', isActive: ''},
   ]);
   const showData = () => {
     const rankOfUser = IN4_APP.RankOfUser;
@@ -77,7 +77,7 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
         console.log(err);
       });
   };
-
+ 
   useEffect(() => {
     showData();
     let id = setInterval(() => {
@@ -133,6 +133,7 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
           tabBarOptions={{
             activeTintColor: '#464646',
             labelStyle: [Style.text18],
+            showIcon: true,
           }}>
           <Tab.Screen
             name="ThanhTich"
@@ -147,6 +148,7 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
             options={{
               tabBarLabel: 'Bạn bè',
             }}
+            initialParams={{id: users.Id}}
           />
         </Tab.Navigator>
       </View>

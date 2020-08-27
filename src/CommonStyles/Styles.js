@@ -123,6 +123,15 @@ const Style = StyleSheet.create({
     borderColor: '#c1c8fe',
     borderWidth: 3,
   },
+  imageRank: {
+    height: 110,
+    width: 110,
+    borderRadius: 250,
+    borderWidth: 6,
+  },
+  marginTop20: {
+    marginTop: 20,
+  },
   images2: {
     // height: '100%',
     // width: '100%',

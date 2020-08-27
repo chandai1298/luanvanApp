@@ -20,5 +20,9 @@ const IN4_APP = {
   initConfig: `${URL_NGROK.url}/initConfig`,
   getAllWords: `${URL_NGROK.url}/getAllWords`,
   UpdatePassWord: `${URL_NGROK.url}/UpdatePassWord`,
+  getTotalFriend: `${URL_NGROK.url}/getTotalFriend`,
+  getScoreFriend: `${URL_NGROK.url}/getScoreFriend`,
+  getTopRank: `${URL_NGROK.url}/getTopRank`,
+  searchFriend: `${URL_NGROK.url}/searchFriend`,
 };
 export {IN4_APP};

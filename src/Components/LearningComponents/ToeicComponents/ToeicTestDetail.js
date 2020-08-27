@@ -54,7 +54,7 @@ const ToeicTestDetail = ({route, navigation}) => {
   const [hidePlayer, setHidePlayer] = React.useState(false);
   const [hideRecord, setHideRecord] = React.useState(false);
   const [help, setHelp] = React.useState(false);
-  const [answer, setAnswer] = React.useState(null);
+  const [answer, setAnswer] = React.useState('');
   // const [timeRecorder, setTimeRecorder] = React.useState(0);
 
   const [data, setData] = React.useState([
@@ -634,7 +634,7 @@ const ToeicTestDetail = ({route, navigation}) => {
     if (data.length - 1 == totalLength) {
       const getDefinition = IN4_APP.UpdateScore;
       const cur_sc = score + 10;
-      navigation.navigate('finishPart', {
+      navigation.replace('finishPart', {
         crown: crown,
         score: cur_sc,
         type: 'Toeic',
@@ -660,7 +660,6 @@ const ToeicTestDetail = ({route, navigation}) => {
         crown: crown,
       });
     }
-
     setAnswer('');
   };
   return data.length > 0 ? (
@@ -794,12 +793,14 @@ const ToeicTestDetail = ({route, navigation}) => {
           }}>
           <TouchableOpacity
             style={[Style.boxShadow, {height: 50, borderRadius: 30}]}
-            onPress={() => check()}
+            onPress={() => (answer !== '' ? check() : console.log('chua nhap'))}
             activeOpacity={0.5}>
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
-              colors={['#c1c8fe', '#5579f1']}
+              colors={
+                answer !== '' ? ['#5579f1', '#5579f1'] : ['#c1c8fe', '#c1c8fe']
+              }
               style={[Style.coverCenter, QuestionStyle.btnSubmit]}>
               <Text style={[Style.text18, {letterSpacing: 3, color: '#fff'}]}>
                 KIỂM TRA

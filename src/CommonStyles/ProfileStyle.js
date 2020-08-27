@@ -28,9 +28,9 @@ const ProfileStyle = StyleSheet.create({
     justifyContent: 'center',
   },
   containerPadding15: {
-    padding: 15,
-    paddingBottom: 0,
-    paddingTop: 0,
+    // padding: 15,
+    // paddingBottom: 0,
+    // paddingTop: 0,
     flex: 6,
   },
 
@@ -38,9 +38,10 @@ const ProfileStyle = StyleSheet.create({
   sectionThanhTich: {
     flex: 1,
     flexDirection: 'row',
-    padding: 10,
-    // borderBottomColor: '#9a9a9a',
-    // borderBottomWidth: 1,
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderBottomColor: '#9a9a9a',
+    borderBottomWidth: 1,
     // borderRadius: 10,
   },
   sectionLeft: {
@@ -51,6 +52,12 @@ const ProfileStyle = StyleSheet.create({
   sectionLeftImg: {
     height: 90,
     width: 90,
+    borderRadius: 10,
+    backgroundColor: '#f1f1f1',
+  },
+  sectionLeftImgRank: {
+    height: 64,
+    width: 64,
     borderRadius: 10,
     backgroundColor: '#f1f1f1',
   },

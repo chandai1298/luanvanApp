@@ -1,125 +1,104 @@
-import React, {Component} from 'react';
-import {View, Text, Image, FlatList} from 'react-native';
-import {Style, ProfileStyle, DIMENSION} from '../../CommonStyles';
+import React, {useEffect} from 'react';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {
+  Style,
+  ProfileStyle,
+  DIMENSION,
+  QuestionStyle,
+} from '../../CommonStyles';
 import * as Progress from 'react-native-progress';
 import {LinearTextGradient} from 'react-native-text-gradient';
+import {IN4_APP} from '../../ConnectServer/In4App';
+import axios from 'axios';
+import {ScrollView} from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
-const DATA = [
-  {
-    albumId: 1,
-    id: 1,
-    title: 'accusamus beatae ad facilis cum similique qui sunt',
-    url: 'https://via.placeholder.com/600/92c952',
-    thumbnailUrl: 'https://via.placeholder.com/150/92c952',
-  },
-  {
-    albumId: 1,
-    id: 2,
-    title: 'reprehenderit est deserunt velit ipsam',
-    url: 'https://via.placeholder.com/600/771796',
-    thumbnailUrl: 'https://via.placeholder.com/150/771796',
-  },
-  {
-    albumId: 1,
-    id: 3,
-    title: 'officia porro iure quia iusto qui ipsa ut modi',
-    url: 'https://via.placeholder.com/600/24f355',
-    thumbnailUrl: 'https://via.placeholder.com/150/24f355',
-  },
-  {
-    albumId: 1,
-    id: 4,
-    title: 'culpa odio esse rerum omnis laboriosam voluptate repudiandae',
-    url: 'https://via.placeholder.com/600/d32776',
-    thumbnailUrl: 'https://via.placeholder.com/150/d32776',
-  },
-  {
-    albumId: 1,
-    id: 5,
-    title: 'natus nisi omnis corporis facere molestiae rerum in',
-    url: 'https://via.placeholder.com/600/f66b97',
-    thumbnailUrl: 'https://via.placeholder.com/150/f66b97',
-  },
-  {
-    albumId: 1,
-    id: 6,
-    title: 'accusamus ea aliquid et amet sequi nemo',
-    url: 'https://via.placeholder.com/600/56a8c2',
-    thumbnailUrl: 'https://via.placeholder.com/150/56a8c2',
-  },
-  {
-    albumId: 1,
-    id: 7,
-    title: 'officia delectus consequatur vero aut veniam explicabo molestias',
-    url: 'https://via.placeholder.com/600/b0f7cc',
-    thumbnailUrl: 'https://via.placeholder.com/150/b0f7cc',
-  },
-  {
-    albumId: 1,
-    id: 8,
-    title: 'aut porro officiis laborum odit ea laudantium corporis',
-    url: 'https://via.placeholder.com/600/54176f',
-    thumbnailUrl: 'https://via.placeholder.com/150/54176f',
-  },
-  {
-    albumId: 1,
-    id: 9,
-    title: 'qui eius qui autem sed',
-    url: 'https://via.placeholder.com/600/51aa97',
-    thumbnailUrl: 'https://via.placeholder.com/150/51aa97',
-  },
-  {
-    albumId: 1,
-    id: 10,
-    title: 'beatae et provident et ut vel',
-    url: 'https://via.placeholder.com/600/810b14',
-    thumbnailUrl: 'https://via.placeholder.com/150/810b14',
-  },
-];
-const Items = ({title, thumbnailUrl}) => (
-  <View style={ProfileStyle.sectionThanhTich}>
-    <View style={[ProfileStyle.flexRowIcon, Style.rowCenter]}>
-      <Image
-        source={{uri: thumbnailUrl}}
-        style={[ProfileStyle.sectionLeftImg, {borderRadius: 70}]}
-      />
-      <View style={{marginLeft: 15}}>
-        <LinearTextGradient
-          locations={[0, 1]}
-          colors={['#091048', '#754ea6']}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
-          <Text style={[Style.text20]}>Header</Text>
-        </LinearTextGradient>
-      </View>
-    </View>
-    <View
-      style={[
-        ProfileStyle.SectionAvtRight,
-        {justifyContent: 'center', marginRight: 30},
-      ]}>
-      <LinearTextGradient
-        locations={[0, 1]}
-        colors={['#091048', '#754ea6']}
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}>
-        <Text style={Style.text18}>31289 KN</Text>
-      </LinearTextGradient>
-    </View>
-  </View>
-);
+const BanBe = ({route}) => {
+  const {id} = route.params;
+  const [data, setData] = React.useState([]);
+  const showData = () => {
+    const getScoreFriend = IN4_APP.getScoreFriend;
+    axios
+      .post(getScoreFriend, {
+        Id: id,
+      })
+      .then(function (response) {
+        setData(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  };
 
-const BanBe = () => {
+  useEffect(() => {
+    showData();
+    let id = setInterval(() => {
+      showData();
+    }, 10000);
+    return () => clearInterval(id);
+  }, []);
   return (
-    <View>
-      <FlatList
-        style={{width: DIMENSION.width}}
-        data={DATA}
-        renderItem={({item}) => (
-          <Items thumbnailUrl={item.thumbnailUrl} title={item.title} />
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
+    <View style={{flex: 1}}>
+      <TouchableOpacity
+        style={[
+          Style.coverCenter,
+          {
+            height: 40,
+            borderRadius: 15,
+            width: '45%',
+            marginLeft: 15,
+            flexDirection: 'row',
+            backgroundColor: '#5579f1',
+          },
+        ]}
+        onPress={() => alert('helo')}
+        activeOpacity={0.5}>
+        <FontAwesome5Icon
+          name="search"
+          size={18}
+          color="#fff"
+          // style={[Style.coverCenter, {borderRadius: 15}]}
+          // onPress={() => onPressHandle()}
+        />
+
+        <Text style={[{letterSpacing: 2, color: '#fff', fontSize: 18}]}>
+          Tìm bạn bè
+        </Text>
+      </TouchableOpacity>
+
+      <ScrollView>
+        {data.map((e, key) => (
+          <View style={ProfileStyle.sectionThanhTich} key={key}>
+            <View
+              style={[
+                ProfileStyle.flexRowIcon,
+                Style.rowCenter,
+                {paddingLeft: 15},
+              ]}>
+              <Image
+                source={{uri: e.Avatar}}
+                style={[ProfileStyle.sectionLeftImg, {borderRadius: 70}]}
+              />
+              <View style={{marginLeft: 15}}>
+                <Text style={[Style.text18, {color: '#464646'}]}>{e.Name}</Text>
+                <Text style={{fontSize: 18, color: '#b1b1b1'}}>
+                  {e.Username}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={[
+                ProfileStyle.SectionAvtRight,
+                {justifyContent: 'center', paddingRight: 15},
+              ]}>
+              <Text style={{fontSize: 18, color: '#ffc107'}}>
+                {e.total_score} KN
+              </Text>
+            </View>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 };

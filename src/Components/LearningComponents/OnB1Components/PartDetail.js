@@ -43,11 +43,11 @@ const PartDetail = ({route, navigation}) => {
   const [hideDescription, setHideDescription] = React.useState(false);
   const [sequence, setSequence] = React.useState(0);
   const [help, setHelp] = React.useState(false);
-  const [answer, setAnswer] = React.useState(null);
-  const [answer2, setAnswer2] = React.useState(null);
-  const [answer3, setAnswer3] = React.useState(null);
-  const [answer4, setAnswer4] = React.useState(null);
-  const [answer5, setAnswer5] = React.useState(null);
+  const [answer, setAnswer] = React.useState('');
+  const [answer2, setAnswer2] = React.useState('');
+  const [answer3, setAnswer3] = React.useState('');
+  const [answer4, setAnswer4] = React.useState('');
+  const [answer5, setAnswer5] = React.useState('');
   const [outputText, onChangeOutputText] = React.useState('');
   const [outPartRead, setOutPartRead] = React.useState('');
   const c = parseInt(JSON.stringify(count));
@@ -117,9 +117,13 @@ const PartDetail = ({route, navigation}) => {
       hint: '',
     },
   ]);
+  const [dataConfig, setDataConfig] = React.useState([
+    {id: '', id_user: '', title: '', status: '', isActive: ''},
+  ]);
   const getData = () => {
     const getQuestionPart = IN4_APP.getQuestionPart;
     const RankOfUser = IN4_APP.RankOfUser;
+    const getConfig = IN4_APP.getConfig;
     axios
       .all([
         axios.post(RankOfUser, {
@@ -130,11 +134,16 @@ const PartDetail = ({route, navigation}) => {
           id_part: idPart,
           id_lession: idLession,
         }),
+        axios.post(getConfig, {
+          id_user: idUser,
+          type: 1,
+        }),
       ])
       .then(
         axios.spread((...allData) => {
           setRank(allData[0].data);
           setData(allData[1].data);
+          setDataConfig(allData[2].data);
           setLoading(false);
         }),
       )
@@ -1252,6 +1261,45 @@ const PartDetail = ({route, navigation}) => {
     }
     return promise;
   };
+  const encourage = (tmp_sequence, bonus, nextElement) => {
+    if (tmp_sequence % 2 == 0 && dataConfig[1].status === 'true') {
+      navigation.navigate('correct', {
+        totalLength: nextElement,
+        count: count + 1,
+        score: score + bonus,
+        crown: crown,
+        sequence: tmp_sequence,
+      });
+    } else {
+      navigation.navigate('partDetail', {
+        totalLength: nextElement,
+        count: count + 1,
+        score: score + bonus,
+        crown: crown,
+      });
+    }
+  };
+  const updateScore = (bonus) => {
+    const cur_sc = score + bonus;
+    navigation.navigate('finishPart', {
+      crown: crown,
+      score: cur_sc,
+    });
+    const getDefinition = IN4_APP.UpdateScore;
+    axios
+      .put(getDefinition, {
+        crown: crown + rank.crown,
+        current_score: cur_sc + rank.current_score,
+        total_score: cur_sc + rank.total_score,
+        id_user: idUser,
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  };
   const check = () => {
     setHideDescription(false);
     if (data.length == 0) {
@@ -1265,36 +1313,20 @@ const PartDetail = ({route, navigation}) => {
             answer2 === question2.answer &&
             answer3 === question3.answer
           ) {
+            const tmp_sequence = sequence + 1;
+            setSequence(tmp_sequence);
             data.some((item) => {
               if (item.sound === question.sound) {
                 if (data.length > 3) {
                   data.splice(data.indexOf(item), 3);
-                  navigation.navigate('partDetail', {
-                    totalLength:
-                      Math.round(
-                        Math.floor(Math.random() * (data.length - 1)) / 3,
-                      ) * 3,
-                    count: count + 1,
-                    score: score + 10,
-                    crown: crown,
-                  });
+                  const nextElement =
+                    Math.round(
+                      Math.floor(Math.random() * (data.length - 1)) / 3,
+                    ) * 3;
+                  encourage(tmp_sequence, 30, nextElement);
                 } else {
-                  navigation.navigate('part');
                   if (data.length == 3) {
-                    const getDefinition = IN4_APP.UpdateScore;
-                    axios
-                      .put(getDefinition, {
-                        crown: crown,
-                        current_score: score,
-                        total_score: score,
-                        id_user: idUser,
-                      })
-                      .then(function (response) {
-                        console.log(response.data);
-                      })
-                      .catch(function (error) {
-                        console.log(error.message);
-                      });
+                    updateScore(30);
                   }
                 }
               }
@@ -1303,11 +1335,12 @@ const PartDetail = ({route, navigation}) => {
             setAnswer2('');
             setAnswer3('');
           } else {
+            setSequence(0);
             navigation.navigate('partDetail', {
               totalLength:
                 Math.round(Math.floor(Math.random() * (data.length - 1)) / 3) *
                 3,
-              score: score > 0 ? score - 3 : score,
+              score: score - 9,
               crown: crown > 0 ? crown - 1 : crown,
             });
             setAnswer('');
@@ -1321,36 +1354,20 @@ const PartDetail = ({route, navigation}) => {
             answer2 === question2.answer &&
             answer3 === question3.answer
           ) {
+            const tmp_sequence = sequence + 1;
+            setSequence(tmp_sequence);
             data.some((item) => {
               if (item.sound === question.sound) {
                 if (data.length > 3) {
                   data.splice(data.indexOf(item), 3);
-                  navigation.navigate('partDetail', {
-                    totalLength:
-                      Math.round(
-                        Math.floor(Math.random() * (data.length - 1)) / 3,
-                      ) * 3,
-                    count: count + 1,
-                    score: score + 10,
-                    crown: crown,
-                  });
+                  const nextElement =
+                    Math.round(
+                      Math.floor(Math.random() * (data.length - 1)) / 3,
+                    ) * 3;
+                  encourage(tmp_sequence, 30, nextElement);
                 } else {
-                  navigation.navigate('part');
                   if (data.length == 3) {
-                    const getDefinition = IN4_APP.UpdateScore;
-                    axios
-                      .put(getDefinition, {
-                        crown: crown,
-                        current_score: score,
-                        total_score: score,
-                        id_user: idUser,
-                      })
-                      .then(function (response) {
-                        console.log(response.data);
-                      })
-                      .catch(function (error) {
-                        console.log(error.message);
-                      });
+                    updateScore(30);
                   }
                 }
               }
@@ -1359,11 +1376,12 @@ const PartDetail = ({route, navigation}) => {
             setAnswer2('');
             setAnswer3('');
           } else {
+            setSequence(0);
             navigation.navigate('partDetail', {
               totalLength:
                 Math.round(Math.floor(Math.random() * (data.length - 1)) / 3) *
                 3,
-              score: score > 0 ? score - 3 : score,
+              score: score - 9,
               crown: crown > 0 ? crown - 1 : crown,
             });
             setAnswer('');
@@ -1372,6 +1390,7 @@ const PartDetail = ({route, navigation}) => {
           }
           break;
         case 7:
+          console.log(data.length);
           switch (countQuestionPart7()) {
             case 5:
               if (
@@ -1381,35 +1400,16 @@ const PartDetail = ({route, navigation}) => {
                 answer4 === question4.answer &&
                 answer5 === question5.answer
               ) {
+                const tmp_sequence = sequence + 1;
+                setSequence(tmp_sequence);
                 data.some((item) => {
                   if (item.sound === question.sound) {
                     if (data.length > 5) {
                       data.splice(data.indexOf(item), 5);
-                      console.log(score);
-                      navigation.navigate('partDetail', {
-                        totalLength: 0,
-                        count: count + 1,
-                        score: score + 50,
-                        crown: crown,
-                      });
+                      encourage(tmp_sequence, 50, 0);
                     } else {
-                      navigation.navigate('part');
-
                       if (data.length == 5) {
-                        const getDefinition = IN4_APP.UpdateScore;
-                        axios
-                          .put(getDefinition, {
-                            crown: crown + rank.crown,
-                            current_score: score + 50 + rank.current_score,
-                            total_score: score + 50 + rank.total_score,
-                            id_user: idUser,
-                          })
-                          .then(function (response) {
-                            console.log(response.data);
-                          })
-                          .catch(function (error) {
-                            console.log(error.message);
-                          });
+                        updateScore(50);
                       }
                     }
                   }
@@ -1426,10 +1426,10 @@ const PartDetail = ({route, navigation}) => {
                 data.push(question4);
                 data.push(question5);
                 data.splice(0, 5);
-                console.log('sai ' + data.length);
+                setSequence(0);
                 navigation.navigate('partDetail', {
                   totalLength: 0,
-                  score: score > 0 ? score - 15 : score,
+                  score: score - 15,
                   crown: crown > 0 ? crown - 1 : crown,
                 });
                 setAnswer('');
@@ -1446,35 +1446,16 @@ const PartDetail = ({route, navigation}) => {
                 answer3 === question3.answer &&
                 answer4 === question4.answer
               ) {
+                const tmp_sequence = sequence + 1;
+                setSequence(tmp_sequence);
                 data.some((item) => {
                   if (item.sound === question.sound) {
                     if (data.length > 4) {
                       data.splice(data.indexOf(item), 4);
-                      console.log('dung ' + data.length);
-                      navigation.navigate('partDetail', {
-                        totalLength: 0,
-                        count: count + 1,
-                        score: score + 40,
-                        crown: crown,
-                      });
+                      encourage(tmp_sequence, 40, 0);
                     } else {
-                      navigation.navigate('part');
-
                       if (data.length == 4) {
-                        const getDefinition = IN4_APP.UpdateScore;
-                        axios
-                          .put(getDefinition, {
-                            crown: crown + rank.crown,
-                            current_score: score + 40 + rank.current_score,
-                            total_score: score + 40 + rank.total_score,
-                            id_user: idUser,
-                          })
-                          .then(function (response) {
-                            console.log(response.data);
-                          })
-                          .catch(function (error) {
-                            console.log(error.message);
-                          });
+                        updateScore(40);
                       }
                     }
                   }
@@ -1489,10 +1470,10 @@ const PartDetail = ({route, navigation}) => {
                 data.push(question3);
                 data.push(question4);
                 data.splice(0, 4);
-                console.log('sai ' + data.length);
+                setSequence(0);
                 navigation.navigate('partDetail', {
                   totalLength: 0,
-                  score: score > 0 ? score - 12 : score,
+                  score: score - 12,
                   crown: crown > 0 ? crown - 1 : crown,
                 });
                 setAnswer('');
@@ -1507,36 +1488,16 @@ const PartDetail = ({route, navigation}) => {
                 answer2 === question2.answer &&
                 answer3 === question3.answer
               ) {
+                const tmp_sequence = sequence + 1;
+                setSequence(tmp_sequence);
                 data.some((item) => {
                   if (item.sound === question.sound) {
                     if (data.length > 3) {
                       data.splice(data.indexOf(item), 3);
-                      console.log(data.length);
-                      console.log('dung ' + data.length);
-                      navigation.navigate('partDetail', {
-                        totalLength: 0,
-                        count: count + 1,
-                        score: score + 30,
-                        crown: crown,
-                      });
+                      encourage(tmp_sequence, 30, 0);
                     } else {
-                      navigation.navigate('part');
-
                       if (data.length == 3) {
-                        const getDefinition = IN4_APP.UpdateScore;
-                        axios
-                          .put(getDefinition, {
-                            crown: crown + rank.crown,
-                            current_score: score + 30 + rank.current_score,
-                            total_score: score + 30 + rank.total_score,
-                            id_user: idUser,
-                          })
-                          .then(function (response) {
-                            console.log(response.data);
-                          })
-                          .catch(function (error) {
-                            console.log(error.message);
-                          });
+                        updateScore(30);
                       }
                     }
                   }
@@ -1549,10 +1510,10 @@ const PartDetail = ({route, navigation}) => {
                 data.push(question2);
                 data.push(question3);
                 data.splice(0, 3);
-                console.log('sai ' + data.length);
+                setSequence(0);
                 navigation.navigate('partDetail', {
                   totalLength: 0,
-                  score: score > 0 ? score - 9 : score,
+                  score: score - 9,
                   crown: crown > 0 ? crown - 1 : crown,
                 });
                 setAnswer('');
@@ -1562,34 +1523,16 @@ const PartDetail = ({route, navigation}) => {
               break;
             case 2:
               if (answer === question.answer && answer2 === question2.answer) {
+                const tmp_sequence = sequence + 1;
+                setSequence(tmp_sequence);
                 data.some((item) => {
                   if (item.sound === question.sound) {
                     if (data.length > 2) {
                       data.splice(data.indexOf(item), 2);
-                      console.log('dung ' + data.length);
-                      navigation.navigate('partDetail', {
-                        totalLength: 0,
-                        count: count + 1,
-                        score: score + 20,
-                        crown: crown,
-                      });
+                      encourage(tmp_sequence, 20, 0);
                     } else {
-                      navigation.navigate('part');
                       if (data.length == 2) {
-                        const getDefinition = IN4_APP.UpdateScore;
-                        axios
-                          .put(getDefinition, {
-                            crown: crown + rank.crown,
-                            current_score: score + 20 + rank.current_score,
-                            total_score: score + 20 + rank.total_score,
-                            id_user: idUser,
-                          })
-                          .then(function (response) {
-                            console.log(response.data);
-                          })
-                          .catch(function (error) {
-                            console.log(error.message);
-                          });
+                        updateScore(20);
                       }
                     }
                   }
@@ -1600,10 +1543,10 @@ const PartDetail = ({route, navigation}) => {
                 data.push(question);
                 data.push(question2);
                 data.splice(0, 2);
-                console.log('sai ' + data.length);
+                setSequence(0);
                 navigation.navigate('partDetail', {
                   totalLength: 0,
-                  score: score > 0 ? score - 6 : score,
+                  score: score - 6,
                   crown: crown > 0 ? crown - 1 : crown,
                 });
                 setAnswer('');
@@ -1622,44 +1565,11 @@ const PartDetail = ({route, navigation}) => {
               if (item.id === question.id) {
                 if (data.length > 1) {
                   data.splice(data.indexOf(item), 1);
-                  console.log('da xoa ' + item);
-                  if (tmp_sequence % 2 == 0) {
-                    navigation.navigate('correct', {
-                      totalLength: Math.floor(Math.random() * data.length),
-                      count: count + 1,
-                      score: score + 10,
-                      crown: crown,
-                      sequence: tmp_sequence,
-                    });
-                  } else {
-                    navigation.navigate('partDetail', {
-                      totalLength: Math.floor(Math.random() * data.length),
-                      count: count + 1,
-                      score: score + 10,
-                      crown: crown,
-                    });
-                  }
+                  const nextElement = Math.floor(Math.random() * data.length);
+                  encourage(tmp_sequence, 10, nextElement);
                 } else {
                   if (data.length == 1) {
-                    const cur_sc = score + 10;
-                    navigation.navigate('finishPart', {
-                      crown: crown,
-                      score: cur_sc,
-                    });
-                    const getDefinition = IN4_APP.UpdateScore;
-                    axios
-                      .put(getDefinition, {
-                        crown: crown + rank.crown,
-                        current_score: cur_sc + rank.current_score,
-                        total_score: cur_sc + rank.total_score,
-                        id_user: idUser,
-                      })
-                      .then(function (response) {
-                        console.log(response.data);
-                      })
-                      .catch(function (error) {
-                        console.log(error.message);
-                      });
+                    updateScore(10);
                   }
                 }
               }
@@ -1857,12 +1767,14 @@ const PartDetail = ({route, navigation}) => {
           }}>
           <TouchableOpacity
             style={[Style.boxShadow, {height: 50, borderRadius: 30}]}
-            onPress={() => check()}
+            onPress={() => (answer !== '' ? check() : console.log('chua nhap'))}
             activeOpacity={0.5}>
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
-              colors={['#c1c8fe', '#5579f1']}
+              colors={
+                answer !== '' ? ['#5579f1', '#5579f1'] : ['#c1c8fe', '#c1c8fe']
+              }
               style={[Style.coverCenter, QuestionStyle.btnSubmit]}>
               <Text style={[Style.text18, {letterSpacing: 3, color: '#fff'}]}>
                 KIỂM TRA

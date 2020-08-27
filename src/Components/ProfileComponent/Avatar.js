@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Image, TouchableOpacity, ToastAndroid} from 'react-native';
 import {Style, ProfileStyle, DIMENSION} from '../../CommonStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -9,7 +9,6 @@ import * as Progress from 'react-native-progress';
 import {IN4_APP} from '../../ConnectServer/In4App';
 import axios from 'axios';
 const api = axios.create({baseURL: `http://localhost:1300/`});
-// import { Avatar, Accessory } from 'react-native-elements';
 
 const AvatarItem = ({num, icon, colorIcon, label}) => {
   return (
@@ -25,6 +24,7 @@ const AvatarItem = ({num, icon, colorIcon, label}) => {
   );
 };
 const AvatarProfile = ({image, name, username, rankData, id}) => {
+  const [numFriend, setNumFriend] = React.useState('');
   const selectImage = () => {
     const options = {
       title: 'Chọn ảnh từ',
@@ -90,7 +90,27 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
       console.error(e);
     }
   };
+  const showData = () => {
+    const getTotalFriend = IN4_APP.getTotalFriend;
+    axios
+      .post(getTotalFriend, {
+        Id: id,
+      })
+      .then(function (response) {
+        setNumFriend(response.data[0]);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  };
 
+  useEffect(() => {
+    showData();
+    let id = setInterval(() => {
+      showData();
+    }, 10000);
+    return () => clearInterval(id);
+  }, []);
   return (
     <View
       style={[ProfileStyle.sectionAvatar, Style.boxShadow, {elevation: 15}]}>
@@ -114,7 +134,7 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
         </View>
         <Text style={{fontSize: 18, color: '#b1b1b1'}}>{username}</Text>
         <AvatarItem
-          num={16}
+          num={numFriend.count}
           icon="user-friends"
           colorIcon="#79c615"
           label="bạn bè"

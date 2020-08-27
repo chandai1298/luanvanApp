@@ -95,6 +95,7 @@ const BottomTabMain = ({navigation, route}) => {
             />
           ),
         }}
+        initialParams={{users: user}}
       />
     </Tab.Navigator>
   );
