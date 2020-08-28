@@ -7,7 +7,14 @@ import {LinearTextGradient} from 'react-native-text-gradient';
 import LinearGradient from 'react-native-linear-gradient';
 
 const Corrects = ({route, navigation}) => {
-  const {totalLength, count, crown, score, sequence} = route.params;
+  const {
+    totalLength,
+    count,
+    crown,
+    score,
+    sequence,
+    currentPosition,
+  } = route.params;
   return (
     <View style={[Style.coverCenter, {flex: 5}]}>
       <View
@@ -62,6 +69,7 @@ const Corrects = ({route, navigation}) => {
               count: count,
               score: score,
               crown: crown,
+              currentPosition: currentPosition,
             })
           }>
           <LinearGradient

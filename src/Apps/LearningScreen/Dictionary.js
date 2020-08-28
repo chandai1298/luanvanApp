@@ -105,7 +105,7 @@ const Dictionary = ({route, navigation}) => {
     wordFromHome !== '' && wordFromHome !== undefined ? dic(word) : null;
     TranslatorConfiguration.setConfig(
       ProviderTypes.Google,
-      'AIzaSyBTXr7MqVz0OXJadyLXaKPkLIf2ik3hukk',
+      'AIzaSyDw8zJOc3u3rRPi5prSI8u4qmoA5vhlPAs',
       'vi',
       'en',
     );

@@ -38,8 +38,10 @@ const PartDetail = ({route, navigation}) => {
     id_lession,
     id_part,
     idUser,
+    currentPosition,
   } = route.params;
   const [loading, setLoading] = React.useState(true);
+  const [lengthQuestion, setLengthQuestion] = React.useState(0);
   const [hideDescription, setHideDescription] = React.useState(false);
   const [sequence, setSequence] = React.useState(0);
   const [help, setHelp] = React.useState(false);
@@ -51,10 +53,6 @@ const PartDetail = ({route, navigation}) => {
   const [outputText, onChangeOutputText] = React.useState('');
   const [outPartRead, setOutPartRead] = React.useState('');
   const c = parseInt(JSON.stringify(count));
-  const totalLength2 = parseInt(JSON.stringify(totalLength));
-  const idCategory = parseInt(JSON.stringify(id_category));
-  const idLession = parseInt(JSON.stringify(id_lession));
-  const idPart = parseInt(JSON.stringify(id_part));
 
   //doc van ban
   const speechText = (text) => {
@@ -130,9 +128,9 @@ const PartDetail = ({route, navigation}) => {
           id: idUser,
         }),
         axios.post(getQuestionPart, {
-          id: idCategory,
-          id_part: idPart,
-          id_lession: idLession,
+          id: id_category,
+          id_part: id_part,
+          id_lession: id_lession,
         }),
         axios.post(getConfig, {
           id_user: idUser,
@@ -143,6 +141,7 @@ const PartDetail = ({route, navigation}) => {
         axios.spread((...allData) => {
           setRank(allData[0].data);
           setData(allData[1].data);
+          setLengthQuestion(allData[1].data.length);
           setDataConfig(allData[2].data);
           setLoading(false);
         }),
@@ -152,15 +151,13 @@ const PartDetail = ({route, navigation}) => {
       });
   };
 
-  //record thu nhat duoc tim thay
   const rank = ranks[0];
-  //so hint hien tai
   const tmp = '' !== current_hint ? current_hint : rank.hint;
 
   useEffect(() => {
     TranslatorConfiguration.setConfig(
       ProviderTypes.Google,
-      'AIzaSyBTXr7MqVz0OXJadyLXaKPkLIf2ik3hukk',
+      'AIzaSyDw8zJOc3u3rRPi5prSI8u4qmoA5vhlPAs',
       'vi',
       'en',
     );
@@ -227,16 +224,15 @@ const PartDetail = ({route, navigation}) => {
     sound: '',
     description: '',
   };
-  const question =
-    data[totalLength2] !== undefined ? data[totalLength2] : empty;
+  const question = data[totalLength] !== undefined ? data[totalLength] : empty;
   const question2 =
-    data[totalLength2 + 1] !== undefined ? data[totalLength2 + 1] : empty;
+    data[totalLength + 1] !== undefined ? data[totalLength + 1] : empty;
   const question3 =
-    data[totalLength2 + 2] !== undefined ? data[totalLength2 + 2] : empty;
+    data[totalLength + 2] !== undefined ? data[totalLength + 2] : empty;
   const question4 =
-    data[totalLength2 + 3] !== undefined ? data[totalLength2 + 3] : empty;
+    data[totalLength + 3] !== undefined ? data[totalLength + 3] : empty;
   const question5 =
-    data[totalLength2 + 4] !== undefined ? data[totalLength2 + 4] : empty;
+    data[totalLength + 4] !== undefined ? data[totalLength + 4] : empty;
 
   const AnswerABCD = ({item}) => {
     var promise = null;
@@ -890,6 +886,7 @@ const PartDetail = ({route, navigation}) => {
   };
   const sectionAnswer = () => {
     var promise = null;
+    var space = ` `;
     switch (question.id_part) {
       case 1:
         promise = (
@@ -903,8 +900,8 @@ const PartDetail = ({route, navigation}) => {
             }}>
             <View style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
               <Text style={Style.text20}>
-                Part 1: Chọn một đáp án mô tả chính xác nhất nội dung có trong
-                hình.
+                Question {currentPosition}/{lengthQuestion}:{space}
+                {question.title_question}
               </Text>
 
               <View style={[Style.coverCenter]}>
@@ -936,7 +933,8 @@ const PartDetail = ({route, navigation}) => {
             }}>
             <View style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
               <Text style={Style.text20}>
-                Part 2: Chọn một câu hồi đáp phù hợp nhất cho câu hỏi.
+                Question {currentPosition}/{lengthQuestion}:{space}
+                {question.title_question}
               </Text>
             </View>
             <View style={{flex: 3, paddingLeft: 15, paddingRight: 15}}>
@@ -973,8 +971,9 @@ const PartDetail = ({route, navigation}) => {
             }}>
             <View style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
               <Text style={Style.text20}>
-                Part 3: Bạn đọc câu hỏi và chọn câu trả lời phù hợp nhất cho câu
-                hỏi.
+                Question {currentPosition}-{currentPosition + 2}/
+                {lengthQuestion}:{space}
+                {question.title_question}
               </Text>
 
               <View style={Style.coverCenter}>
@@ -1046,8 +1045,9 @@ const PartDetail = ({route, navigation}) => {
             }}>
             <View style={{flex: 2, paddingLeft: 15, paddingRight: 15}}>
               <Text style={Style.text20}>
-                Part 4: Bạn đọc câu hỏi và chọn câu trả lời phù hợp nhất cho câu
-                hỏi.
+                Question {currentPosition}-{currentPosition + 2}/
+                {lengthQuestion}:{space}
+                {question.title_question}
               </Text>
 
               <View style={Style.coverCenter}>
@@ -1121,7 +1121,8 @@ const PartDetail = ({route, navigation}) => {
             }}>
             <View style={{flex: 1, paddingLeft: 15, paddingRight: 15}}>
               <Text style={Style.text20}>
-                Part 5: Chọn một đáp án phù hợp nhất để điền vào chỗ trống.
+                Question {currentPosition}/{lengthQuestion}:{space}
+                {question.title_question}
               </Text>
             </View>
 
@@ -1190,7 +1191,8 @@ const PartDetail = ({route, navigation}) => {
             }}>
             <View style={{flex: 2}}>
               <Text style={Style.text20}>
-                Part 6: Chọn một đáp án phù hợp nhất để điền vào chỗ trống.
+                Question {currentPosition}/{lengthQuestion}:{space}
+                {question.title_question}
               </Text>
 
               <View style={Style.coverCenter}>
@@ -1215,8 +1217,10 @@ const PartDetail = ({route, navigation}) => {
             }}>
             <View style={{flex: 1, paddingLeft: 15, paddingRight: 15}}>
               <Text style={Style.text20}>
-                Part 7: Bạn đọc câu hỏi và chọn câu trả lời phù hợp nhất cho câu
-                hỏi.
+                Question {currentPosition}-
+                {currentPosition + countQuestionPart7() - 1}/{lengthQuestion}:
+                {space}
+                {question.title_question}
               </Text>
             </View>
             <View style={{flex: 9, alignSelf: 'center'}}>
@@ -1261,7 +1265,7 @@ const PartDetail = ({route, navigation}) => {
     }
     return promise;
   };
-  const encourage = (tmp_sequence, bonus, nextElement) => {
+  const encourage = (tmp_sequence, bonus, nextElement, position) => {
     if (tmp_sequence % 2 == 0 && dataConfig[1].status === 'true') {
       navigation.navigate('correct', {
         totalLength: nextElement,
@@ -1269,6 +1273,7 @@ const PartDetail = ({route, navigation}) => {
         score: score + bonus,
         crown: crown,
         sequence: tmp_sequence,
+        currentPosition: currentPosition + position,
       });
     } else {
       navigation.navigate('partDetail', {
@@ -1276,6 +1281,7 @@ const PartDetail = ({route, navigation}) => {
         count: count + 1,
         score: score + bonus,
         crown: crown,
+        currentPosition: currentPosition + position,
       });
     }
   };
@@ -1323,7 +1329,7 @@ const PartDetail = ({route, navigation}) => {
                     Math.round(
                       Math.floor(Math.random() * (data.length - 1)) / 3,
                     ) * 3;
-                  encourage(tmp_sequence, 30, nextElement);
+                  encourage(tmp_sequence, 30, nextElement, 3);
                 } else {
                   if (data.length == 3) {
                     updateScore(30);
@@ -1364,7 +1370,7 @@ const PartDetail = ({route, navigation}) => {
                     Math.round(
                       Math.floor(Math.random() * (data.length - 1)) / 3,
                     ) * 3;
-                  encourage(tmp_sequence, 30, nextElement);
+                  encourage(tmp_sequence, 30, nextElement, 3);
                 } else {
                   if (data.length == 3) {
                     updateScore(30);
@@ -1406,7 +1412,7 @@ const PartDetail = ({route, navigation}) => {
                   if (item.sound === question.sound) {
                     if (data.length > 5) {
                       data.splice(data.indexOf(item), 5);
-                      encourage(tmp_sequence, 50, 0);
+                      encourage(tmp_sequence, 50, 0, 5);
                     } else {
                       if (data.length == 5) {
                         updateScore(50);
@@ -1452,7 +1458,7 @@ const PartDetail = ({route, navigation}) => {
                   if (item.sound === question.sound) {
                     if (data.length > 4) {
                       data.splice(data.indexOf(item), 4);
-                      encourage(tmp_sequence, 40, 0);
+                      encourage(tmp_sequence, 40, 0, 4);
                     } else {
                       if (data.length == 4) {
                         updateScore(40);
@@ -1494,7 +1500,7 @@ const PartDetail = ({route, navigation}) => {
                   if (item.sound === question.sound) {
                     if (data.length > 3) {
                       data.splice(data.indexOf(item), 3);
-                      encourage(tmp_sequence, 30, 0);
+                      encourage(tmp_sequence, 30, 0, 3);
                     } else {
                       if (data.length == 3) {
                         updateScore(30);
@@ -1529,7 +1535,7 @@ const PartDetail = ({route, navigation}) => {
                   if (item.sound === question.sound) {
                     if (data.length > 2) {
                       data.splice(data.indexOf(item), 2);
-                      encourage(tmp_sequence, 20, 0);
+                      encourage(tmp_sequence, 20, 0, 2);
                     } else {
                       if (data.length == 2) {
                         updateScore(20);
@@ -1566,7 +1572,7 @@ const PartDetail = ({route, navigation}) => {
                 if (data.length > 1) {
                   data.splice(data.indexOf(item), 1);
                   const nextElement = Math.floor(Math.random() * data.length);
-                  encourage(tmp_sequence, 10, nextElement);
+                  encourage(tmp_sequence, 10, nextElement, 1);
                 } else {
                   if (data.length == 1) {
                     updateScore(10);
@@ -1586,6 +1592,111 @@ const PartDetail = ({route, navigation}) => {
           }
           break;
       }
+    }
+  };
+  const validCheckStyle = () => {
+    let promise = [];
+    switch (question.id_part) {
+      case 3:
+        promise =
+          answer !== '' && answer3 !== '' && answer3 !== ''
+            ? ['#5579f1', '#5579f1']
+            : ['#c1c8fe', '#c1c8fe'];
+        break;
+      case 4:
+        promise =
+          answer !== '' && answer3 !== '' && answer3 !== ''
+            ? ['#5579f1', '#5579f1']
+            : ['#c1c8fe', '#c1c8fe'];
+        break;
+      case 7:
+        switch (countQuestionPart7()) {
+          case 5:
+            promise =
+              answer !== '' &&
+              answer2 !== '' &&
+              answer3 !== '' &&
+              answer4 !== '' &&
+              answer5 !== ''
+                ? ['#5579f1', '#5579f1']
+                : ['#c1c8fe', '#c1c8fe'];
+            break;
+          case 4:
+            promise =
+              answer !== '' &&
+              answer2 !== '' &&
+              answer3 !== '' &&
+              answer4 !== ''
+                ? ['#5579f1', '#5579f1']
+                : ['#c1c8fe', '#c1c8fe'];
+            break;
+          case 3:
+            promise =
+              answer !== '' && answer2 !== '' && answer3 !== ''
+                ? ['#5579f1', '#5579f1']
+                : ['#c1c8fe', '#c1c8fe'];
+            break;
+          case 2:
+            promise =
+              answer !== '' && answer2 !== ''
+                ? ['#5579f1', '#5579f1']
+                : ['#c1c8fe', '#c1c8fe'];
+            break;
+
+          default:
+            break;
+        }
+
+        break;
+      default:
+        promise =
+          answer !== '' ? ['#5579f1', '#5579f1'] : ['#c1c8fe', '#c1c8fe'];
+        break;
+    }
+    return promise;
+  };
+  const validCheck = () => {
+    switch (question.id_part) {
+      case 3:
+        if (answer !== '' && answer2 !== '' && answer3 !== '') check();
+        break;
+      case 4:
+        if (answer !== '' && answer2 !== '' && answer3 !== '') check();
+        break;
+      case 7:
+        switch (countQuestionPart7()) {
+          case 5:
+            if (
+              answer !== '' &&
+              answer2 !== '' &&
+              answer3 !== '' &&
+              answer4 !== '' &&
+              answer5 !== ''
+            )
+              check();
+            break;
+          case 4:
+            if (
+              answer !== '' &&
+              answer2 !== '' &&
+              answer3 !== '' &&
+              answer4 !== ''
+            )
+              check();
+            break;
+          case 3:
+            if (answer !== '' && answer2 !== '' && answer3 !== '') check();
+            break;
+          case 2:
+            if (answer !== '' && answer2 !== '') check();
+            break;
+          default:
+            break;
+        }
+        break;
+      default:
+        if (answer !== '') check();
+        break;
     }
   };
 
@@ -1767,14 +1878,12 @@ const PartDetail = ({route, navigation}) => {
           }}>
           <TouchableOpacity
             style={[Style.boxShadow, {height: 50, borderRadius: 30}]}
-            onPress={() => (answer !== '' ? check() : console.log('chua nhap'))}
+            onPress={() => validCheck()}
             activeOpacity={0.5}>
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
-              colors={
-                answer !== '' ? ['#5579f1', '#5579f1'] : ['#c1c8fe', '#c1c8fe']
-              }
+              colors={validCheckStyle()}
               style={[Style.coverCenter, QuestionStyle.btnSubmit]}>
               <Text style={[Style.text18, {letterSpacing: 3, color: '#fff'}]}>
                 KIỂM TRA

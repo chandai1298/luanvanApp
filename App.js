@@ -330,7 +330,13 @@ const App = () => {
                 name="partDetail"
                 component={PartDetail}
                 options={{headerShown: false}}
-                initialParams={{count: 0, score: 0, crown: 5, totalLength: 0}}
+                initialParams={{
+                  count: 0,
+                  score: 0,
+                  crown: 5,
+                  totalLength: 0,
+                  currentPosition: 1,
+                }}
               />
               <Stack.Screen
                 name="finishPart"
