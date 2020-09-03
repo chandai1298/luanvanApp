@@ -54,7 +54,6 @@ const PartDetail = ({route, navigation}) => {
   const [outPartRead, setOutPartRead] = React.useState('');
   const c = parseInt(JSON.stringify(count));
 
-  //doc van ban
   const speechText = (text) => {
     Tts.getInitStatus().then(() => {
       Tts.setDefaultLanguage('en-us');
@@ -62,7 +61,6 @@ const PartDetail = ({route, navigation}) => {
     });
   };
 
-  //header
   const [visible, setVisible] = React.useState(false);
 
   const [current_hint, setCurrentHint] = React.useState('');
@@ -885,6 +883,7 @@ const PartDetail = ({route, navigation}) => {
     return promise;
   };
   const sectionAnswer = () => {
+    console.log(question.id_part);
     var promise = null;
     var space = ` `;
     switch (question.id_part) {
@@ -1287,7 +1286,7 @@ const PartDetail = ({route, navigation}) => {
   };
   const updateScore = (bonus) => {
     const cur_sc = score + bonus;
-    navigation.navigate('finishPart', {
+    navigation.replace('finishPart', {
       crown: crown,
       score: cur_sc,
     });
@@ -1600,14 +1599,14 @@ const PartDetail = ({route, navigation}) => {
       case 3:
         promise =
           answer !== '' && answer3 !== '' && answer3 !== ''
-            ? ['#5579f1', '#5579f1']
-            : ['#c1c8fe', '#c1c8fe'];
+            ? ['#1cb0f6', '#1cb0f6']
+            : ['#e5e5e5', '#e5e5e5'];
         break;
       case 4:
         promise =
           answer !== '' && answer3 !== '' && answer3 !== ''
-            ? ['#5579f1', '#5579f1']
-            : ['#c1c8fe', '#c1c8fe'];
+            ? ['#1cb0f6', '#1cb0f6']
+            : ['#e5e5e5', '#e5e5e5'];
         break;
       case 7:
         switch (countQuestionPart7()) {
@@ -1618,8 +1617,8 @@ const PartDetail = ({route, navigation}) => {
               answer3 !== '' &&
               answer4 !== '' &&
               answer5 !== ''
-                ? ['#5579f1', '#5579f1']
-                : ['#c1c8fe', '#c1c8fe'];
+                ? ['#1cb0f6', '#1cb0f6']
+                : ['#e5e5e5', '#e5e5e5'];
             break;
           case 4:
             promise =
@@ -1627,20 +1626,20 @@ const PartDetail = ({route, navigation}) => {
               answer2 !== '' &&
               answer3 !== '' &&
               answer4 !== ''
-                ? ['#5579f1', '#5579f1']
-                : ['#c1c8fe', '#c1c8fe'];
+                ? ['#1cb0f6', '#1cb0f6']
+                : ['#e5e5e5', '#e5e5e5'];
             break;
           case 3:
             promise =
               answer !== '' && answer2 !== '' && answer3 !== ''
-                ? ['#5579f1', '#5579f1']
-                : ['#c1c8fe', '#c1c8fe'];
+                ? ['#1cb0f6', '#1cb0f6']
+                : ['#e5e5e5', '#e5e5e5'];
             break;
           case 2:
             promise =
               answer !== '' && answer2 !== ''
-                ? ['#5579f1', '#5579f1']
-                : ['#c1c8fe', '#c1c8fe'];
+                ? ['#1cb0f6', '#1cb0f6']
+                : ['#e5e5e5', '#e5e5e5'];
             break;
 
           default:
@@ -1650,7 +1649,62 @@ const PartDetail = ({route, navigation}) => {
         break;
       default:
         promise =
-          answer !== '' ? ['#5579f1', '#5579f1'] : ['#c1c8fe', '#c1c8fe'];
+          answer !== '' ? ['#1cb0f6', '#1cb0f6'] : ['#e5e5e5', '#e5e5e5'];
+        break;
+    }
+    return promise;
+  };
+  const validCheckTextStyle = () => {
+    let promise = [];
+    switch (question.id_part) {
+      case 3:
+        promise =
+          answer !== '' && answer3 !== '' && answer3 !== ''
+            ? '#fff'
+            : '#afafaf';
+        break;
+      case 4:
+        promise =
+          answer !== '' && answer3 !== '' && answer3 !== ''
+            ? '#fff'
+            : '#afafaf';
+        break;
+      case 7:
+        switch (countQuestionPart7()) {
+          case 5:
+            promise =
+              answer !== '' &&
+              answer2 !== '' &&
+              answer3 !== '' &&
+              answer4 !== '' &&
+              answer5 !== ''
+                ? '#fff'
+                : '#afafaf';
+            break;
+          case 4:
+            promise =
+              answer !== '' &&
+              answer2 !== '' &&
+              answer3 !== '' &&
+              answer4 !== ''
+                ? '#fff'
+                : '#afafaf';
+            break;
+          case 3:
+            promise =
+              answer !== '' && answer2 !== '' && answer3 !== ''
+                ? '#fff'
+                : '#afafaf';
+            break;
+          case 2:
+            promise = answer !== '' && answer2 !== '' ? '#fff' : '#afafaf';
+            break;
+          default:
+            break;
+        }
+        break;
+      default:
+        promise = answer !== '' ? '#fff' : '#afafaf';
         break;
     }
     return promise;
@@ -1731,7 +1785,7 @@ const PartDetail = ({route, navigation}) => {
           <Text
             style={{
               paddingLeft: 40,
-              color: '#5579f1',
+              color: '#1cb0f6',
               fontStyle: 'italic',
               letterSpacing: 1,
               fontSize: 14,
@@ -1753,11 +1807,7 @@ const PartDetail = ({route, navigation}) => {
           ]}>
           <View style={[QuestionStyle.iconHeader, Style.coverCenter]}>
             <TouchableOpacity onPress={() => navigation.navigate('part')}>
-              <FontAwesome5
-                name="times"
-                size={DIMENSION.sizeIcon2}
-                color="#ababab"
-              />
+              <FontAwesome5 name="times" size={30} color="#afafaf" />
             </TouchableOpacity>
           </View>
 
@@ -1766,7 +1816,7 @@ const PartDetail = ({route, navigation}) => {
               animationType="timing"
               progress={c * 0.2}
               width={280}
-              color="#5579f1"
+              color="#1cb0f6"
             />
           </View>
           <View
@@ -1800,7 +1850,7 @@ const PartDetail = ({route, navigation}) => {
                         alignSelf: 'center',
                         borderRadius: 25,
                       }}
-                      buttonStyle={{backgroundColor: '#5579f1'}}
+                      buttonStyle={{backgroundColor: '#1cb0f6'}}
                       titleStyle={{
                         letterSpacing: 3,
                       }}
@@ -1823,7 +1873,6 @@ const PartDetail = ({route, navigation}) => {
                 color="#f44336"
               />
             </Tooltip>
-
             <View
               style={{
                 justifyContent: 'center',
@@ -1836,9 +1885,7 @@ const PartDetail = ({route, navigation}) => {
             </View>
           </View>
         </View>
-
         {sectionAnswer()}
-
         {hideDescription ? (
           <Animatable.View
             animation="bounceInUp"
@@ -1852,7 +1899,7 @@ const PartDetail = ({route, navigation}) => {
                 <FontAwesome5
                   name="times"
                   size={DIMENSION.sizeIcon2}
-                  color="#091048"
+                  color="#afafaf"
                 />
               </TouchableOpacity>
             </View>
@@ -1885,7 +1932,11 @@ const PartDetail = ({route, navigation}) => {
               end={{x: 1, y: 0}}
               colors={validCheckStyle()}
               style={[Style.coverCenter, QuestionStyle.btnSubmit]}>
-              <Text style={[Style.text18, {letterSpacing: 3, color: '#fff'}]}>
+              <Text
+                style={[
+                  Style.text18,
+                  {letterSpacing: 3, color: validCheckTextStyle()},
+                ]}>
                 KIỂM TRA
               </Text>
             </LinearGradient>

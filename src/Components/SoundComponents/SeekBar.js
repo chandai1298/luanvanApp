@@ -44,9 +44,9 @@ const SeekBar = ({trackLength, currentPosition, onSeek, onSlidingStart}) => {
           onSlidingComplete={onSeek}
           value={currentPosition}
           style={{width: '100%'}}
-          thumbTintColor="#5579f1"
-          minimumTrackTintColor="#5579f1"
-          maximumTrackTintColor="#5579f1"
+          thumbTintColor="#1cb0f6"
+          minimumTrackTintColor="#1cb0f6"
+          maximumTrackTintColor="#1cb0f6"
         />
       </View>
     </View>

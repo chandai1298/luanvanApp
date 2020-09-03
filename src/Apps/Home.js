@@ -13,7 +13,7 @@ import {SearchBar} from 'react-native-elements';
 const datas = [
   {
     id: 1,
-    name: 'Từ điển',
+    name: 'Tra từ điển',
     image:
       'https://th.bing.com/th/id/OIP.HCyblSAzehzRaumVeRqTIAHaHa?pid=Api&rs=1',
     link: 'dictionary',
@@ -29,14 +29,14 @@ const datas = [
   },
   {
     id: 3,
-    name: 'Ôn TOEIC',
+    name: 'Luyện TOEIC',
     image: 'https://www.smartcom.vn/wp-content/uploads/2016/08/toeic.jpg',
     link: 'onTOEIC',
     isActive: 1,
   },
   {
     id: 4,
-    name: 'Ôn B1',
+    name: 'Luyện B1',
     image:
       'https://firebasestorage.googleapis.com/v0/b/fir-rn-785e2.appspot.com/o/category%2FLogo_HCMUAF.png?alt=media&token=a4e14afc-5c99-4bfb-ab87-fed7dfc39ece',
     link: 'onB1',
@@ -121,7 +121,6 @@ const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
           Style.boxShadow,
           {
             borderRadius: 50,
-            backgroundColor: '#f1f1f1',
             borderTopWidth: 0,
             borderBottomWidth: 0,
             margin: 15,
@@ -206,7 +205,7 @@ const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
             />
             <View style={{alignSelf: 'center'}}>
               <Text
-                style={{fontSize: 16, color: '#9a9a9a', fontWeight: 'bold'}}>
+                style={{fontSize: 16, color: '#afafaf', fontWeight: 'bold'}}>
                 {item.name}
               </Text>
             </View>

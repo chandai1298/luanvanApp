@@ -24,7 +24,7 @@ const Style = StyleSheet.create({
   text20: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#464646',
+    color: '#3c3c3c',
   },
 
   text18: {
@@ -46,26 +46,26 @@ const Style = StyleSheet.create({
     height: 160,
     paddingLeft: 15,
     paddingTop: 10,
-    backgroundColor: '#dee2ff',
+    backgroundColor: '#c0e4f6',
     transform: [{translate: [0, 0, 1]}],
   },
   line: {
     width: DIMENSION.width,
     borderWidth: 1,
-    borderColor: '#c1c8fe',
+    borderColor: '#1cb0f6',
   },
   input: {
     paddingLeft: 15,
     height: 50,
     fontSize: 18,
-    borderColor: '#c1c8fe',
-    borderWidth: 1,
+    borderColor: '#e5e5e5',
+    borderWidth: 1.5,
     borderRadius: 20,
     marginBottom: 10,
     width: DIMENSION.width - 30,
-    color: '#848484',
+    color: '#4b4b4b',
     marginTop: 5,
-    backgroundColor: '#f1f1f1',
+    backgroundColor: '#f7f7f7',
     shadowColor: 'rgba(0, 0, 0, 0.1)',
     shadowOpacity: 0.8,
     elevation: 5,
@@ -89,11 +89,11 @@ const Style = StyleSheet.create({
   },
   btnActive: {
     borderBottomWidth: 3,
-    borderColor: '#5579f1',
-    color: '#5579f1',
+    borderColor: '#1cb0f6',
+    color: '#1cb0f6',
   },
   txtActive: {
-    color: '#5579f1',
+    color: '#1cb0f6',
   },
   textAnswer: {
     color: '#848484',
@@ -120,8 +120,9 @@ const Style = StyleSheet.create({
     height: 150,
     width: 150,
     borderRadius: 250,
-    borderColor: '#c1c8fe',
-    borderWidth: 3,
+    borderColor: '#78c800',
+    padding: 5,
+    borderWidth: 2,
   },
   imageRank: {
     height: 110,

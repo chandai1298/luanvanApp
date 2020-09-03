@@ -29,8 +29,8 @@ const SwitchComponent = ({title, switchValue, id}) => {
       <Switch
         onValueChange={toggleSwitch}
         value={isEnabled}
-        thumbColor={isEnabled ? '#5579f1' : '#f4f3f4'}
-        trackColor={{false: '#c1c8fe', true: '#c1c8fe'}}
+        thumbColor={isEnabled ? '#58cc02' : '#9e9e9e'}
+        trackColor={{false: '#e5e5e5', true: '#e5e5e5'}}
       />
     </View>
   );

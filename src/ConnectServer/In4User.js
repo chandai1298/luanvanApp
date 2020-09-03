@@ -1,7 +1,8 @@
 const URL_NGROK = {
-  // url: 'http://192.168.0.100:1300',
-  // url: 'http://192.168.1.80:1300',
   url: 'http://192.168.0.106:1300',
+  // url: 'http://192.168.0.105:1300',
+  // url: 'http://192.168.1.80:1300',
+  // url: 'http://192.168.0.107:1300',
 };
 const IN4_USER = {
   getUser: `${URL_NGROK.url}/checkLogin`,

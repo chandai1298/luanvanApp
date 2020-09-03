@@ -56,9 +56,14 @@ const Rank = ({title, icon, navigation, desComponent, route}) => {
             height: 40,
             justifyContent: 'center',
           }}>
-          <Text style={[Style.text18, {color: '#f9b648'}]}>{top.Name}</Text>
+          <Text style={[Style.text18, {color: '#4b4b4b'}]}>{top.Name}</Text>
         </View>
-        <View style={{width: '100%'}}>
+        <View
+          style={{
+            width: '100%',
+            // backgroundColor: 'red',
+            height: 110,
+          }}>
           <View style={{alignItems: 'center'}}>
             <Image
               source={{
@@ -80,30 +85,15 @@ const Rank = ({title, icon, navigation, desComponent, route}) => {
             }}>
             <Text style={[Style.text18, {color: '#fff'}]}>{topNum}</Text>
           </TouchableOpacity>
-          <View
-            style={{
-              alignItems: 'center',
-              marginTop: 30,
-            }}>
-            <Image
-              resizeMode="contain"
-              source={{
-                uri: 'https://cdn130.picsart.com/245458036014212.png',
-              }}
-              style={[{height: 120, width: '100%'}]}
-            />
-            <View
-              style={{
-                alignItems: 'center',
-                marginBottom: 10,
-                marginTop: -60,
-                width: 60,
-              }}>
-              <Text style={[Style.text18, {color: '#f9b648'}]}>
-                {top.total_score}
-              </Text>
-            </View>
-          </View>
+        </View>
+        <View
+          style={{
+            alignItems: 'center',
+            // marginTop: 30,
+          }}>
+          <Text style={[Style.text18, {color: '#f9b648'}]}>
+            {top.total_score} KN
+          </Text>
         </View>
       </View>
     );
@@ -128,7 +118,7 @@ const Rank = ({title, icon, navigation, desComponent, route}) => {
         desComponent={desComponent}
       />
 
-      <View style={{marginTop: 20}}>
+      {/* <View style={{marginTop: 20}}>
         <ButtonGroup
           onPress={(index) => UpdateIndex(index)}
           selectedIndex={index}
@@ -139,7 +129,7 @@ const Rank = ({title, icon, navigation, desComponent, route}) => {
             backgroundColor: '#1c1164',
           }}
         />
-      </View>
+      </View> */}
       <View
         style={[
           {
@@ -175,7 +165,7 @@ const Rank = ({title, icon, navigation, desComponent, route}) => {
                 style={[ProfileStyle.sectionLeftImgRank, {borderRadius: 70}]}
               />
               <View style={{marginLeft: 15}}>
-                <Text style={[Style.text18, {color: '#464646'}]}>{e.Name}</Text>
+                <Text style={[Style.text18, {color: '#4b4b4b'}]}>{e.Name}</Text>
               </View>
             </View>
             <View
@@ -184,7 +174,7 @@ const Rank = ({title, icon, navigation, desComponent, route}) => {
                 {justifyContent: 'center', paddingRight: 15},
               ]}>
               <Text style={[{color: '#ffc107'}, Style.text18]}>
-                {e.total_score}
+                {e.total_score} KN
               </Text>
             </View>
           </View>

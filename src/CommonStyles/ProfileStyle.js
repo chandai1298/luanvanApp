@@ -40,7 +40,7 @@ const ProfileStyle = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: 10,
     paddingBottom: 10,
-    borderBottomColor: '#9a9a9a',
+    borderBottomColor: '#e5e5e5',
     borderBottomWidth: 1,
     // borderRadius: 10,
   },

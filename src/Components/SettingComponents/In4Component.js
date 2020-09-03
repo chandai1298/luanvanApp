@@ -107,7 +107,7 @@ const In4Component = ({userData, navigation, desNav}) => {
 
   return (
     <View style={[SettingStyle.sectionIn4, Style.boxShadow]}>
-      <Text style={[Style.text20, {letterSpacing: 2, color: '#464646'}]}>
+      <Text style={[Style.text20, {letterSpacing: 1, color: '#4b4b4b'}]}>
         Hồ sơ của bạn
       </Text>
 
@@ -126,7 +126,7 @@ const In4Component = ({userData, navigation, desNav}) => {
           <TouchableOpacity onPress={() => selectImage()}>
             <LinearTextGradient
               locations={[0, 1]}
-              colors={['#c1c8fe', '#5579f1']}
+              colors={['#58cc02', '#78c800']}
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}>
               <Text
@@ -139,7 +139,7 @@ const In4Component = ({userData, navigation, desNav}) => {
 
         <View>
           <Text
-            style={[Style.text18, Style.textColor754ea6, {color: '#9a9a9a'}]}>
+            style={[Style.text18, Style.textColor754ea6, {color: '#afafaf'}]}>
             Tên
           </Text>
 
@@ -153,7 +153,7 @@ const In4Component = ({userData, navigation, desNav}) => {
 
         <View>
           <Text
-            style={[Style.text18, Style.textColor754ea6, {color: '#9a9a9a'}]}>
+            style={[Style.text18, Style.textColor754ea6, {color: '#afafaf'}]}>
             Tên đăng nhập
           </Text>
           <TextInput
@@ -165,7 +165,7 @@ const In4Component = ({userData, navigation, desNav}) => {
 
         <View>
           <Text
-            style={[Style.text18, Style.textColor754ea6, {color: '#9a9a9a'}]}>
+            style={[Style.text18, Style.textColor754ea6, {color: '#afafaf'}]}>
             Mật khẩu
           </Text>
 
@@ -178,7 +178,7 @@ const In4Component = ({userData, navigation, desNav}) => {
 
         <View>
           <Text
-            style={[Style.text18, Style.textColor754ea6, {color: '#9a9a9a'}]}>
+            style={[Style.text18, Style.textColor754ea6, {color: '#afafaf'}]}>
             Email
           </Text>
           <TextInput

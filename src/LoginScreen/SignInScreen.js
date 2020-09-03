@@ -130,7 +130,7 @@ const SignInScreen = ({navigation}) => {
       style={styles.container}
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}
-      colors={['#c1c8fe', '#5579f1', '#fab3c6']}>
+      colors={['#58cc02', '#78c800']}>
       <StatusBar backgroundColor="#54ce04" barStyle="light-content" />
 
       <Animatable.View
@@ -158,7 +158,7 @@ const SignInScreen = ({navigation}) => {
           Tên đăng nhập
         </Text>
         <View style={styles.action}>
-          <FontAwesome name="user" color="#5579f1" size={20} />
+          <FontAwesome name="user" color="#58cc02" size={20} />
           <TextInput
             placeholder="Your username"
             style={[
@@ -173,7 +173,7 @@ const SignInScreen = ({navigation}) => {
           />
           {data.check_textInputChange ? (
             <Animatable.View animation="bounceIn">
-              <Feather name="check-circle" color="#5579f1" size={20} />
+              <Feather name="check-circle" color="#58cc02" size={20} />
             </Animatable.View>
           ) : null}
         </View>
@@ -194,7 +194,7 @@ const SignInScreen = ({navigation}) => {
           Mật khẩu
         </Text>
         <View style={styles.action}>
-          <Feather name="lock" color="#5579f1" size={20} />
+          <Feather name="lock" color="#58cc02" size={20} />
           <TextInput
             placeholder="Your password"
             secureTextEntry={data.secureTextEntry ? true : false}
@@ -209,9 +209,9 @@ const SignInScreen = ({navigation}) => {
           />
           <TouchableOpacity onPress={updateSecureTextEntry}>
             {data.secureTextEntry ? (
-              <Feather name="eye-off" color="#5579f1" size={20} />
+              <Feather name="eye-off" color="#58cc02" size={20} />
             ) : (
-              <Feather name="eye" color="#5579f1" size={20} />
+              <Feather name="eye" color="#58cc02" size={20} />
             )}
           </TouchableOpacity>
         </View>
@@ -224,7 +224,7 @@ const SignInScreen = ({navigation}) => {
         <TouchableOpacity>
           <Text
             style={{
-              color: '#5579f1',
+              color: '#58cc02',
               marginTop: 15,
               fontSize: 16,
               fontStyle: 'italic',
@@ -243,7 +243,7 @@ const SignInScreen = ({navigation}) => {
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
-              colors={['#c1c8fe', '#5579f1']}
+              colors={['#58cc02', '#78c800']}
               style={styles.signIn}>
               <Text
                 style={[
@@ -264,7 +264,7 @@ const SignInScreen = ({navigation}) => {
               padding: 0,
               borderRadius: 10,
               height: 100,
-              width: 300,
+              width: 350,
             }}>
             <View
               style={{
@@ -275,7 +275,7 @@ const SignInScreen = ({navigation}) => {
                 backgroundColor: '#f1f1f1',
               }}>
               <Text
-                style={{color: '#5579f1', fontSize: 18, alignSelf: 'center'}}>
+                style={{color: '#9a2f12', fontSize: 18, alignSelf: 'center'}}>
                 Bạn chưa nhập tài khoản và mật khẩu!
               </Text>
 
@@ -283,9 +283,9 @@ const SignInScreen = ({navigation}) => {
                 containerStyle={{
                   marginTop: 15,
                   height: 40,
-                  borderRadius: 10,
+                  borderRadius: 15,
                 }}
-                buttonStyle={{backgroundColor: '#5579f1'}}
+                buttonStyle={{backgroundColor: '#58cc02'}}
                 titleStyle={{
                   letterSpacing: 3,
                 }}
@@ -310,11 +310,11 @@ const SignInScreen = ({navigation}) => {
                 justifyContent: 'space-between',
                 alignContent: 'center',
                 padding: 12,
-                borderRadius: 10,
+                borderRadius: 15,
                 backgroundColor: '#f1f1f1',
               }}>
               <Text
-                style={{color: '#5579f1', fontSize: 18, alignSelf: 'center'}}>
+                style={{color: '#9a2f12', fontSize: 18, alignSelf: 'center'}}>
                 Sai thông tin!
               </Text>
 
@@ -324,7 +324,7 @@ const SignInScreen = ({navigation}) => {
                   height: 40,
                   borderRadius: 10,
                 }}
-                buttonStyle={{backgroundColor: '#5579f1'}}
+                buttonStyle={{backgroundColor: '#58cc02'}}
                 titleStyle={{
                   letterSpacing: 3,
                 }}
@@ -339,7 +339,7 @@ const SignInScreen = ({navigation}) => {
             style={[
               styles.signIn,
               {
-                borderColor: '#c1c8fe',
+                borderColor: '#78c800',
                 borderWidth: 1.5,
                 marginTop: 15,
               },
@@ -348,9 +348,9 @@ const SignInScreen = ({navigation}) => {
               style={[
                 styles.textSign,
                 {
-                  color: '#5579f1',
+                  color: '#58cc02',
                   letterSpacing: 3,
-                  // colors={['#7ee2dc', '#55bbb8']}
+                  // colors={['#7ee2dc', '#55bbb8']} colors={['#58cc02', '#78c800']}
                 },
               ]}>
               Đăng ký
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
   },
   text_footer: {
     fontSize: 18,
-    color: '#5579f1',
+    color: '#58cc02',
     fontWeight: 'bold',
   },
   action: {

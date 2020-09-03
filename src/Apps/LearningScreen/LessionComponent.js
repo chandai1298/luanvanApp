@@ -49,8 +49,8 @@ const LessionComponent = ({data, idUser, rank, navigation}) => {
               <Text
                 style={{
                   alignSelf: 'center',
-                  fontSize: 16,
-                  color: '#9a9a9a',
+                  fontSize: 18,
+                  color: '#afafaf',
                   fontWeight: 'bold',
                   marginTop: 5,
                 }}>

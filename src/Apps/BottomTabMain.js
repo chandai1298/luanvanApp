@@ -39,17 +39,17 @@ const BottomTabMain = ({navigation, route}) => {
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: '#5579f1',
+        activeTintColor: '#58cc02',
         tabStyle: {
           height: 50,
         },
         style: {
-          borderTopColor: '#9a9a9a',
-          borderTopWidth: 2,
+          borderTopColor: '#e5e5e5',
+          borderTopWidth: 1.5,
         },
-      }}>
+      }}> 
       <Tab.Screen
-        name="Home"
+        name="Home" 
         component={HomeScreen}
         options={{
           tabBarLabel: '',

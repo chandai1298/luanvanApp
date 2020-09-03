@@ -20,7 +20,7 @@ const SplashScreen = ({navigation}) => {
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}
       style={styles.container}
-      colors={['#c1c8fe', '#5579f1', '#fab3c6']}>
+      colors={['#58cc02', '#78c800']}>
       <StatusBar
         backgroundColor="#54ce04"
         barStyle="light-content"
@@ -47,14 +47,14 @@ const SplashScreen = ({navigation}) => {
         ]}>
         <LinearTextGradient
           locations={[0, 1]}
-          colors={['#5579f1', '#5579f1']}
+          colors={['#9a2f12', '#9a2f12']}
           start={{x: 1, y: 1}}
           end={{x: 0, y: 0}}>
           <Text
             style={[
               styles.title,
               {
-                color: '#fe8a87',
+                color: '#9a2f12',
                 letterSpacing: 3,
               },
             ]}>
@@ -71,7 +71,7 @@ const SplashScreen = ({navigation}) => {
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
-              colors={['#c1c8fe', '#5579f1']}
+              colors={['#58cc02', '#78c800']}
               style={styles.signIn}>
               <Text style={styles.textSign}>GET STARTED</Text>
               <MaterialIcons name="navigate-next" color="#fff" size={20} />

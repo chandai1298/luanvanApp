@@ -8,17 +8,16 @@ import * as Animatable from 'react-native-animatable';
 import {Tooltip, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const Part = ({route, navigation}) => {
+const EvaluationB1Test = ({route, navigation}) => {
   const {nameLession, id_category, id_lession, idUser} = route.params;
   const idCategory = parseInt(JSON.stringify(id_category));
   const idLession = parseInt(JSON.stringify(id_lession));
-  const [loading, setLoading] = React.useState(true);
-
   const [reads, setReads] = React.useState([
     {
       id: '',
       link: '',
       name: '',
+      description: '',
     },
   ]);
   const [listening, setListening] = React.useState([
@@ -26,6 +25,7 @@ const Part = ({route, navigation}) => {
       id: '',
       link: '',
       name: '',
+      description: '',
     },
   ]);
   const getData = () => {
@@ -33,17 +33,16 @@ const Part = ({route, navigation}) => {
     axios
       .all([
         axios.post(apiURL, {
-          type: 'read',
+          type: 'read2',
         }),
         axios.post(apiURL, {
-          type: 'listening',
+          type: 'listening2',
         }),
       ])
       .then(
         axios.spread((...allData) => {
           setReads(allData[0].data);
           setListening(allData[1].data);
-          setLoading(false);
         }),
       )
       .catch((err) => {
@@ -55,25 +54,7 @@ const Part = ({route, navigation}) => {
     getData();
   }, []);
 
-  return loading ? (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#fcfefc',
-      }}>
-      <Animatable.Image
-        duration={1000}
-        source={{
-          uri:
-            'https://i.pinimg.com/originals/45/bd/54/45bd545f9c6cb36a0875a6ea39fb4f61.gif',
-        }}
-        style={{width: '50%', height: '50%'}}
-        resizeMode="contain"
-      />
-    </View>
-  ) : (
+  return (
     <View style={{flex: 1}}>
       <View style={[Style.coverCenter, {flex: 1, flexDirection: 'row'}]}>
         <Text style={[Style.text30, {color: '#8f3311'}]}>{nameLession}</Text>
@@ -125,9 +106,10 @@ const Part = ({route, navigation}) => {
                   idUser: idUser,
                 })
               }>
-              <Text style={[Style.text20, {color: '#afafaf'}]}>
+              <Text style={[Style.text20, {color: '#9a9a9a'}]}>
                 {item.name}
               </Text>
+              <Text style={Style.text16}>({item.description})</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -161,6 +143,7 @@ const Part = ({route, navigation}) => {
               })
             }>
             <Text style={[Style.text20, {color: '#9a9a9a'}]}>{item.name}</Text>
+            <Text style={Style.text16}>({item.description})</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -173,7 +156,7 @@ const Part = ({route, navigation}) => {
           right: 15,
           paddingLeft: 17,
           borderRadius: 25,
-          borderColor: '#1cb0f6',
+          borderColor: '#c1c8fe',
           borderWidth: 1.5,
           justifyContent: 'center',
         }}>
@@ -193,7 +176,7 @@ const Part = ({route, navigation}) => {
           <Text
             style={{
               fontSize: 16,
-              color: '#1cb0f6',
+              color: '#5579f1',
             }}>
             Tips!
           </Text>
@@ -202,4 +185,4 @@ const Part = ({route, navigation}) => {
     </View>
   );
 };
-export default Part;
+export default EvaluationB1Test;

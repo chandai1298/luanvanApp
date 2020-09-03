@@ -12,6 +12,8 @@ const ToeicTest = ({route, navigation}) => {
   const {nameLession, id_category, id_lession, idUser} = route.params;
   const idCategory = parseInt(JSON.stringify(id_category));
   const idLession = parseInt(JSON.stringify(id_lession));
+  const [loading, setLoading] = React.useState(true);
+
   const [toeic, setToeic] = React.useState([
     {
       id: '',
@@ -28,6 +30,7 @@ const ToeicTest = ({route, navigation}) => {
       })
       .then(function (response) {
         setToeic(response.data);
+        setLoading(false);
       })
       .catch(function (error) {
         console.log(error.message);
@@ -37,7 +40,25 @@ const ToeicTest = ({route, navigation}) => {
   useEffect(() => {
     getData();
   }, []);
-  return (
+  return loading ? (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fcfefc',
+      }}>
+      <Animatable.Image
+        duration={1000}
+        source={{
+          uri:
+            'https://i.pinimg.com/originals/45/bd/54/45bd545f9c6cb36a0875a6ea39fb4f61.gif',
+        }}
+        style={{width: '50%', height: '50%'}}
+        resizeMode="contain"
+      />
+    </View>
+  ) : (
     <View style={Style.coverCenter}>
       <View>
         <Text style={[Style.text30, {color: '#8f3311'}]}>{nameLession}</Text>
@@ -77,7 +98,7 @@ const ToeicTest = ({route, navigation}) => {
               })
             }>
             <Image
-              style={{alignSelf: 'center', width: 100, height: 100}}
+              style={{alignSelf: 'center', width: 90, height: 90}}
               source={{
                 uri: item.image,
               }}
@@ -85,12 +106,15 @@ const ToeicTest = ({route, navigation}) => {
             <Text
               style={{
                 alignSelf: 'center',
-                fontSize: 16,
-                color: '#9a9a9a',
+                fontSize: 18,
+                color: '#afafaf',
                 fontWeight: 'bold',
-                marginTop: 5,
+                // marginTop: 5,
               }}>
               {item.name}
+            </Text>
+            <Text style={[Style.text16, {alignSelf: 'center'}]}>
+              ({item.description})
             </Text>
           </TouchableOpacity>
         ))}

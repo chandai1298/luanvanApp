@@ -9,7 +9,38 @@ import AvatarProfile from '../Components/ProfileComponent/Avatar';
 import {IN4_APP} from '../ConnectServer/In4App';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
-
+import {
+  VictoryChart,
+  VictoryBar,
+  VictoryGroup,
+  VictoryLegend,
+  VictoryAxis,
+  VictoryLine,
+  VictoryScatter,
+  VictoryArea,
+  VictoryStack,
+  VictoryTooltip,
+} from 'victory-native';
+const dataChart = {
+  planned: [
+    {x: 'T2', y: 100},
+    {x: 'T3', y: 100},
+    {x: 'T4', y: 100},
+    {x: 'T5', y: 100},
+    {x: 'T6', y: 100},
+    {x: 'T7', y: 100},
+    {x: 'CN', y: 100},
+  ],
+  actual: [
+    {x: 'T2', y: 500},
+    {x: 'T3', y: 300},
+    {x: 'T4', y: 30},
+    {x: 'T5', y: 200},
+    {x: 'T6', y: 180},
+    {x: 'T7', y: 80},
+    {x: 'CN', y: 0},
+  ],
+};
 const Tab = createMaterialTopTabNavigator();
 const Profile = ({title, navigation, icon, desComponent, route}) => {
   const {users} = route.params;
@@ -77,7 +108,7 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
         console.log(err);
       });
   };
- 
+
   useEffect(() => {
     showData();
     let id = setInterval(() => {
@@ -129,7 +160,44 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
       />
 
       <View style={ProfileStyle.containerPadding15}>
-        <Tab.Navigator
+        <VictoryChart>
+          {/* {console.log(new Date().getDay())} */}
+          <VictoryGroup offset={10}>
+            <VictoryBar
+              data={dataChart.actual}
+              style={{
+                data: {fill: 'blue'},
+              }}
+            />
+            <VictoryBar
+              data={dataChart.planned}
+              style={{
+                data: {fill: 'orange'},
+              }}
+            />
+          </VictoryGroup>
+          <VictoryLegend
+            x={DIMENSION.width / 2 - 100}
+            orientation="horizontal"
+            gutter={20}
+            data={[
+              {
+                name: 'Actual',
+                symbol: {
+                  fill: 'blue',
+                },
+              },
+              {
+                name: 'Planned',
+                symbol: {
+                  fill: 'orange',
+                },
+              },
+            ]}
+          />
+        </VictoryChart>
+
+        {/* <Tab.Navigator
           tabBarOptions={{
             activeTintColor: '#464646',
             labelStyle: [Style.text18],
@@ -150,7 +218,7 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
             }}
             initialParams={{id: users.Id}}
           />
-        </Tab.Navigator>
+        </Tab.Navigator> */}
       </View>
     </View>
   );

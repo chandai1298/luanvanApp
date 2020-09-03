@@ -21,6 +21,7 @@ export default class Player extends Component {
   }
 
   setTime(data) {
+    
     if (this.state.currentPosition === Math.round(data.playableDuration))
       this.setState({
         currentPosition: 0,
@@ -41,6 +42,9 @@ export default class Player extends Component {
       paused: false,
     });
   }
+  onEnd(e) {
+    console.log(e);
+  }
 
   render() {
     const track = this.props.tracks;
@@ -52,9 +56,9 @@ export default class Player extends Component {
         resizeMode="cover"
         // repeat={true} // Repeat forever.
         onLoadStart={this.loadStart} // Callback when video starts to load
-        onLoad={this.setDuration.bind(this)} // Callback when video loads
-        onProgress={this.setTime.bind(this)} // Callback every ~250ms with currentTime
-        onEnd={this.onEnd} // Callback when playback finishes
+        onLoad={(e) => this.setDuration(e)} // Callback when video loads
+        onProgress={(e) => this.setTime(e)} // Callback every ~250ms with currentTime
+        onEnd={(e) => this.onEnd(e)} // Callback when playback finishes
         onError={this.videoError} // Callback when video cannot be loaded
         style={styles.audioElement}
       />

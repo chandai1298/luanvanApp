@@ -36,6 +36,8 @@ import ToeicTestDetail from './src/Components/LearningComponents/ToeicComponents
 import ChangePassword from './src/Components/SettingComponents/ChangePassword';
 import FinishPart from './src/Components/Encouragement/FinishPart';
 import Corrects from './src/Components/Encouragement/Corrects';
+import EvaluationB1Test from './src/Components/LearningComponents/EvaluationComponents/EvaluationB1Test';
+import EvaluationB1TestDetail from './src/Components/LearningComponents/EvaluationComponents/EvaluationB1TestDetail';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -313,13 +315,19 @@ const App = () => {
                 name="toeicDetail"
                 component={ToeicTestDetail}
                 options={{headerShown: false}}
-                initialParams={{count: 0, score: 0, crown: 5, totalLength: 0}}
+                initialParams={{
+                  count: 0,
+                  score: 0,
+                  crown: 5,
+                  totalLength: 0,
+                  currentPosition: 1,
+                }}
               />
 
               <Stack.Screen
                 name="onB1"
                 component={OnB1}
-                options={{title: 'Ôn B1 ĐHNL TPHCM'}}
+                options={{title: 'Luyện B1 ĐHNL TPHCM'}}
               />
               <Stack.Screen
                 name="part"
@@ -351,8 +359,24 @@ const App = () => {
               <Stack.Screen
                 name="testEvaluation"
                 component={Evaluation}
+                options={{title: 'Kiểm tra B1 ĐHNL TPHCM'}}
+              />
+              <Stack.Screen
+                name="testb1"
+                component={EvaluationB1Test}
                 options={{headerShown: false}}
-                initialParams={{count: 0, score: 10, crown: 5, totalLength: 0}}
+              />
+              <Stack.Screen
+                name="partDetail2"
+                component={EvaluationB1TestDetail}
+                options={{headerShown: false}}
+                initialParams={{
+                  count: 0,
+                  score: 0,
+                  crown: 5,
+                  totalLength: 0,
+                  currentPosition: 1,
+                }}
               />
             </Stack.Navigator>
           )}

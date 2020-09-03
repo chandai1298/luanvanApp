@@ -125,7 +125,7 @@ const FinishPart = ({route, navigation}) => {
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
-            colors={['#c1c8fe', '#5579f1']}
+            colors={['#1cb0f6', '#1cb0f6']}
             style={[SettingStyle.btnSettings, Style.boxShadow]}>
             <Text style={[Style.text20, Style.textColore6e6f6]}>Tiếp tục</Text>
           </LinearGradient>

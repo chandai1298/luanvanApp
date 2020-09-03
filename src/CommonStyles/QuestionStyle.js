@@ -54,7 +54,7 @@ const QuestionStyle = StyleSheet.create({
     // paddingTop: 4,
     width: '100%',
     height: 52,
-    backgroundColor: '#fff',
+    backgroundColor: '#f7f7f7',
     marginBottom: 12,
   },
   tchAnswer3: {

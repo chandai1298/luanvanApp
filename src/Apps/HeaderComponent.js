@@ -63,12 +63,12 @@ const HeaderComponent = ({
   return (
     <View style={Style.headerContainer}>
       <View style={Style.headerIcon} />
-      <Text style={[Style.text20, {color: '#9a9a9a'}]}>{title}</Text>
+      <Text style={[Style.text20, {color: '#afafaf'}]}>{title}</Text>
       <TouchableOpacity>
         <FontAwesome5
           name={icon}
           size={25}
-          color="#5579f1"
+          color="#58cc02"
           style={Style.headerIcon}
           onPress={() => onPressHandle()}
         />

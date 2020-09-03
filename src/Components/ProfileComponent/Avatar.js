@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
-import {View, Text, Image, TouchableOpacity, ToastAndroid} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ToastAndroid,
+  ActivityIndicator,
+} from 'react-native';
 import {Style, ProfileStyle, DIMENSION} from '../../CommonStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {LinearTextGradient} from 'react-native-text-gradient';
@@ -17,7 +24,7 @@ const AvatarItem = ({num, icon, colorIcon, label}) => {
         <FontAwesome5 name={icon} size={16} color={colorIcon} />
       </View>
 
-      <Text style={{fontSize: 18, color: '#848484'}}>
+      <Text style={{fontSize: 18, color: '#999'}}>
         {num} {label}
       </Text>
     </View>
@@ -25,6 +32,8 @@ const AvatarItem = ({num, icon, colorIcon, label}) => {
 };
 const AvatarProfile = ({image, name, username, rankData, id}) => {
   const [numFriend, setNumFriend] = React.useState('');
+  const [loading, setLoading] = React.useState(true);
+
   const selectImage = () => {
     const options = {
       title: 'Chọn ảnh từ',
@@ -98,6 +107,7 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
       })
       .then(function (response) {
         setNumFriend(response.data[0]);
+        setLoading(false);
       })
       .catch(function (error) {
         console.log(error.message);
@@ -111,7 +121,9 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
     }, 10000);
     return () => clearInterval(id);
   }, []);
-  return (
+  return loading ? (
+    <ActivityIndicator size="small" color="#1cb0f6" />
+  ) : (
     <View
       style={[ProfileStyle.sectionAvatar, Style.boxShadow, {elevation: 15}]}>
       <View style={[ProfileStyle.sectionAvtLeft, {paddingLeft: 5}]}>
@@ -123,7 +135,7 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
               justifyContent: 'flex-start',
             },
           ]}>
-          <Text style={[Style.text20, {color: '#464646'}]}>{name}</Text>
+          <Text style={[Style.text20, {color: '#4b4b4b'}]}>{name}</Text>
           <View style={{marginLeft: 5}}>
             <FontAwesome5
               name="seedling"
@@ -132,7 +144,7 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
             />
           </View>
         </View>
-        <Text style={{fontSize: 18, color: '#b1b1b1'}}>{username}</Text>
+        <Text style={{fontSize: 18, color: '#afafaf'}}>{username}</Text>
         <AvatarItem
           num={numFriend.count}
           icon="user-friends"
@@ -162,8 +174,8 @@ const AvatarProfile = ({image, name, username, rankData, id}) => {
         style={[
           ProfileStyle.SectionAvtRight,
           Style.coverCenter,
-          Style.boxShadow,
-          {elevation: 10, borderRadius: 250},
+          // Style.boxShadow,
+          {borderRadius: 250},
         ]}>
         {/* <Avatar
           size="xlarge"

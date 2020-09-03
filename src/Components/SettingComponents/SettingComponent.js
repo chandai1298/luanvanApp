@@ -11,7 +11,7 @@ const SettingComponent = ({title, style, dataConfig, id}) => {
   const listConfig = () => {
     return dataConfig.map((data) => (
       <View style={SettingStyle.flexDirectionRow} key={data.id}>
-        <Text style={{fontSize: 18, color: '#848484'}}>{data.title}</Text>
+        <Text style={{fontSize: 18, color: '#4b4b4b'}}>{data.title}</Text>
         <SwitchComponent switchValue={data.status} title={data.title} id={id} />
       </View>
     ));
@@ -25,15 +25,15 @@ const SettingComponent = ({title, style, dataConfig, id}) => {
           justifyContent: 'space-between',
           marginBottom: 5,
         }}>
-        <Text style={[Style.text20, {letterSpacing: 2, color: '#464646'}]}>
+        <Text style={[Style.text20, {letterSpacing: 1, color: '#4b4b4b'}]}>
           {title}
         </Text>
         {!collapse ? (
           <View>
             <FontAwesome5
               name="chevron-circle-up"
-              size={20}
-              color="#5579f1"
+              size={25}
+              color="#58cc02"
               style={Style.headerIcon}
               onPress={() => {
                 setCollapse(true);
@@ -44,8 +44,8 @@ const SettingComponent = ({title, style, dataConfig, id}) => {
           <View>
             <FontAwesome5
               name="chevron-circle-down"
-              size={20}
-              color="#5579f1"
+              size={25}
+              color="#58cc02"
               style={Style.headerIcon}
               onPress={() => {
                 setCollapse(false);

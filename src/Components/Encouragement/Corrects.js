@@ -26,15 +26,15 @@ const Corrects = ({route, navigation}) => {
         <View
           style={{
             paddingLeft: 18,
-            borderColor: '#8f3311',
-            borderWidth: 1,
+            // borderColor: '#8f3311',
+            // borderWidth: 1,
             borderRadius: 20,
             alignContent: 'center',
             justifyContent: 'center',
-            width: 160,
+            width: 180,
             height: 40,
           }}>
-          <Text style={{fontSize: 20, color: '#8f3311'}}>
+          <Text style={{fontSize: 20, color: '#8f3311', letterSpacing: 1}}>
             {sequence === 2
               ? 'Ấn tượng đấy...'
               : sequence == 4
@@ -75,7 +75,7 @@ const Corrects = ({route, navigation}) => {
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
-            colors={['#c1c8fe', '#5579f1']}
+            colors={['#1cb0f6', '#1cb0f6']}
             style={[
               SettingStyle.btnSettings,
               Style.boxShadow,
