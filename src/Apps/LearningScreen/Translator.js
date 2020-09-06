@@ -149,12 +149,12 @@ const Translator = () => {
         buttons={buttons}
         containerStyle={{height: 50, borderRadius: 30, margin: 5}}
         // buttonContainerStyle={{
-        //   borderColor: '#5579f1',
+        //   borderColor: '#58cc02',
         //   borderWidth: 1.5,
         // }}
-        textStyle={{fontWeight: 'bold', color: '#5579f1'}}
+        textStyle={{fontWeight: 'bold', color: '#58cc02'}}
         selectedButtonStyle={{
-          backgroundColor: '#5579f1',
+          backgroundColor: '#58cc02',
         }}
       />
       <Picker
@@ -168,7 +168,7 @@ const Translator = () => {
         {Object.keys(Languages).map((key) => (
           <Picker.Item
             key={key}
-            label={'Auto Detect - ' + Languages[key]}
+            label={'Phát hiện ngôn ngữ - ' + Languages[key]}
             value={key}
           />
         ))}
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: '#fff',
     borderWidth: 1.5,
-    borderColor: '#9a9a9a',
+    borderColor: '#58cc02',
     borderRadius: 10,
     height: 200,
     shadowRadius: 20,
@@ -234,6 +234,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginBottom: 5,
     marginRight: 10,
-    color: '#000',
+    color: '#58cc02',
   },
 });

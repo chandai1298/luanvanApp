@@ -156,7 +156,6 @@ const SignInScreen = ({navigation}) => {
           <View style={styles.action}>
             <FontAwesome name="user" color="#58cc02" size={20} />
             <TextInput
-              placeholder="Your Username"
               style={styles.textInput}
               autoCapitalize="none"
               onChangeText={(val) => textInputChange(val)}
@@ -186,7 +185,6 @@ const SignInScreen = ({navigation}) => {
           <View style={styles.action}>
             <Feather name="lock" color="#58cc02" size={20} />
             <TextInput
-              placeholder="Your Password"
               secureTextEntry={data.secureTextEntry ? true : false}
               style={styles.textInput}
               autoCapitalize="none"
@@ -220,7 +218,6 @@ const SignInScreen = ({navigation}) => {
           <View style={styles.action}>
             <Feather name="lock" color="#58cc02" size={20} />
             <TextInput
-              placeholder="Confirm Your Password"
               secureTextEntry={data.confirm_secureTextEntry ? true : false}
               style={styles.textInput}
               autoCapitalize="none"
@@ -241,16 +238,17 @@ const SignInScreen = ({navigation}) => {
           )}
           <View style={styles.textPrivate}>
             <Text style={styles.color_textPrivate}>
-              By signing up you agree to our
+              Bằng cách nhấp vào Đăng ký, bạn đồng ý với
             </Text>
             <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>
               {' '}
-              Terms of service
+              Điều khoản
             </Text>
-            <Text style={styles.color_textPrivate}> and</Text>
+            <Text style={styles.color_textPrivate}> và</Text>
             <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>
-              Privacy policy
+              Chính sách
             </Text>
+            <Text style={styles.color_textPrivate}> của chúng tôi.</Text>
           </View>
           <View style={styles.button}>
             <TouchableOpacity

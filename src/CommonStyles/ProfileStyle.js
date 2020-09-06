@@ -43,6 +43,7 @@ const ProfileStyle = StyleSheet.create({
     borderBottomColor: '#e5e5e5',
     borderBottomWidth: 1,
     // borderRadius: 10,
+    // marginBottom: 10,
   },
   sectionLeft: {
     // height: 100,

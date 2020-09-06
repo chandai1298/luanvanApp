@@ -14,61 +14,20 @@ import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
-const BanBe = ({route}) => {
-  const {id} = route.params;
-  const [data, setData] = React.useState([]);
-  const showData = () => {
-    const getScoreFriend = IN4_APP.getScoreFriend;
-    axios
-      .post(getScoreFriend, {
-        Id: id,
-      })
-      .then(function (response) {
-        setData(response.data);
-      })
-      .catch(function (error) {
-        console.log(error.message);
-      });
-  };
-
-  useEffect(() => {
-    showData();
-    let id = setInterval(() => {
-      showData();
-    }, 10000);
-    return () => clearInterval(id);
-  }, []);
+const AnotherFriend = ({route, navigation}) => {
+  const {datas} = route.params;
   return (
-    <View style={{flex: 1, backgroundColor: '#f7f7f7'}}>
-      <TouchableOpacity
-        style={[
-          {
-            height: 40,
-            borderRadius: 15,
-            width: '45%',
-            marginLeft: 15,
-            flexDirection: 'row',
-            backgroundColor: '#5579f1',
-            justifyContent: 'center',
-            alignItems: 'center',
-          },
-        ]}
-        onPress={() => alert('helo')}
-        activeOpacity={0.5}>
-        <FontAwesome5Icon
-          name="search"
-          size={18}
-          color="#fff"
-          // style={[Style.coverCenter, {borderRadius: 15}]}
-          // onPress={() => onPressHandle()}
-        />
-        <Text style={[{letterSpacing: 2, color: '#fff', fontSize: 18}]}>
-          Tìm bạn bè
-        </Text>
-      </TouchableOpacity>
-      {data.length > 0 ? (
+    <View
+      style={{
+        borderRadius: 15,
+        borderColor: '#e5e5e5',
+        borderWidth: 1.5,
+        margin: 10,
+      }}>
+      {console.log(datas)}
+      {datas.length > 0 ? (
         <ScrollView>
-          {data.map((e, key) => (
+          {datas.map((e, key) => (
             <View style={ProfileStyle.sectionThanhTich} key={key}>
               <View
                 style={[
@@ -116,7 +75,7 @@ const BanBe = ({route}) => {
           <View style={[{flex: 1, alignItems: 'center'}]}>
             <LinearTextGradient
               locations={[0, 1]}
-              colors={['#5579f1', '#5579f1']}
+              colors={['#58cc02', '#58cc02']}
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}>
               <Text
@@ -132,4 +91,4 @@ const BanBe = ({route}) => {
     </View>
   );
 };
-export default BanBe;
+export default AnotherFriend;

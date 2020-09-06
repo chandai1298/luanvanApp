@@ -6049,6 +6049,11 @@ react-native-paper@^4.0.1:
     color "^3.1.2"
     react-native-safe-area-view "^0.14.9"
 
+react-native-play-sound@^1.0.24:
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/react-native-play-sound/-/react-native-play-sound-1.0.24.tgz#327ab792e18a21b93caa90a4f1591a2e426c8668"
+  integrity sha512-X6++y5K8gzfglxCAWD/a5JI/LE2ua2S8SnqYq1FtomxS6ZAaZT9NT+wYCRNqBtg3XHfWIPXni0TwqA0b3YSbuQ==
+
 react-native-power-translator@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-native-power-translator/-/react-native-power-translator-1.1.1.tgz#f4bf9a5a13a21618e3bf7f6c587f021677baff6c"

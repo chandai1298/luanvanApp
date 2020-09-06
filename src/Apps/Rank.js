@@ -17,12 +17,15 @@ import {ButtonGroup} from 'react-native-elements';
 const Rank = ({title, icon, navigation, desComponent, route}) => {
   const {users} = route.params;
   const [ranks, setRank] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
   const showData = () => {
     const getTopRank = IN4_APP.getTopRank;
     axios
       .get(getTopRank)
       .then(function (response) {
         setRank(response.data);
+        setLoading(false);
       })
       .catch(function (error) {
         console.log(error.message);
@@ -107,7 +110,25 @@ const Rank = ({title, icon, navigation, desComponent, route}) => {
     return () => clearInterval(id);
   }, []);
 
-  return (
+  return loading ? (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fcfefc',
+      }}>
+      <Animatable.Image
+        duration={1000}
+        source={{
+          uri:
+            'https://i.pinimg.com/originals/45/bd/54/45bd545f9c6cb36a0875a6ea39fb4f61.gif',
+        }}
+        style={{width: '50%', height: '50%'}}
+        resizeMode="contain"
+      />
+    </View>
+  ) : (
     <View style={{flex: 1}}>
       <StatusBar hidden={true} />
 

@@ -8,11 +8,11 @@ const Controls = ({paused, onPressPlay, onPressPause}) => (
   <View>
     {!paused ? (
       <TouchableOpacity onPress={onPressPause}>
-        <FontAwesome5 name="pause" color="#1cb0f6" size={DIMENSION.sizeIcon2} />
+        <FontAwesome5 name="pause" color="#58cc02" size={DIMENSION.sizeIcon2} />
       </TouchableOpacity>
     ) : (
       <TouchableOpacity onPress={onPressPlay}>
-        <FontAwesome5 name="play" color="#1cb0f6" size={DIMENSION.sizeIcon2} />
+        <FontAwesome5 name="play" color="#58cc02" size={DIMENSION.sizeIcon2} />
       </TouchableOpacity>
     )}
   </View>

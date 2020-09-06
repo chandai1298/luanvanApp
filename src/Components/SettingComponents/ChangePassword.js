@@ -163,7 +163,7 @@ const ChangePassword = ({route, navigation}) => {
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
-              colors={['#c1c8fe', '#5579f1']}
+              colors={['#58cc02', '#78c800']}
               style={[SettingStyle.btnSettings, Style.boxShadow]}>
               <Text
                 style={[

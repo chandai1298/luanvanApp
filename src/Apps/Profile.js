@@ -1,25 +1,33 @@
 import React, {useEffect} from 'react';
-import {View, StatusBar} from 'react-native';
+import {
+  View,
+  StatusBar,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import {Style, ProfileStyle, DIMENSION} from '../CommonStyles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import HeaderComponent from './HeaderComponent';
-import ThanhTich from '../Components/ProfileComponent/ThanhTich';
-import BanBe from '../Components/ProfileComponent/BanBe';
+import Achievements from '../Components/ProfileComponent/Achievements';
+import Friend from '../Components/ProfileComponent/Friend';
 import AvatarProfile from '../Components/ProfileComponent/Avatar';
 import {IN4_APP} from '../ConnectServer/In4App';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+
 import {
   VictoryChart,
   VictoryBar,
   VictoryGroup,
   VictoryLegend,
-  VictoryAxis,
-  VictoryLine,
-  VictoryScatter,
-  VictoryArea,
-  VictoryStack,
-  VictoryTooltip,
+  // VictoryAxis,
+  // VictoryLine,
+  // VictoryScatter,
+  // VictoryArea,
+  // VictoryStack,
+  // VictoryTooltip,
 } from 'victory-native';
 const dataChart = {
   planned: [
@@ -113,7 +121,7 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
     showData();
     let id = setInterval(() => {
       showData();
-    }, 1500);
+    }, 5000);
     return () => clearInterval(id);
   }, []);
   const data = datas[0];
@@ -149,77 +157,116 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
         cf1={dataConfig}
         cf2={dataConfig2}
       />
-      <AvatarProfile
-        name={users.Name !== data.Name ? data.Name : users.Name}
-        username={
-          users.Username !== data.Username ? data.Username : users.Username
-        }
-        image={users.Avatar !== data.Avatar ? data.Avatar : users.Avatar}
-        rankData={ranks[0]}
-        id={users.Id}
-      />
-
-      <View style={ProfileStyle.containerPadding15}>
-        <VictoryChart>
-          {/* {console.log(new Date().getDay())} */}
-          <VictoryGroup offset={10}>
-            <VictoryBar
-              data={dataChart.actual}
-              style={{
-                data: {fill: 'blue'},
-              }}
-            />
-            <VictoryBar
-              data={dataChart.planned}
-              style={{
-                data: {fill: 'orange'},
-              }}
-            />
-          </VictoryGroup>
-          <VictoryLegend
-            x={DIMENSION.width / 2 - 100}
-            orientation="horizontal"
-            gutter={20}
-            data={[
-              {
-                name: 'Actual',
-                symbol: {
-                  fill: 'blue',
+      <ScrollView>
+        <AvatarProfile
+          name={users.Name !== data.Name ? data.Name : users.Name}
+          username={
+            users.Username !== data.Username ? data.Username : users.Username
+          }
+          image={users.Avatar !== data.Avatar ? data.Avatar : users.Avatar}
+          rankData={ranks[0]}
+          id={users.Id}
+        />
+        <View style={ProfileStyle.containerPadding15}>
+          <VictoryChart>
+            <VictoryGroup offset={10}>
+              <VictoryBar
+                data={dataChart.actual}
+                style={{
+                  data: {fill: '#1899d6'},
+                }}
+              />
+              <VictoryBar
+                data={dataChart.planned}
+                style={{
+                  data: {fill: 'orange'},
+                }}
+              />
+            </VictoryGroup>
+            <VictoryLegend
+              x={DIMENSION.width / 2 - 100}
+              orientation="horizontal"
+              gutter={20}
+              data={[
+                {
+                  name: 'Actual',
+                  symbol: {
+                    fill: '#1899d6',
+                  },
                 },
-              },
-              {
-                name: 'Planned',
-                symbol: {
-                  fill: 'orange',
+                {
+                  name: 'Planned',
+                  symbol: {
+                    fill: 'orange',
+                  },
                 },
-              },
-            ]}
-          />
-        </VictoryChart>
+              ]}
+            />
+          </VictoryChart>
+        </View>
+        <View>
+          <View style={{padding: 15}}>
+            <Text
+              style={[
+                Style.text20,
+                {
+                  letterSpacing: 1,
+                  color: '#4b4b4b',
+                  textTransform: 'uppercase',
+                },
+              ]}>
+              Thành tích
+            </Text>
+          </View>
+          <Achievements id={users.Id} navigation={navigation} />
+        </View>
 
-        {/* <Tab.Navigator
-          tabBarOptions={{
-            activeTintColor: '#464646',
-            labelStyle: [Style.text18],
-            showIcon: true,
-          }}>
-          <Tab.Screen
-            name="ThanhTich"
-            component={ThanhTich}
-            options={{
-              tabBarLabel: 'Thành tích',
-            }}
-          />
-          <Tab.Screen
-            name="Banbe"
-            component={BanBe}
-            options={{
-              tabBarLabel: 'Bạn bè',
-            }}
-            initialParams={{id: users.Id}}
-          />
-        </Tab.Navigator> */}
-      </View>
+        <View>
+          <View
+            style={{
+              padding: 15,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <View>
+              <Text
+                style={[
+                  Style.text20,
+                  {
+                    letterSpacing: 1,
+                    color: '#4b4b4b',
+                    textTransform: 'uppercase',
+                  },
+                ]}>
+                Bạn bè
+              </Text>
+            </View>
+            <View style={{alignItems: 'flex-end'}}>
+              <TouchableOpacity
+                style={[
+                  {
+                    height: 40,
+                    width: '100%',
+                    borderRadius: 15,
+                    flexDirection: 'row',
+                    backgroundColor: '#58cc02',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  },
+                ]}
+                onPress={() => alert('helo')}
+                activeOpacity={0.5}>
+                <FontAwesome5Icon name="search" size={18} color="#fff" />
+                <Text style={[{letterSpacing: 2, color: '#fff', fontSize: 18}]}>
+                  Tìm bạn bè
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <Friend id={users.Id} navigation={navigation} />
+        </View>
+      </ScrollView>
     </View>
   );
 };

@@ -1355,7 +1355,7 @@ const ToeicTestDetail = ({route, navigation}) => {
                       flexDirection: 'row',
                       height: 50,
                       borderRadius: 10,
-                      backgroundColor: '#1cb0f6',
+                      backgroundColor: '#58cc02',
                       // elevation: 15,
                     },
                     Style.coverCenter,
@@ -1456,7 +1456,7 @@ const ToeicTestDetail = ({route, navigation}) => {
                       flexDirection: 'row',
                       height: 50,
                       borderRadius: 10,
-                      backgroundColor: '#1cb0f6',
+                      backgroundColor: '#58cc02',
                       elevation: 15,
                     },
                     Style.coverCenter,
@@ -1752,13 +1752,13 @@ const ToeicTestDetail = ({route, navigation}) => {
       case 'part3':
         promise =
           answer !== '' && answer3 !== '' && answer3 !== ''
-            ? ['#1cb0f6', '#1cb0f6']
+            ? ['#58cc02', '#58cc02']
             : ['#e5e5e5', '#e5e5e5'];
         break;
       case 'part4':
         promise =
           answer !== '' && answer3 !== '' && answer3 !== ''
-            ? ['#1cb0f6', '#1cb0f6']
+            ? ['#58cc02', '#58cc02']
             : ['#e5e5e5', '#e5e5e5'];
         break;
       case 'part7':
@@ -1770,7 +1770,7 @@ const ToeicTestDetail = ({route, navigation}) => {
               answer3 !== '' &&
               answer4 !== '' &&
               answer5 !== ''
-                ? ['#1cb0f6', '#1cb0f6']
+                ? ['#58cc02', '#58cc02']
                 : ['#e5e5e5', '#e5e5e5'];
             break;
           case 4:
@@ -1779,19 +1779,19 @@ const ToeicTestDetail = ({route, navigation}) => {
               answer2 !== '' &&
               answer3 !== '' &&
               answer4 !== ''
-                ? ['#1cb0f6', '#1cb0f6']
+                ? ['#58cc02', '#58cc02']
                 : ['#e5e5e5', '#e5e5e5'];
             break;
           case 3:
             promise =
               answer !== '' && answer2 !== '' && answer3 !== ''
-                ? ['#1cb0f6', '#1cb0f6']
+                ? ['#58cc02', '#58cc02']
                 : ['#e5e5e5', '#e5e5e5'];
             break;
           case 2:
             promise =
               answer !== '' && answer2 !== ''
-                ? ['#1cb0f6', '#1cb0f6']
+                ? ['#58cc02', '#58cc02']
                 : ['#e5e5e5', '#e5e5e5'];
             break;
           default:
@@ -1800,7 +1800,7 @@ const ToeicTestDetail = ({route, navigation}) => {
         break;
       default:
         promise =
-          answer !== '' ? ['#1cb0f6', '#1cb0f6'] : ['#e5e5e5', '#e5e5e5'];
+          answer !== '' ? ['#58cc02', '#58cc02'] : ['#e5e5e5', '#e5e5e5'];
         break;
     }
     return promise;
@@ -1909,7 +1909,7 @@ const ToeicTestDetail = ({route, navigation}) => {
                 justifyContent: 'center',
               },
             ]}>
-            <Text style={[Style.text18, {color: '#1cb0f6'}]}>
+            <Text style={[Style.text18, {color: '#58cc02'}]}>
               Đúng: {correct} /
             </Text>
             <Text style={[Style.text18, {color: '#f44336'}]}>

@@ -52,7 +52,7 @@ const Style = StyleSheet.create({
   line: {
     width: DIMENSION.width,
     borderWidth: 1,
-    borderColor: '#1cb0f6',
+    borderColor: '#58cc02',
   },
   input: {
     paddingLeft: 15,
@@ -89,11 +89,11 @@ const Style = StyleSheet.create({
   },
   btnActive: {
     borderBottomWidth: 3,
-    borderColor: '#1cb0f6',
-    color: '#1cb0f6',
+    borderColor: '#58cc02',
+    color: '#58cc02',
   },
   txtActive: {
-    color: '#1cb0f6',
+    color: '#58cc02',
   },
   textAnswer: {
     color: '#848484',

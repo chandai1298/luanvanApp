@@ -38,6 +38,8 @@ import FinishPart from './src/Components/Encouragement/FinishPart';
 import Corrects from './src/Components/Encouragement/Corrects';
 import EvaluationB1Test from './src/Components/LearningComponents/EvaluationComponents/EvaluationB1Test';
 import EvaluationB1TestDetail from './src/Components/LearningComponents/EvaluationComponents/EvaluationB1TestDetail';
+import AnotherFriend from './src/Components/ProfileComponent/AnotherFriend';
+import AnotherAchievement from './src/Components/ProfileComponent/AnotherAchievement';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -360,6 +362,16 @@ const App = () => {
                 name="testEvaluation"
                 component={Evaluation}
                 options={{title: 'Kiểm tra B1 ĐHNL TPHCM'}}
+              />
+              <Stack.Screen
+                name="anotherFriend"
+                component={AnotherFriend}
+                options={{title: 'Danh sách bạn bè'}}
+              />
+              <Stack.Screen
+                name="anotherAchievement"
+                component={AnotherAchievement}
+                options={{title: 'Thành tích'}}
               />
               <Stack.Screen
                 name="testb1"

@@ -173,7 +173,7 @@ const Part = ({route, navigation}) => {
           right: 15,
           paddingLeft: 17,
           borderRadius: 25,
-          borderColor: '#1cb0f6',
+          borderColor: '#58cc02',
           borderWidth: 1.5,
           justifyContent: 'center',
         }}>
@@ -193,7 +193,7 @@ const Part = ({route, navigation}) => {
           <Text
             style={{
               fontSize: 16,
-              color: '#1cb0f6',
+              color: '#58cc02',
             }}>
             Tips!
           </Text>

@@ -160,7 +160,6 @@ const SignInScreen = ({navigation}) => {
         <View style={styles.action}>
           <FontAwesome name="user" color="#58cc02" size={20} />
           <TextInput
-            placeholder="Your username"
             style={[
               styles.textInput,
               {
@@ -196,7 +195,6 @@ const SignInScreen = ({navigation}) => {
         <View style={styles.action}>
           <Feather name="lock" color="#58cc02" size={20} />
           <TextInput
-            placeholder="Your password"
             secureTextEntry={data.secureTextEntry ? true : false}
             style={[
               styles.textInput,
@@ -227,7 +225,6 @@ const SignInScreen = ({navigation}) => {
               color: '#58cc02',
               marginTop: 15,
               fontSize: 16,
-              fontStyle: 'italic',
               letterSpacing: 1,
               fontWeight: 'bold',
             }}>

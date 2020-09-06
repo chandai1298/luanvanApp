@@ -1599,13 +1599,13 @@ const PartDetail = ({route, navigation}) => {
       case 3:
         promise =
           answer !== '' && answer3 !== '' && answer3 !== ''
-            ? ['#1cb0f6', '#1cb0f6']
+            ? ['#58cc02', '#58cc02']
             : ['#e5e5e5', '#e5e5e5'];
         break;
       case 4:
         promise =
           answer !== '' && answer3 !== '' && answer3 !== ''
-            ? ['#1cb0f6', '#1cb0f6']
+            ? ['#58cc02', '#58cc02']
             : ['#e5e5e5', '#e5e5e5'];
         break;
       case 7:
@@ -1617,7 +1617,7 @@ const PartDetail = ({route, navigation}) => {
               answer3 !== '' &&
               answer4 !== '' &&
               answer5 !== ''
-                ? ['#1cb0f6', '#1cb0f6']
+                ? ['#58cc02', '#58cc02']
                 : ['#e5e5e5', '#e5e5e5'];
             break;
           case 4:
@@ -1626,19 +1626,19 @@ const PartDetail = ({route, navigation}) => {
               answer2 !== '' &&
               answer3 !== '' &&
               answer4 !== ''
-                ? ['#1cb0f6', '#1cb0f6']
+                ? ['#58cc02', '#58cc02']
                 : ['#e5e5e5', '#e5e5e5'];
             break;
           case 3:
             promise =
               answer !== '' && answer2 !== '' && answer3 !== ''
-                ? ['#1cb0f6', '#1cb0f6']
+                ? ['#58cc02', '#58cc02']
                 : ['#e5e5e5', '#e5e5e5'];
             break;
           case 2:
             promise =
               answer !== '' && answer2 !== ''
-                ? ['#1cb0f6', '#1cb0f6']
+                ? ['#58cc02', '#58cc02']
                 : ['#e5e5e5', '#e5e5e5'];
             break;
 
@@ -1649,7 +1649,7 @@ const PartDetail = ({route, navigation}) => {
         break;
       default:
         promise =
-          answer !== '' ? ['#1cb0f6', '#1cb0f6'] : ['#e5e5e5', '#e5e5e5'];
+          answer !== '' ? ['#58cc02', '#58cc02'] : ['#e5e5e5', '#e5e5e5'];
         break;
     }
     return promise;
@@ -1785,7 +1785,7 @@ const PartDetail = ({route, navigation}) => {
           <Text
             style={{
               paddingLeft: 40,
-              color: '#1cb0f6',
+              color: '#58cc02',
               fontStyle: 'italic',
               letterSpacing: 1,
               fontSize: 14,
@@ -1816,7 +1816,7 @@ const PartDetail = ({route, navigation}) => {
               animationType="timing"
               progress={c * 0.2}
               width={280}
-              color="#1cb0f6"
+              color="#58cc02"
             />
           </View>
           <View
@@ -1850,7 +1850,7 @@ const PartDetail = ({route, navigation}) => {
                         alignSelf: 'center',
                         borderRadius: 25,
                       }}
-                      buttonStyle={{backgroundColor: '#1cb0f6'}}
+                      buttonStyle={{backgroundColor: '#58cc02'}}
                       titleStyle={{
                         letterSpacing: 3,
                       }}

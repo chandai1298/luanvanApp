@@ -9,6 +9,12 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {SearchBar} from 'react-native-elements';
+// import {
+//   PlaySound,
+//   StopSound,
+//   PlaySoundRepeat,
+//   PlaySoundMusicVolume,
+// } from 'react-native-play-sound';
 
 const datas = [
   {
@@ -183,13 +189,14 @@ const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
                 elevation: 12,
               },
             ]}
-            onPress={() =>
+            onPress={() => {
               navigation.navigate(item.link, {
                 id_category: item.id,
                 idUser: users.Id,
                 rank: ranks[0],
-              })
-            }>
+              });
+              PlaySound('plucky');
+            }}>
             <Animatable.Image
               animation="flipInX"
               style={{
