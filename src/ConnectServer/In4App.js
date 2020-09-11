@@ -24,5 +24,10 @@ const IN4_APP = {
   getScoreFriend: `${URL_NGROK.url}/getScoreFriend`,
   getTopRank: `${URL_NGROK.url}/getTopRank`,
   searchFriend: `${URL_NGROK.url}/searchFriend`,
+  getEmail: `${URL_NGROK.url}/getEmail`,
+  getUsername: `${URL_NGROK.url}/getUsername`,
+  getThanhTich: `${URL_NGROK.url}/getThanhTich`,
+  writeLog: `${URL_NGROK.url}/writeLog`,
+  showLogs: `${URL_NGROK.url}/showLogs`,
 };
 export {IN4_APP};

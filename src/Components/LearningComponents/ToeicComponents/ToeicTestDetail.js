@@ -31,7 +31,7 @@ import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 const audioRecorderPlayer = new AudioRecorderPlayer();
 import storage from '@react-native-firebase/storage';
 import AudioPlayer from '../AudioPlayer';
-import TimerReading from '../TimerReading';
+import CountDown from 'react-native-countdown-component';
 
 const path = Platform.select({
   ios: 'hello.m4a',
@@ -48,6 +48,7 @@ const ToeicTestDetail = ({route, navigation}) => {
     id_lession,
     id_part,
     idUser,
+    delay,
     currentPosition,
   } = route.params;
   const [lengthQuestion, setLengthQuestion] = React.useState(0);
@@ -282,9 +283,6 @@ const ToeicTestDetail = ({route, navigation}) => {
   );
   const onEnd = () => {
     check();
-  };
-  const setDuration = (data) => {
-    console.log(Math.round(data.duration));
   };
 
   const AnswerABCD = ({item}) => {
@@ -860,6 +858,7 @@ const ToeicTestDetail = ({route, navigation}) => {
     }
     return promise;
   };
+
   const questionReading = () => {
     var promise = null;
     var space = ` `;
@@ -883,9 +882,19 @@ const ToeicTestDetail = ({route, navigation}) => {
 
             <View style={[Style.coverCenter]}>
               <View style={{alignItems: 'center'}}>
-                {checkTime ? <Text> thoi gian </Text> : <></>}
-
-                {/* <TimerReading delayM={0} delayS={50} onEnd={onEnd} checkTime={checkTime}/> */}
+                {checkTime ? (
+                  <CountDown
+                    until={delay}
+                    size={30}
+                    onFinish={() => check()}
+                    digitStyle={{backgroundColor: '#FFF'}}
+                    digitTxtStyle={{color: '#1CC625'}}
+                    timeToShow={['M', 'S']}
+                    timeLabels={{m: '', s: ''}}
+                  />
+                ) : (
+                  <></>
+                )}
               </View>
             </View>
             <View
@@ -1532,6 +1541,7 @@ const ToeicTestDetail = ({route, navigation}) => {
   const nextQuestion = (bonus, position, nextElement) => {
     setHidePlayer(false);
     setHideRecord(false);
+    setCheckTime(false);
     if (data.length === totalLength + position) {
       updateScore(bonus);
     } else {
@@ -1541,6 +1551,7 @@ const ToeicTestDetail = ({route, navigation}) => {
         score: score + bonus,
         crown: crown,
         currentPosition: currentPosition + position,
+        delay: 90 * position,
       });
     }
   };

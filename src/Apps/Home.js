@@ -195,7 +195,7 @@ const Home = ({icon1, icon2, icon3, icon4, navigation, route}) => {
                 idUser: users.Id,
                 rank: ranks[0],
               });
-              PlaySound('plucky');
+              // PlaySound('plucky');
             }}>
             <Animatable.Image
               animation="flipInX"

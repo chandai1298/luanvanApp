@@ -30,22 +30,23 @@ const AnotherAchievements = ({route, navigation}) => {
               style={[ProfileStyle.sectionLeft, {marginLeft: 15, height: 70}]}>
               <View
                 style={{height: 30, justifyContent: 'center', paddingTop: 5}}>
-                <Text style={[Style.text20, {color: '#464646'}]}>Header</Text>
+                <Text style={[Style.text20, {color: '#464646'}]}>
+                  {item.title}
+                </Text>
               </View>
               <View
                 style={{
                   height: 30,
                   justifyContent: 'center',
-                  paddingTop: 5,
+                  paddingTop: 10,
                 }}>
                 <Text style={{fontSize: 18, color: '#848484'}}>
-                  {item.title}kkk
+                  {item.description}
                 </Text>
               </View>
               <View style={{height: 30, justifyContent: 'flex-end'}}>
                 <Progress.Bar
-                  progress={0.3}
-                  width={250}
+                  progress={parseInt(item.current_num) / parseInt(item.max_num)}
                   color="#58cc02"
                   height={10}
                   style={{borderRadius: 30}}

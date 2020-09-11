@@ -14,6 +14,9 @@ const FinishPart = ({route, navigation}) => {
       case 'Toeic':
         navigation.navigate('toeic');
         break;
+      case 'TestB1':
+        navigation.navigate('testb1');
+        break;
 
       default:
         navigation.navigate('part');

@@ -40,6 +40,8 @@ import EvaluationB1Test from './src/Components/LearningComponents/EvaluationComp
 import EvaluationB1TestDetail from './src/Components/LearningComponents/EvaluationComponents/EvaluationB1TestDetail';
 import AnotherFriend from './src/Components/ProfileComponent/AnotherFriend';
 import AnotherAchievement from './src/Components/ProfileComponent/AnotherAchievement';
+import Logs from './src/Components/ProfileComponent/Logs';
+import FindFriend from './src/Components/ProfileComponent/FindFriend';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -323,6 +325,7 @@ const App = () => {
                   crown: 5,
                   totalLength: 0,
                   currentPosition: 1,
+                  delay: 90,
                 }}
               />
 
@@ -369,6 +372,16 @@ const App = () => {
                 options={{title: 'Danh sách bạn bè'}}
               />
               <Stack.Screen
+                name="logs"
+                component={Logs}
+                options={{title: 'Lịch sử hoạt động'}}
+              />
+              <Stack.Screen
+                name="findFriend"
+                component={FindFriend}
+                options={{title: 'Tìm bạn bè'}}
+              />
+              <Stack.Screen
                 name="anotherAchievement"
                 component={AnotherAchievement}
                 options={{title: 'Thành tích'}}
@@ -384,10 +397,9 @@ const App = () => {
                 options={{headerShown: false}}
                 initialParams={{
                   count: 0,
-                  score: 0,
-                  crown: 5,
                   totalLength: 0,
                   currentPosition: 1,
+                  delay: 90,
                 }}
               />
             </Stack.Navigator>

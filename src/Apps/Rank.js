@@ -14,6 +14,67 @@ import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
 import {ButtonGroup} from 'react-native-elements';
 
+const TopView = ({top, topNum, borderColor}) => {
+  return (
+    <View
+      style={[
+        {
+          width: '33%',
+          alignItems: 'center',
+          marginTop: 60,
+        },
+        topNum === 1 && Style.marginTop20,
+      ]}>
+      <View
+        style={{
+          alignItems: 'center',
+          paddingLeft: 10,
+          marginBottom: 10,
+          height: 40,
+          justifyContent: 'center',
+        }}>
+        <Text style={[Style.text18, {color: '#4b4b4b'}]}>{top.Name}</Text>
+      </View>
+      <View
+        style={{
+          width: '100%',
+          // backgroundColor: 'red',
+          height: 110,
+        }}>
+        <View style={{alignItems: 'center'}}>
+          <Image
+            source={{
+              uri: top.Avatar,
+            }}
+            style={[Style.imageRank, {borderColor: borderColor}]}
+          />
+        </View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: '#f9b648',
+            width: 30,
+            height: 30,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 30,
+            marginTop: -110,
+            marginLeft: 10,
+          }}>
+          <Text style={[Style.text18, {color: '#fff'}]}>{topNum}</Text>
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          alignItems: 'center',
+          // marginTop: 30,
+        }}>
+        <Text style={[Style.text18, {color: '#f9b648'}]}>
+          {top.total_score} KN
+        </Text>
+      </View>
+    </View>
+  );
+};
 const Rank = ({title, icon, navigation, desComponent, route}) => {
   const {users} = route.params;
   const [ranks, setRank] = React.useState([]);
@@ -37,70 +98,6 @@ const Rank = ({title, icon, navigation, desComponent, route}) => {
   const top1 = t1 !== undefined ? t1 : '';
   const top2 = t2 !== undefined ? t2 : '';
   const top3 = t3 !== undefined ? t3 : '';
-  const [index, UpdateIndex] = React.useState(1);
-  const buttons = ['Bạn bè', 'Sever'];
-
-  const TopView = ({top, topNum, borderColor}) => {
-    return (
-      <View
-        style={[
-          {
-            width: '33%',
-            alignItems: 'center',
-            marginTop: 60,
-          },
-          topNum === 1 && Style.marginTop20,
-        ]}>
-        <View
-          style={{
-            alignItems: 'center',
-            paddingLeft: 10,
-            marginBottom: 10,
-            height: 40,
-            justifyContent: 'center',
-          }}>
-          <Text style={[Style.text18, {color: '#4b4b4b'}]}>{top.Name}</Text>
-        </View>
-        <View
-          style={{
-            width: '100%',
-            // backgroundColor: 'red',
-            height: 110,
-          }}>
-          <View style={{alignItems: 'center'}}>
-            <Image
-              source={{
-                uri: top.Avatar,
-              }}
-              style={[Style.imageRank, {borderColor: borderColor}]}
-            />
-          </View>
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#f9b648',
-              width: 30,
-              height: 30,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 30,
-              marginTop: -110,
-              marginLeft: 10,
-            }}>
-            <Text style={[Style.text18, {color: '#fff'}]}>{topNum}</Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            alignItems: 'center',
-            // marginTop: 30,
-          }}>
-          <Text style={[Style.text18, {color: '#f9b648'}]}>
-            {top.total_score} KN
-          </Text>
-        </View>
-      </View>
-    );
-  };
 
   useEffect(() => {
     showData();
@@ -139,18 +136,6 @@ const Rank = ({title, icon, navigation, desComponent, route}) => {
         desComponent={desComponent}
       />
 
-      {/* <View style={{marginTop: 20}}>
-        <ButtonGroup
-          onPress={(index) => UpdateIndex(index)}
-          selectedIndex={index}
-          buttons={buttons}
-          containerStyle={{height: 50, borderRadius: 10, margin: 5}}
-          textStyle={{fontWeight: 'bold', color: '#342985'}}
-          selectedButtonStyle={{
-            backgroundColor: '#1c1164',
-          }}
-        />
-      </View> */}
       <View
         style={[
           {

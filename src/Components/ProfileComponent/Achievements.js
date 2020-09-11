@@ -1,83 +1,30 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
 import {Style, ProfileStyle, DIMENSION} from '../../CommonStyles';
 import * as Progress from 'react-native-progress';
-import {LinearTextGradient} from 'react-native-text-gradient';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {IN4_APP} from '../../ConnectServer/In4App';
+import axios from 'axios';
 
-const DATA = [
-  {
-    albumId: 1,
-    id: 1,
-    title: 'accusamus beatae ad facilis cum similique qui sunt',
-    url: 'https://via.placeholder.com/600/92c952',
-    thumbnailUrl: 'https://via.placeholder.com/150/92c952',
-  },
-  {
-    albumId: 1,
-    id: 2,
-    title: 'reprehenderit est deserunt velit ipsam',
-    url: 'https://via.placeholder.com/600/771796',
-    thumbnailUrl: 'https://via.placeholder.com/150/771796',
-  },
-  {
-    albumId: 1,
-    id: 3,
-    title: 'officia porro iure quia iusto qui ipsa ut modi',
-    url: 'https://via.placeholder.com/600/24f355',
-    thumbnailUrl: 'https://via.placeholder.com/150/24f355',
-  },
-  {
-    albumId: 1,
-    id: 4,
-    title: 'culpa odio esse rerum omnis ',
-    url: 'https://via.placeholder.com/600/d32776',
-    thumbnailUrl: 'https://via.placeholder.com/150/d32776',
-  },
-  {
-    albumId: 1,
-    id: 5,
-    title: 'natus nisi omnis corporis n',
-    url: 'https://via.placeholder.com/600/f66b97',
-    thumbnailUrl: 'https://via.placeholder.com/150/f66b97',
-  },
-  {
-    albumId: 1,
-    id: 6,
-    title: 'accusamus ea aliquid et amet sequi nemo',
-    url: 'https://via.placeholder.com/600/56a8c2',
-    thumbnailUrl: 'https://via.placeholder.com/150/56a8c2',
-  },
-  {
-    albumId: 1,
-    id: 7,
-    title: 'officia delectus consequatur vero aut s',
-    url: 'https://via.placeholder.com/600/b0f7cc',
-    thumbnailUrl: 'https://via.placeholder.com/150/b0f7cc',
-  },
-  {
-    albumId: 1,
-    id: 8,
-    title: 'aut porro officiis laborum odit',
-    url: 'https://via.placeholder.com/600/54176f',
-    thumbnailUrl: 'https://via.placeholder.com/150/54176f',
-  },
-  {
-    albumId: 1,
-    id: 9,
-    title: 'qui eius qui autem sed',
-    url: 'https://via.placeholder.com/600/51aa97',
-    thumbnailUrl: 'https://via.placeholder.com/150/51aa97',
-  },
-  {
-    albumId: 1,
-    id: 10,
-    title: 'beatae et provident et ut vel',
-    url: 'https://via.placeholder.com/600/810b14',
-    thumbnailUrl: 'https://via.placeholder.com/150/810b14',
-  },
-];
 const Achievements = ({id, navigation}) => {
+  const [data, setData] = React.useState([]);
+  const showData = () => {
+    const getThanhTich = IN4_APP.getThanhTich;
+    axios
+      .post(getThanhTich, {
+        id: id,
+      })
+      .then(function (response) {
+        setData(response.data[0]);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    showData();
+  }, []);
   return (
     <View
       style={[
@@ -92,11 +39,11 @@ const Achievements = ({id, navigation}) => {
       ]}>
       <View style={{height: 340}}>
         <ScrollView style={{paddingLeft: 10, paddingRight: 10}}>
-          {DATA.map((item, key) => (
+          {data.map((item, key) => (
             <View style={ProfileStyle.sectionThanhTich} key={key}>
               <View style={ProfileStyle.sectionLeft}>
                 <Image
-                  source={{uri: item.thumbnailUrl}}
+                  source={{uri: '1'}}
                   style={ProfileStyle.sectionLeftImg}
                 />
               </View>
@@ -108,26 +55,40 @@ const Achievements = ({id, navigation}) => {
                 ]}>
                 <View
                   style={{height: 30, justifyContent: 'center', paddingTop: 5}}>
-                  <Text style={[Style.text20, {color: '#464646'}]}>Header</Text>
+                  <Text style={[Style.text20, {color: '#464646'}]}>
+                    {item.title}
+                  </Text>
                 </View>
                 <View
                   style={{
                     height: 30,
                     justifyContent: 'center',
-                    paddingTop: 5,
+                    paddingTop: 10,
                   }}>
                   <Text style={{fontSize: 18, color: '#848484'}}>
-                    {item.title}
+                    {item.description}
                   </Text>
                 </View>
-                <View style={{height: 30, justifyContent: 'flex-end'}}>
+                <View
+                  style={{
+                    height: 30,
+                    // marginTop: 10,
+                    width: 250,
+                    alignItems: 'flex-end',
+                    justifyContent: 'space-between',
+                    flexDirection: 'row',
+                  }}>
                   <Progress.Bar
-                    progress={0.3}
-                    width={250}
+                    progress={
+                      parseInt(item.current_num) / parseInt(item.max_num)
+                    }
                     color="#58cc02"
                     height={10}
                     style={{borderRadius: 30}}
                   />
+                  <Text style={{fontSize: 16, color: '#4a4a4a'}}>
+                    {item.current_num}/{item.max_num}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -148,13 +109,13 @@ const Achievements = ({id, navigation}) => {
             navigation.navigate('anotherAchievement', {datas: DATA})
           }>
           <Text style={[Style.text20, {color: '#afafaf'}]}>
-            {`${DATA.length - 3} `}Thành tích khác
+            {`${data.length - 3} `}Thành tích khác
           </Text>
         </TouchableOpacity>
         <View style={{alignContents: 'flex-end'}}>
           <FontAwesome5Icon
             onPress={() =>
-              navigation.navigate('anotherAchievement', {datas: DATA})
+              navigation.navigate('anotherAchievement', {datas: data})
             }
             name="arrow-right"
             size={25}

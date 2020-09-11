@@ -8,6 +8,7 @@ import {
   StyleSheet,
   StatusBar,
   Alert,
+  KeyboardAvoidingView,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,20 +21,24 @@ import {useTheme} from 'react-native-paper';
 import {AuthContext} from './context';
 import {IN4_USER} from '../ConnectServer/In4User';
 import axios from 'axios';
+import {IN4_APP} from '../ConnectServer/In4App';
 
 const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
     username: '',
     password: '',
+    email: '',
     check_textInputChange: false,
     secureTextEntry: true,
     isValidUser: true,
     isValidPassword: true,
+    isValidEmail: true,
   });
   const {colors} = useTheme();
   const {signIn} = React.useContext(AuthContext);
   const [visible, setVisible] = React.useState(false);
   const [visible2, setVisible2] = React.useState(false);
+  const [visible3, setVisible3] = React.useState(false);
   const textInputChange = (val) => {
     if (val.trim().length >= 4) {
       setData({
@@ -48,6 +53,22 @@ const SignInScreen = ({navigation}) => {
         username: val,
         check_textInputChange: false,
         isValidUser: false,
+      });
+    }
+  };
+  const textEmailChange = (val) => {
+    console.log(val);
+    if (val.trim().length >= 0) {
+      setData({
+        ...data,
+        email: val,
+        isValidEmail: true,
+      });
+    } else {
+      setData({
+        ...data,
+        email: val,
+        isValidEmail: false,
       });
     }
   };
@@ -88,6 +109,31 @@ const SignInScreen = ({navigation}) => {
       });
     }
   };
+  const handleValidEmail = (val) => {
+    console.log(val);
+    const apiURL = IN4_APP.getEmail;
+    axios
+      .get(apiURL)
+      .then(function (response) {
+        response.some((item) => {
+          if (item.Email == val) {
+            setData({
+              ...data,
+              isValidEmail: true,
+            });
+          } else {
+            alert(item.Email + ' hh ');
+            setData({
+              ...data,
+              isValidEmail: false,
+            });
+          }
+        });
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  };
 
   const loginHandle = (userName, password) => {
     const apiURL = IN4_USER.getData;
@@ -99,17 +145,11 @@ const SignInScreen = ({navigation}) => {
         });
 
         if (data.username.length == 0 || data.password.length == 0) {
-          // Alert.alert('Lỗi!', 'Tài khoản và mật khẩu không được trống.', [
-          //   {text: 'Okay'},
-          // ]);
           toggleOverlay();
           return;
         }
 
         if (foundUser.length == 0) {
-          // Alert.alert('Invalid User!', 'Username or password is incorrect.', [
-          //   {text: 'Okay'},
-          // ]);
           toggleOverlay2();
           return;
         }
@@ -125,237 +165,298 @@ const SignInScreen = ({navigation}) => {
   const toggleOverlay2 = () => {
     setVisible2(!visible2);
   };
+  const toggleOverlay3 = () => {
+    setVisible3(!visible3);
+  };
   return (
-    <LinearGradient
-      style={styles.container}
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 1}}
-      colors={['#58cc02', '#78c800']}>
-      <StatusBar backgroundColor="#54ce04" barStyle="light-content" />
+    <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
+      <LinearGradient
+        style={styles.container}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 1}}
+        colors={['#58cc02', '#78c800']}>
+        <StatusBar backgroundColor="#54ce04" barStyle="light-content" />
 
-      <Animatable.View
-        animation="slideInRight"
-        iterationCount="infinite"
-        direction="alternate"
-        style={styles.header}>
-        <Text style={styles.text_header}>Đăng nhập!</Text>
-      </Animatable.View>
-      <Animatable.View
-        animation="fadeInUpBig"
-        style={[
-          styles.footer,
-          {
-            backgroundColor: colors.background,
-          },
-        ]}>
-        <Text
+        <Animatable.View
+          animation="slideInRight"
+          iterationCount="infinite"
+          direction="alternate"
+          style={styles.header}>
+          <Text style={styles.text_header}>Đăng nhập!</Text>
+        </Animatable.View>
+        <Animatable.View
+          animation="fadeInUpBig"
           style={[
-            styles.text_footer,
+            styles.footer,
             {
-              letterSpacing: 2,
+              backgroundColor: colors.background,
             },
           ]}>
-          Tên đăng nhập
-        </Text>
-        <View style={styles.action}>
-          <FontAwesome name="user" color="#58cc02" size={20} />
-          <TextInput
-            style={[
-              styles.textInput,
-              {
-                fontSize: 16,
-              },
-            ]}
-            autoCapitalize="none"
-            onChangeText={(val) => textInputChange(val)}
-            onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-          />
-          {data.check_textInputChange ? (
-            <Animatable.View animation="bounceIn">
-              <Feather name="check-circle" color="#58cc02" size={20} />
-            </Animatable.View>
-          ) : null}
-        </View>
-        {data.isValidUser ? null : (
-          <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMsg}>Tên đăng nhập quá ngắn.</Text>
-          </Animatable.View>
-        )}
-
-        <Text
-          style={[
-            styles.text_footer,
-            {
-              marginTop: 35,
-              letterSpacing: 2,
-            },
-          ]}>
-          Mật khẩu
-        </Text>
-        <View style={styles.action}>
-          <Feather name="lock" color="#58cc02" size={20} />
-          <TextInput
-            secureTextEntry={data.secureTextEntry ? true : false}
-            style={[
-              styles.textInput,
-              {
-                fontSize: 16,
-              },
-            ]}
-            autoCapitalize="none"
-            onChangeText={(val) => handlePasswordChange(val)}
-          />
-          <TouchableOpacity onPress={updateSecureTextEntry}>
-            {data.secureTextEntry ? (
-              <Feather name="eye-off" color="#58cc02" size={20} />
-            ) : (
-              <Feather name="eye" color="#58cc02" size={20} />
-            )}
-          </TouchableOpacity>
-        </View>
-        {data.isValidPassword ? null : (
-          <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMsg}>Mật khẩu phải dài hơn 8 ký tự!</Text>
-          </Animatable.View>
-        )}
-
-        <TouchableOpacity>
           <Text
-            style={{
-              color: '#58cc02',
-              marginTop: 15,
-              fontSize: 16,
-              letterSpacing: 1,
-              fontWeight: 'bold',
-            }}>
-            Quên mật khẩu?
+            style={[
+              styles.text_footer,
+              {
+                letterSpacing: 2,
+              },
+            ]}>
+            Tên đăng nhập
           </Text>
-        </TouchableOpacity>
-        <View style={styles.button}>
-          <TouchableOpacity
-            style={styles.signIn}
-            onPress={() => {
-              loginHandle(data.username, data.password);
-            }}>
-            <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              colors={['#58cc02', '#78c800']}
-              style={styles.signIn}>
+          <View style={styles.action}>
+            <FontAwesome name="user" color="#58cc02" size={20} />
+            <TextInput
+              style={[
+                styles.textInput,
+                {
+                  fontSize: 16,
+                },
+              ]}
+              autoCapitalize="none"
+              onChangeText={(val) => textInputChange(val)}
+              onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+            />
+            {data.check_textInputChange ? (
+              <Animatable.View animation="bounceIn">
+                <Feather name="check-circle" color="#58cc02" size={20} />
+              </Animatable.View>
+            ) : null}
+          </View>
+          {data.isValidUser ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={styles.errorMsg}>Tên đăng nhập quá ngắn.</Text>
+            </Animatable.View>
+          )}
+
+          <Text
+            style={[
+              styles.text_footer,
+              {
+                marginTop: 35,
+                letterSpacing: 2,
+              },
+            ]}>
+            Mật khẩu
+          </Text>
+          <View style={styles.action}>
+            <Feather name="lock" color="#58cc02" size={20} />
+            <TextInput
+              secureTextEntry={data.secureTextEntry ? true : false}
+              style={[
+                styles.textInput,
+                {
+                  fontSize: 16,
+                },
+              ]}
+              autoCapitalize="none"
+              onChangeText={(val) => handlePasswordChange(val)}
+            />
+            <TouchableOpacity onPress={updateSecureTextEntry}>
+              {data.secureTextEntry ? (
+                <Feather name="eye-off" color="#58cc02" size={20} />
+              ) : (
+                <Feather name="eye" color="#58cc02" size={20} />
+              )}
+            </TouchableOpacity>
+          </View>
+          {data.isValidPassword ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={styles.errorMsg}>
+                Mật khẩu phải dài hơn 8 ký tự!
+              </Text>
+            </Animatable.View>
+          )}
+
+          <TouchableOpacity onPress={() => toggleOverlay3()}>
+            <Text
+              style={{
+                color: '#58cc02',
+                marginTop: 15,
+                fontSize: 16,
+                letterSpacing: 1,
+                fontWeight: 'bold',
+              }}>
+              Quên mật khẩu?
+            </Text>
+          </TouchableOpacity>
+          <View style={styles.button}>
+            <TouchableOpacity
+              style={styles.signIn}
+              onPress={() => {
+                loginHandle(data.username, data.password);
+              }}>
+              <LinearGradient
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                colors={['#58cc02', '#78c800']}
+                style={styles.signIn}>
+                <Text
+                  style={[
+                    styles.textSign,
+                    {
+                      color: '#fff',
+                      letterSpacing: 3,
+                    },
+                  ]}>
+                  Đăng nhập
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+            <Overlay
+              isVisible={visible}
+              onBackdropPress={toggleOverlay}
+              overlayStyle={{
+                padding: 0,
+                borderRadius: 10,
+                height: 100,
+                width: 350,
+              }}>
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  alignContent: 'center',
+                  padding: 12,
+                  borderRadius: 10,
+                  backgroundColor: '#f1f1f1',
+                }}>
+                <Text
+                  style={{color: '#9a2f12', fontSize: 18, alignSelf: 'center'}}>
+                  Bạn chưa nhập tài khoản và mật khẩu!
+                </Text>
+
+                <Button
+                  containerStyle={{
+                    marginTop: 15,
+                    height: 40,
+                    borderRadius: 15,
+                  }}
+                  buttonStyle={{backgroundColor: '#58cc02'}}
+                  titleStyle={{
+                    letterSpacing: 3,
+                  }}
+                  // icon={<Icon name="arrow-right" size={15} color="white" />}
+                  title="OK"
+                  onPress={toggleOverlay}
+                  iconRight
+                />
+              </View>
+            </Overlay>
+            <Overlay
+              isVisible={visible2}
+              onBackdropPress={toggleOverlay2}
+              overlayStyle={{
+                padding: 0,
+                borderRadius: 10,
+                height: 100,
+                width: 300,
+              }}>
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  alignContent: 'center',
+                  padding: 12,
+                  borderRadius: 15,
+                  backgroundColor: '#f1f1f1',
+                }}>
+                <Text
+                  style={{color: '#9a2f12', fontSize: 18, alignSelf: 'center'}}>
+                  Sai thông tin!
+                </Text>
+
+                <Button
+                  containerStyle={{
+                    marginTop: 15,
+                    height: 40,
+                    borderRadius: 10,
+                  }}
+                  buttonStyle={{backgroundColor: '#58cc02'}}
+                  titleStyle={{
+                    letterSpacing: 3,
+                  }}
+                  title="OK"
+                  onPress={toggleOverlay2}
+                />
+              </View>
+            </Overlay>
+            <Overlay
+              isVisible={visible3}
+              onBackdropPress={toggleOverlay3}
+              overlayStyle={{
+                padding: 0,
+                borderRadius: 10,
+                height: 100,
+                width: 300,
+              }}>
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  alignContent: 'center',
+                  padding: 12,
+                  borderRadius: 15,
+                  backgroundColor: '#f1f1f1',
+                }}>
+                <Text style={{fontSize: 16}}>Nhập email</Text>
+                <View style={styles.action}>
+                  <FontAwesome name="user" color="#58cc02" size={20} />
+                  <TextInput
+                    style={[
+                      styles.textInput,
+                      {
+                        fontSize: 16,
+                      },
+                    ]}
+                    autoCapitalize="none"
+                    onChangeText={(val) => textEmailChange(val)}
+                    onEndEditing={(e) => handleValidEmail(e.nativeEvent.text)}
+                  />
+                </View>
+                {data.isValidEmail ? null : (
+                  <Animatable.View animation="fadeInLeft" duration={500}>
+                    <Text style={styles.errorMsg}>
+                      Không tìm thấy Email này!
+                    </Text>
+                  </Animatable.View>
+                )}
+                <Button
+                  containerStyle={{
+                    marginTop: 15,
+                    height: 40,
+                    borderRadius: 10,
+                  }}
+                  buttonStyle={{backgroundColor: '#58cc02'}}
+                  titleStyle={{
+                    letterSpacing: 3,
+                  }}
+                  title="OK"
+                  onPress={toggleOverlay3}
+                />
+              </View>
+            </Overlay>
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SignUpScreen')}
+              style={[
+                styles.signIn,
+                {
+                  borderColor: '#78c800',
+                  borderWidth: 1.5,
+                  marginTop: 15,
+                },
+              ]}>
               <Text
                 style={[
                   styles.textSign,
                   {
-                    color: '#fff',
+                    color: '#58cc02',
                     letterSpacing: 3,
+                    // colors={['#7ee2dc', '#55bbb8']} colors={['#58cc02', '#78c800']}
                   },
                 ]}>
-                Đăng nhập
+                Đăng ký
               </Text>
-            </LinearGradient>
-          </TouchableOpacity>
-          <Overlay
-            isVisible={visible}
-            onBackdropPress={toggleOverlay}
-            overlayStyle={{
-              padding: 0,
-              borderRadius: 10,
-              height: 100,
-              width: 350,
-            }}>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                alignContent: 'center',
-                padding: 12,
-                borderRadius: 10,
-                backgroundColor: '#f1f1f1',
-              }}>
-              <Text
-                style={{color: '#9a2f12', fontSize: 18, alignSelf: 'center'}}>
-                Bạn chưa nhập tài khoản và mật khẩu!
-              </Text>
-
-              <Button
-                containerStyle={{
-                  marginTop: 15,
-                  height: 40,
-                  borderRadius: 15,
-                }}
-                buttonStyle={{backgroundColor: '#58cc02'}}
-                titleStyle={{
-                  letterSpacing: 3,
-                }}
-                // icon={<Icon name="arrow-right" size={15} color="white" />}
-                title="OK"
-                onPress={toggleOverlay}
-                iconRight
-              />
-            </View>
-          </Overlay>
-          <Overlay
-            isVisible={visible2}
-            onBackdropPress={toggleOverlay2}
-            overlayStyle={{
-              padding: 0,
-              borderRadius: 10,
-              height: 100,
-              width: 300,
-            }}>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                alignContent: 'center',
-                padding: 12,
-                borderRadius: 15,
-                backgroundColor: '#f1f1f1',
-              }}>
-              <Text
-                style={{color: '#9a2f12', fontSize: 18, alignSelf: 'center'}}>
-                Sai thông tin!
-              </Text>
-
-              <Button
-                containerStyle={{
-                  marginTop: 15,
-                  height: 40,
-                  borderRadius: 10,
-                }}
-                buttonStyle={{backgroundColor: '#58cc02'}}
-                titleStyle={{
-                  letterSpacing: 3,
-                }}
-                title="OK"
-                onPress={toggleOverlay2}
-              />
-            </View>
-          </Overlay>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate('SignUpScreen')}
-            style={[
-              styles.signIn,
-              {
-                borderColor: '#78c800',
-                borderWidth: 1.5,
-                marginTop: 15,
-              },
-            ]}>
-            <Text
-              style={[
-                styles.textSign,
-                {
-                  color: '#58cc02',
-                  letterSpacing: 3,
-                  // colors={['#7ee2dc', '#55bbb8']} colors={['#58cc02', '#78c800']}
-                },
-              ]}>
-              Đăng ký
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </Animatable.View>
-    </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        </Animatable.View>
+      </LinearGradient>
+    </KeyboardAvoidingView>
   );
 };
 

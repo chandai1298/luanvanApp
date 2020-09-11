@@ -104,6 +104,7 @@ const EvaluationB1Test = ({route, navigation}) => {
                   id_lession: idLession,
                   id_part: item.id,
                   idUser: idUser,
+                  nameLession: nameLession,
                 })
               }>
               <Text style={[Style.text20, {color: '#9a9a9a'}]}>
@@ -140,6 +141,7 @@ const EvaluationB1Test = ({route, navigation}) => {
                 id_lession: idLession,
                 id_part: item.id,
                 idUser: idUser,
+                nameLession: nameLession,
               })
             }>
             <Text style={[Style.text20, {color: '#9a9a9a'}]}>{item.name}</Text>
@@ -156,7 +158,7 @@ const EvaluationB1Test = ({route, navigation}) => {
           right: 15,
           paddingLeft: 17,
           borderRadius: 25,
-          borderColor: '#c1c8fe',
+          borderColor: '#58cc02',
           borderWidth: 1.5,
           justifyContent: 'center',
         }}>
@@ -176,7 +178,7 @@ const EvaluationB1Test = ({route, navigation}) => {
           <Text
             style={{
               fontSize: 16,
-              color: '#5579f1',
+              color: '#58cc02',
             }}>
             Tips!
           </Text>

@@ -167,6 +167,48 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
           rankData={ranks[0]}
           id={users.Id}
         />
+        <View
+          style={{
+            padding: 15,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <View>
+            <Text
+              style={[
+                Style.text20,
+                {
+                  letterSpacing: 1,
+                  color: '#4b4b4b',
+                  textTransform: 'uppercase',
+                },
+              ]}>
+              Thống kê
+            </Text>
+          </View>
+          <View style={{alignItems: 'flex-end'}}>
+            <TouchableOpacity
+              style={[
+                {
+                  height: 40,
+                  width: '100%',
+                  borderRadius: 15,
+                  flexDirection: 'row',
+                  backgroundColor: '#58cc02',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                },
+              ]}
+              onPress={() => navigation.navigate('logs', {datas: data})}
+              activeOpacity={0.5}>
+              <Text style={[{letterSpacing: 2, color: '#fff', fontSize: 18}]}>
+                Lịch sử
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
         <View style={ProfileStyle.containerPadding15}>
           <VictoryChart>
             <VictoryGroup offset={10}>
@@ -184,18 +226,18 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
               />
             </VictoryGroup>
             <VictoryLegend
-              x={DIMENSION.width / 2 - 100}
+              x={10}
               orientation="horizontal"
               gutter={20}
               data={[
                 {
-                  name: 'Actual',
+                  name: 'Điểm hiện tại',
                   symbol: {
                     fill: '#1899d6',
                   },
                 },
                 {
-                  name: 'Planned',
+                  name: 'Điểm tối thiểu',
                   symbol: {
                     fill: 'orange',
                   },
@@ -255,7 +297,9 @@ const Profile = ({title, navigation, icon, desComponent, route}) => {
                     alignItems: 'center',
                   },
                 ]}
-                onPress={() => alert('helo')}
+                onPress={() =>
+                  navigation.navigate('findFriend', {id: users.Id})
+                }
                 activeOpacity={0.5}>
                 <FontAwesome5Icon name="search" size={18} color="#fff" />
                 <Text style={[{letterSpacing: 2, color: '#fff', fontSize: 18}]}>

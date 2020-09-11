@@ -21,17 +21,9 @@ export default class Player extends Component {
   }
 
   setTime(data) {
-    
-    if (this.state.currentPosition === Math.round(data.playableDuration))
-      this.setState({
-        currentPosition: 0,
-        paused: true,
-        totalLength: Math.round(data.playableDuration),
-      });
-    else
-      this.setState({
-        currentPosition: Math.round(data.currentTime),
-      });
+    this.setState({
+      currentPosition: Math.round(data.currentTime),
+    });
   }
 
   seek(time) {
@@ -43,7 +35,11 @@ export default class Player extends Component {
     });
   }
   onEnd(e) {
-    console.log(e);
+    console.log(this.state.currentPosition);
+    this.setState({
+      currentPosition: 0,
+      paused: true,
+    });
   }
 
   render() {
