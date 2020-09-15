@@ -39,6 +39,7 @@ const SignInScreen = ({navigation}) => {
   const [visible, setVisible] = React.useState(false);
   const [visible2, setVisible2] = React.useState(false);
   const [visible3, setVisible3] = React.useState(false);
+  const [errEmail, setErrEmail] = React.useState('');
   const textInputChange = (val) => {
     if (val.trim().length >= 4) {
       setData({
@@ -57,18 +58,21 @@ const SignInScreen = ({navigation}) => {
     }
   };
   const textEmailChange = (val) => {
-    console.log(val);
-    if (val.trim().length >= 0) {
-      setData({
-        ...data,
-        email: val,
-        isValidEmail: true,
-      });
-    } else {
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+    if (!filter.test(val)) {
+      setErrEmail('Email không hợp lệ! Example@gmail.com');
       setData({
         ...data,
         email: val,
         isValidEmail: false,
+      });
+      return false;
+    } else {
+      setData({
+        ...data,
+        email: val,
+        isValidEmail: true,
       });
     }
   };
@@ -109,30 +113,34 @@ const SignInScreen = ({navigation}) => {
       });
     }
   };
-  const handleValidEmail = (val) => {
-    console.log(val);
-    const apiURL = IN4_APP.getEmail;
-    axios
-      .get(apiURL)
-      .then(function (response) {
-        response.some((item) => {
-          if (item.Email == val) {
-            setData({
-              ...data,
-              isValidEmail: true,
-            });
-          } else {
-            alert(item.Email + ' hh ');
-            setData({
-              ...data,
-              isValidEmail: false,
-            });
-          }
-        });
-      })
-      .catch(function (error) {
-        console.log(error.message);
+  const handleForgetPwd = () => {
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+    if (!filter.test(data.email.trim())) {
+      setErrEmail('Email không hợp lệ! Example@gmail.com');
+      setData({
+        ...data,
+        isValidEmail: false,
       });
+      return false;
+    } else {
+      setData({
+        ...data,
+        isValidEmail: true,
+      });
+      toggleOverlay3();
+      const apiURL = IN4_APP.forgetPwd;
+      axios
+        .post(apiURL, {
+          email: data.email.trim(),
+        })
+        .then(function (response) {
+          alert(response.data);
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
+    }
   };
 
   const loginHandle = (userName, password) => {
@@ -378,12 +386,12 @@ const SignInScreen = ({navigation}) => {
             </Overlay>
             <Overlay
               isVisible={visible3}
-              onBackdropPress={toggleOverlay3}
+              // onBackdropPress={toggleOverlay3}
               overlayStyle={{
                 padding: 0,
                 borderRadius: 10,
-                height: 100,
-                width: 300,
+                height: 130,
+                width: 330,
               }}>
               <View
                 style={{
@@ -393,7 +401,15 @@ const SignInScreen = ({navigation}) => {
                   borderRadius: 15,
                   backgroundColor: '#f1f1f1',
                 }}>
-                <Text style={{fontSize: 16}}>Nhập email</Text>
+                <Text
+                  style={[
+                    styles.text_footer,
+                    {
+                      letterSpacing: 2,
+                    },
+                  ]}>
+                  Nhập email
+                </Text>
                 <View style={styles.action}>
                   <FontAwesome name="user" color="#58cc02" size={20} />
                   <TextInput
@@ -405,29 +421,35 @@ const SignInScreen = ({navigation}) => {
                     ]}
                     autoCapitalize="none"
                     onChangeText={(val) => textEmailChange(val)}
-                    onEndEditing={(e) => handleValidEmail(e.nativeEvent.text)}
                   />
                 </View>
                 {data.isValidEmail ? null : (
                   <Animatable.View animation="fadeInLeft" duration={500}>
-                    <Text style={styles.errorMsg}>
-                      Không tìm thấy Email này!
-                    </Text>
+                    <Text style={styles.errorMsg}>{errEmail}</Text>
                   </Animatable.View>
                 )}
-                <Button
-                  containerStyle={{
-                    marginTop: 15,
+
+                <TouchableOpacity
+                  style={{
                     height: 40,
+                    backgroundColor: '#58cc02',
                     borderRadius: 10,
+                    width: '100%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
-                  buttonStyle={{backgroundColor: '#58cc02'}}
-                  titleStyle={{
-                    letterSpacing: 3,
-                  }}
-                  title="OK"
-                  onPress={toggleOverlay3}
-                />
+                  onPress={() => handleForgetPwd()}>
+                  <Text
+                    style={[
+                      styles.textSign,
+                      {
+                        color: '#fff',
+                        letterSpacing: 3,
+                      },
+                    ]}>
+                    Ok
+                  </Text>
+                </TouchableOpacity>
               </View>
             </Overlay>
 

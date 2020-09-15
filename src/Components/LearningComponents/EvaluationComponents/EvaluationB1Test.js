@@ -110,7 +110,9 @@ const EvaluationB1Test = ({route, navigation}) => {
               <Text style={[Style.text20, {color: '#9a9a9a'}]}>
                 {item.name}
               </Text>
-              <Text style={Style.text16}>({item.description})</Text>
+              <Text style={[Style.text20, {color: '#9a9a9a'}]}>
+              ({item.description})
+            </Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -145,7 +147,9 @@ const EvaluationB1Test = ({route, navigation}) => {
               })
             }>
             <Text style={[Style.text20, {color: '#9a9a9a'}]}>{item.name}</Text>
-            <Text style={Style.text16}>({item.description})</Text>
+            <Text style={[Style.text20, {color: '#9a9a9a'}]}>
+              ({item.description})
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -178,7 +182,7 @@ const EvaluationB1Test = ({route, navigation}) => {
           <Text
             style={{
               fontSize: 16,
-              color: '#58cc02',
+              color: '#4a4a4a',
             }}>
             Tips!
           </Text>

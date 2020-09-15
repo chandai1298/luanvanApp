@@ -32,6 +32,7 @@ const audioRecorderPlayer = new AudioRecorderPlayer();
 import storage from '@react-native-firebase/storage';
 import AudioPlayer from '../AudioPlayer';
 import CountDown from 'react-native-countdown-component';
+import email from 'react-native-email';
 
 const path = Platform.select({
   ios: 'hello.m4a',
@@ -58,6 +59,7 @@ const ToeicTestDetail = ({route, navigation}) => {
   const [hidePlayer, setHidePlayer] = React.useState(false);
   const [hideRecord, setHideRecord] = React.useState(false);
   const [checkTime, setCheckTime] = React.useState(false);
+  const [ignore, setIgnore] = React.useState(false);
   const [help, setHelp] = React.useState(false);
   const [answer, setAnswer] = React.useState('');
   const [answer2, setAnswer2] = React.useState('');
@@ -91,27 +93,7 @@ const ToeicTestDetail = ({route, navigation}) => {
       hint: '',
     },
   ]);
-  //header
-  const [visible, setVisible] = React.useState(false);
-  const [current_hint, setCurrentHint] = React.useState('');
-  const updateHint = (hints) => {
-    const count = hints - 1;
-    setCurrentHint(count);
-    setHelp(true);
-    const UpdateHint = IN4_APP.UpdateHint;
-    axios
-      .put(UpdateHint, {
-        hint: count,
-        id_user: idUser,
-      })
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error.message);
-      });
-    setVisible(false);
-  };
+
   const getData = () => {
     const getQuestionPart = IN4_APP.getQuestionPart;
     const RankOfUser = IN4_APP.RankOfUser;
@@ -222,7 +204,6 @@ const ToeicTestDetail = ({route, navigation}) => {
   };
 
   const rank = ranks[0];
-  const tmp = '' !== current_hint ? current_hint : rank.hint;
 
   useEffect(() => {
     TranslatorConfiguration.setConfig(
@@ -858,7 +839,6 @@ const ToeicTestDetail = ({route, navigation}) => {
     }
     return promise;
   };
-
   const questionReading = () => {
     var promise = null;
     var space = ` `;
@@ -1594,6 +1574,7 @@ const ToeicTestDetail = ({route, navigation}) => {
       case 9:
         setHidePlayer(false);
         setHideRecord(false);
+        handleEmail(answer);
         if (data.length - 1 == totalLength) {
           updateScore(10);
         } else {
@@ -1673,6 +1654,7 @@ const ToeicTestDetail = ({route, navigation}) => {
       case 11:
         setHidePlayer(false);
         setHideRecord(false);
+        handleEmail(answer);
         if (data.length - 1 == totalLength) {
           updateScore(10);
         } else {
@@ -1680,6 +1662,133 @@ const ToeicTestDetail = ({route, navigation}) => {
             totalLength: totalLength + 1,
             count: count + 1,
             score: score + 10,
+            crown: crown,
+          });
+        }
+        setAnswer('');
+        break;
+      default:
+        break;
+    }
+  };
+  const check2 = async () => {
+    switch (question.id_part) {
+      case 8:
+        switch (question.description) {
+          case 'part3':
+            updateCorrect(answer, question);
+            updateCorrect(answer2, question2);
+            updateCorrect(answer3, question3);
+            nextQuestion(30, 3, 3);
+            setAnswer('');
+            setAnswer2('');
+            setAnswer3('');
+            break;
+          case 'part4':
+            updateCorrect(answer, question);
+            updateCorrect(answer2, question2);
+            updateCorrect(answer3, question3);
+            nextQuestion(30, 3, 3);
+            setAnswer('');
+            setAnswer2('');
+            setAnswer3('');
+            break;
+          default:
+            updateCorrect(answer, question);
+            nextQuestion(10, 1, 1);
+            setAnswer('');
+            break;
+        }
+        break;
+      case 9:
+        setHidePlayer(false);
+        setHideRecord(false);
+        if (data.length - 1 == totalLength) {
+          updateScore(10);
+        } else {
+          navigation.navigate('toeicDetail', {
+            totalLength: totalLength + 1,
+            count: count + 1,
+            score: score,
+            crown: crown,
+          });
+        }
+        setAnswer('');
+        break;
+      case 10:
+        switch (question.description) {
+          case 'part6':
+            updateCorrect(answer, question);
+            updateCorrect(answer2, question2);
+            updateCorrect(answer3, question3);
+            nextQuestion(30, 3, 3);
+            setAnswer('');
+            setAnswer2('');
+            setAnswer3('');
+            break;
+          case 'part7':
+            switch (countQuestionPart7()) {
+              case 5:
+                updateCorrect(answer, question);
+                updateCorrect(answer2, question2);
+                updateCorrect(answer3, question3);
+                updateCorrect(answer4, question4);
+                updateCorrect(answer5, question5);
+                nextQuestion(50, 5, 5);
+                setAnswer('');
+                setAnswer2('');
+                setAnswer3('');
+                setAnswer4('');
+                setAnswer5('');
+                break;
+              case 4:
+                updateCorrect(answer, question);
+                updateCorrect(answer2, question2);
+                updateCorrect(answer3, question3);
+                updateCorrect(answer4, question4);
+                nextQuestion(40, 4, 4);
+                setAnswer('');
+                setAnswer2('');
+                setAnswer3('');
+                setAnswer4('');
+                break;
+              case 3:
+                updateCorrect(answer, question);
+                updateCorrect(answer2, question2);
+                updateCorrect(answer3, question3);
+                nextQuestion(30, 3, 3);
+                setAnswer('');
+                setAnswer2('');
+                setAnswer3('');
+                break;
+              case 2:
+                updateCorrect(answer, question);
+                updateCorrect(answer2, question2);
+                nextQuestion(20, 2, 2);
+                setAnswer('');
+                setAnswer2('');
+                break;
+              default:
+                break;
+            }
+            break;
+          default:
+            updateCorrect(answer, question);
+            nextQuestion(10, 1, 1);
+            setAnswer('');
+            break;
+        }
+        break;
+      case 11:
+        setHidePlayer(false);
+        setHideRecord(false);
+        if (data.length - 1 == totalLength) {
+          updateScore(10);
+        } else {
+          navigation.navigate('toeicDetail', {
+            totalLength: totalLength + 1,
+            count: count + 1,
+            score: score,
             crown: crown,
           });
         }
@@ -1871,7 +1980,16 @@ const ToeicTestDetail = ({route, navigation}) => {
     }
     return promise;
   };
-
+  const handleEmail = (bodyText) => {
+    const to = ['lihogiti@gmail.com']; // string or array of email addresses
+    email(to, {
+      // Optional additional arguments
+      cc: null, // string or array of email addresses
+      bcc: null, // string or array of email addresses
+      subject: 'Giải đáp',
+      body: bodyText,
+    }).catch(console.error);
+  };
   return data.length > 0 ? (
     loading ? (
       <View
@@ -1992,7 +2110,7 @@ const ToeicTestDetail = ({route, navigation}) => {
               Style.boxShadow,
               {height: 50, borderRadius: 30, width: '48%'},
             ]}
-            onPress={() => check()}
+            onPress={() => check2()}
             activeOpacity={0.5}>
             <LinearGradient
               start={{x: 0, y: 0}}

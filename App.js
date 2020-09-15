@@ -15,8 +15,7 @@ import {
   DefaultTheme as PaperDefaultTheme,
   DarkTheme as PaperDarkTheme,
 } from 'react-native-paper';
-import {fcmService} from './src/Notification/FCMService';
-import {localNotificationService} from './src/Notification/LocalNotificationService';
+
 import {IN4_APP} from './src/ConnectServer/In4App';
 import Setting from './src/Apps/Setting';
 import BottomTabMain from './src/Apps/BottomTabMain';
@@ -169,47 +168,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    fcmService.registerAppWithFCM();
-    fcmService.register(onRegister, onNotification, onOpenNotification);
-    localNotificationService.configure(onOpenNotification);
-
-    function onRegister(token) {
-      console.log('[App] onRegister: ', token);
-      const UpdateTokenNotification = IN4_APP.UpdateTokenNotification;
-      axios
-        .put(UpdateTokenNotification, {
-          token: token,
-          id_user: data[0].Id,
-        })
-        .then(function (response) {
-          console.log('token ' + response.data);
-        })
-        .catch(function (error) {
-          console.log(error.message);
-        });
-    }
-
-    function onNotification(notify) {
-      console.log('[App] onNotification: ');
-      const options = {
-        soundName: 'plucky',
-        playSound: true, //,
-        // largeIcon: 'ic_launcher', // add icon large for Android (Link: app/src/main/mipmap)
-        // smallIcon: 'ic_launcher' // add icon small for Android (Link: app/src/main/mipmap)
-      };
-      localNotificationService.showNotification(
-        0,
-        notify.title,
-        notify.body,
-        notify,
-        options,
-      );
-    }
-
-    function onOpenNotification(notify) {
-      console.log('[App] onOpenNotification: ', notify);
-      alert('Open Notification: ' + notify.body);
-    }
     setTimeout(async () => {
       let userToken;
       userToken = null;
@@ -226,11 +184,6 @@ const App = () => {
       }
       dispatch({type: 'RETRIEVE_TOKEN', token: userToken});
     }, 1000);
-    return () => {
-      console.log('[App] unRegister');
-      fcmService.unRegister();
-      localNotificationService.unregister();
-    };
   }, []);
 
   if (loginState.isLoading) {

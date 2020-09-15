@@ -104,6 +104,26 @@ const In4Component = ({userData, navigation, desNav}) => {
         console.log(error.message);
       });
   };
+  const verifyEmails = () => {
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+    if (!filter.test(email)) {
+      alert('Email không hợp lệ! Example@gmail.com');
+      return false;
+    } else {
+      const verifyEmail = IN4_APP.verifyEmail;
+      axios
+        .put(verifyEmail, {
+          Id: id,
+        })
+        .then(function (response) {
+          alert(response.data);
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
+    }
+  };
 
   return (
     <View style={[SettingStyle.sectionIn4, Style.boxShadow]}>
@@ -177,10 +197,24 @@ const In4Component = ({userData, navigation, desNav}) => {
         </View>
 
         <View>
-          <Text
-            style={[Style.text18, Style.textColor754ea6, {color: '#afafaf'}]}>
-            Email
-          </Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text
+              style={[Style.text18, Style.textColor754ea6, {color: '#afafaf'}]}>
+              Email
+            </Text>
+            <TouchableOpacity
+              style={{justifyContent: 'flex-end'}}
+              onPress={() => verifyEmails()}>
+              <Text
+                style={[
+                  Style.text18,
+                  Style.textColor754ea6,
+                  {color: '#58cc02'},
+                ]}>
+                Xác thực
+              </Text>
+            </TouchableOpacity>
+          </View>
           <TextInput
             style={Style.input}
             value={email}

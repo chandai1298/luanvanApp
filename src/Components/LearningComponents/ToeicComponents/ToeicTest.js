@@ -109,11 +109,16 @@ const ToeicTest = ({route, navigation}) => {
                 fontSize: 18,
                 color: '#afafaf',
                 fontWeight: 'bold',
-                // marginTop: 5,
               }}>
               {item.name}
             </Text>
-            <Text style={[Style.text16, {alignSelf: 'center'}]}>
+            <Text
+              style={{
+                alignSelf: 'center',
+                fontSize: 18,
+                color: '#afafaf',
+                fontWeight: 'bold',
+              }}>
               ({item.description})
             </Text>
           </TouchableOpacity>

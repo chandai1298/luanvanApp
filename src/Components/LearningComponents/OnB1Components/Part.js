@@ -193,7 +193,7 @@ const Part = ({route, navigation}) => {
           <Text
             style={{
               fontSize: 16,
-              color: '#58cc02',
+              color: '#4a4a4a',
             }}>
             Tips!
           </Text>

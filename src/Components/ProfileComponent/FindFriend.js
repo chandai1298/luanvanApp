@@ -18,8 +18,7 @@ const FindFriend = ({route, navigation}) => {
     axios
       .post(searchFriend, {
         name: `%${input}%`,
-        name2: `%${input}%`,
-        name3: `%${input}%`,
+        id: id,
       })
       .then(function (response) {
         setData(response.data);
@@ -29,8 +28,23 @@ const FindFriend = ({route, navigation}) => {
         console.log(error.message);
       });
   };
+
+  const addFriends = (id_friend) => {
+    const addFriend = IN4_APP.addFriend;
+    axios
+      .post(addFriend, {
+        id_user: id,
+        id_friend: id_friend,
+      })
+      .then(function (response) {
+        alert(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  };
   return (
-    <View>
+    <View style={{flex: 1}}>
       <SearchBar
         containerStyle={[
           Style.boxShadow,
@@ -105,7 +119,7 @@ const FindFriend = ({route, navigation}) => {
                         alignItems: 'center',
                       },
                     ]}
-                    onPress={() => alert(11)}
+                    onPress={() => addFriends(e.Id)}
                     activeOpacity={0.5}>
                     <Text
                       style={[

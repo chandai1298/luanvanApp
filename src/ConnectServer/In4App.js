@@ -29,5 +29,12 @@ const IN4_APP = {
   getThanhTich: `${URL_NGROK.url}/getThanhTich`,
   writeLog: `${URL_NGROK.url}/writeLog`,
   showLogs: `${URL_NGROK.url}/showLogs`,
+  addFriend: `${URL_NGROK.url}/addFriend`,
+  delFriend: `${URL_NGROK.url}/delFriend`,
+  verifyEmail: `${URL_NGROK.url}/verifyEmail`,
+  forgetPwd: `${URL_NGROK.url}/forgetPwd`,
+  diemDanh: `${URL_NGROK.url}/diemDanh`,
+  signup: `${URL_NGROK.url}/signup`,
+  getThongKe: `${URL_NGROK.url}/getThongKe`,
 };
 export {IN4_APP};

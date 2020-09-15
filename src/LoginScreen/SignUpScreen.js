@@ -11,6 +11,7 @@ import {
   ScrollView,
   StatusBar,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -19,9 +20,13 @@ import Feather from 'react-native-vector-icons/Feather';
 import {AuthContext} from './context';
 import {IN4_USER} from '../ConnectServer/In4User';
 import axios from 'axios';
+import {IN4_APP} from '../ConnectServer/In4App';
 
 const SignInScreen = ({navigation}) => {
   const {signUp} = React.useContext(AuthContext);
+  const [errorExist, setErrorExist] = React.useState('');
+  const [checkExist, setCheckExist] = React.useState(false);
+
   const [data, setData] = React.useState({
     username: '',
     password: '',
@@ -34,25 +39,26 @@ const SignInScreen = ({navigation}) => {
     isConfirmPassword: true,
   });
 
-  const textInputChange = (val) => {
+  const textUserNameChange = (val) => {
     if (val.trim().length >= 4) {
       setData({
         ...data,
         username: val,
-        check_textInputChange: true,
         isValidUser: true,
+        check_textInputChange: true,
       });
     } else {
       setData({
         ...data,
         username: val,
-        check_textInputChange: false,
         isValidUser: false,
+        check_textInputChange: false,
       });
+      setErrorExist('Tên đăng nhập quá ngắn.');
     }
   };
 
-  const handlePasswordChange = (val) => {
+  const textPwdChange = (val) => {
     if (val.trim().length >= 8) {
       setData({
         ...data,
@@ -68,7 +74,7 @@ const SignInScreen = ({navigation}) => {
     }
   };
 
-  const handleConfirmPasswordChange = (val) => {
+  const textConfirmPwdChange = (val) => {
     if (val.trim() === data.password) {
       setData({
         ...data,
@@ -84,58 +90,69 @@ const SignInScreen = ({navigation}) => {
     }
   };
 
-  const updateSecureTextEntry = () => {
+  const hideShowPwd = () => {
     setData({
       ...data,
       secureTextEntry: !data.secureTextEntry,
     });
   };
 
-  const updateConfirmSecureTextEntry = () => {
+  const hideShowConfirmPwd = () => {
     setData({
       ...data,
       confirm_secureTextEntry: !data.confirm_secureTextEntry,
     });
   };
 
-  const handleValidUser = (val) => {
-    if (val.trim().length >= 4) {
-      setData({
-        ...data,
-        isValidUser: true,
+  const handleValidUserName = (val) => {
+    const apiURL = IN4_APP.getUsername;
+    axios
+      .get(apiURL)
+      .then(function (response) {
+        const foundUser = response.data.filter((item) => {
+          return val == item.Username;
+        });
+
+        if (foundUser.length > 0) {
+          setData({
+            ...data,
+            isValidUser: false,
+            check_textInputChange: false,
+          });
+          setCheckExist(true);
+          setErrorExist('Tên đăng nhập đã tồn tại!');
+          console.log(foundUser);
+          return;
+        } else {
+          setCheckExist(false);
+        }
+      })
+      .catch(function (error) {
+        console.log(error.message);
       });
-    } else {
-      setData({
-        ...data,
-        isValidUser: false,
-      });
-    }
   };
   const signUpHandle = (userName, password) => {
-    // const apiURL = IN4_USER.getData;
-    // axios
-    //   .get(apiURL)
-    //   .then(function (response) {
-    //     const foundUser = response.data.filter((item) => {
-    //       return userName == item.Username && password == item.Password;
-    //     });
-    //     if (data.username.length == 0 || data.password.length == 0) {
-    //       Alert.alert('Lỗi!', 'Tài khoản và mật khẩu không được trống.', [
-    //         {text: 'Okay'},
-    //       ]);
-    //       return;
-    //     }
-    //     if (foundUser.length == 0) {
-    //       Alert.alert('Invalid User!', 'Username or password is incorrect.', [
-    //         {text: 'Okay'},
-    //       ]);
-    //       return;
-    //     }
-    //     signUp(foundUser);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error.message);
-    //   });
+    console.log(checkExist);
+    if (data.username.length == 0 || data.password.length == 0) {
+      Alert.alert('Lỗi!', 'Tài khoản và mật khẩu không được trống.', [
+        {text: 'Okay'},
+      ]);
+      return;
+    } else {
+      const apiURL = IN4_APP.signup;
+      axios
+        .post(apiURL, {
+          Username: userName,
+          Password: password,
+        })
+        .then(function (response) {
+          alert(response.data);
+          navigation.goBack();
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
+    }
   };
   return (
     <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
@@ -160,8 +177,8 @@ const SignInScreen = ({navigation}) => {
               <TextInput
                 style={styles.textInput}
                 autoCapitalize="none"
-                onChangeText={(val) => textInputChange(val)}
-                onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+                onChangeText={(val) => textUserNameChange(val)}
+                onEndEditing={(e) => handleValidUserName(e.nativeEvent.text)}
               />
               {data.check_textInputChange ? (
                 <Animatable.View animation="bounceIn">
@@ -171,7 +188,7 @@ const SignInScreen = ({navigation}) => {
             </View>
             {data.isValidUser ? null : (
               <Animatable.View animation="fadeInLeft" duration={500}>
-                <Text style={styles.errorMsg}>Tên đăng nhập quá ngắn.</Text>
+                <Text style={styles.errorMsg}>{errorExist}</Text>
               </Animatable.View>
             )}
 
@@ -190,9 +207,9 @@ const SignInScreen = ({navigation}) => {
                 secureTextEntry={data.secureTextEntry ? true : false}
                 style={styles.textInput}
                 autoCapitalize="none"
-                onChangeText={(val) => handlePasswordChange(val)}
+                onChangeText={(val) => textPwdChange(val)}
               />
-              <TouchableOpacity onPress={updateSecureTextEntry}>
+              <TouchableOpacity onPress={hideShowPwd}>
                 {data.secureTextEntry ? (
                   <Feather name="eye-off" color="#58cc02" size={20} />
                 ) : (
@@ -223,9 +240,9 @@ const SignInScreen = ({navigation}) => {
                 secureTextEntry={data.confirm_secureTextEntry ? true : false}
                 style={styles.textInput}
                 autoCapitalize="none"
-                onChangeText={(val) => handleConfirmPasswordChange(val)}
+                onChangeText={(val) => textConfirmPwdChange(val)}
               />
-              <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
+              <TouchableOpacity onPress={hideShowConfirmPwd}>
                 {data.confirm_secureTextEntry ? (
                   <Feather name="eye-off" color="#58cc02" size={20} />
                 ) : (
@@ -255,7 +272,11 @@ const SignInScreen = ({navigation}) => {
             <View style={styles.button}>
               <TouchableOpacity
                 style={styles.signIn}
-                onPress={() => signUpHandle(data.username, data.password)}>
+                onPress={() =>
+                  checkExist
+                    ? alert('Thông tin chưa đúng')
+                    : signUpHandle(data.username, data.password)
+                }>
                 <LinearGradient
                   start={{x: 0, y: 0}}
                   end={{x: 1, y: 0}}

@@ -6,13 +6,16 @@ import {IN4_APP} from '../../ConnectServer/In4App';
 import axios from 'axios';
 
 const Logs = ({route, navigation}) => {
-  //   const {datas} = route.params;
+  const {datas} = route.params;
   const [data, setData] = React.useState([]);
 
   const showData = () => {
+    console.log(datas.Id);
     const showLogs = IN4_APP.showLogs;
     axios
-      .get(showLogs)
+      .post(showLogs, {
+        id_user: datas.Id,
+      })
       .then(function (response) {
         setData(response.data);
       })
@@ -22,6 +25,10 @@ const Logs = ({route, navigation}) => {
   };
   useEffect(() => {
     showData();
+    let id = setInterval(() => {
+      showData();
+    }, 10000);
+    return () => clearInterval(id);
   }, []);
   return (
     <View

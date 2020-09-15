@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import {
   Style,
   ProfileStyle,
@@ -28,9 +28,26 @@ const Friend = ({id, navigation}) => {
         console.log(error.message);
       });
   };
-
+  const delFriends = (id_friend) => {
+    const delFriend = IN4_APP.delFriend;
+    axios
+      .post(delFriend, {
+        id_user: id,
+        id_friend: id_friend,
+      })
+      .then(function (response) {
+        alert(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  };
   useEffect(() => {
     showData();
+    let id = setInterval(() => {
+      showData();
+    }, 2000);
+    return () => clearInterval(id);
   }, []);
   return (
     <View
@@ -46,7 +63,22 @@ const Friend = ({id, navigation}) => {
           <ScrollView>
             {data.map((e, key) => (
               <View style={ProfileStyle.sectionThanhTich} key={key}>
-                <View
+                <TouchableOpacity
+                  onPress={() => {
+                    Alert.alert(
+                      '',
+                      'Xóa bạn bè',
+                      [
+                        {
+                          text: 'Hủy',
+                          onPress: () => console.log('Cancel Pressed'),
+                          style: 'cancel',
+                        },
+                        {text: 'OK', onPress: () => delFriends(e.Id)},
+                      ],
+                      {cancelable: false},
+                    );
+                  }}
                   style={[
                     ProfileStyle.flexRowIcon,
                     Style.rowCenter,
@@ -64,7 +96,7 @@ const Friend = ({id, navigation}) => {
                       {e.Username}
                     </Text>
                   </View>
-                </View>
+                </TouchableOpacity>
                 <View
                   style={[
                     ProfileStyle.SectionAvtRight,
@@ -118,7 +150,7 @@ const Friend = ({id, navigation}) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('anotherFriend', {datas: data})}>
           <Text style={[Style.text20, {color: '#afafaf'}]}>
-            {`${data.length - 3} `}Bạn bè khác
+            {`${data.length - 3 > 0 ? data.length - 3 : 0} `}Bạn bè khác
           </Text>
         </TouchableOpacity>
         <View style={{alignContents: 'flex-end'}}>
